@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Listings | Hustlerati</title>
+    <meta name="description"
+        content="Find, compare, and rent commercial spaces tailored to your business needs anytime, anywhere in the world.">
+    <meta name="keywords" content="commercial space rental, business space, retail space, warehouse rental, industrial space,
+        restaurant space, office space, commercial real estate, business solutions, Hustlerati">
+    <meta name="author" content="Hustlerati Team">
+    <link rel="icon" href="/images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/stylesheets/default.css">
+    <link rel="stylesheet" href="/stylesheets/real_estate.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Hustlerati</h1>
+                <p>Commercial Spaces for Every Business</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="/real_estate">Find Space</a></li>
+                    <li><a href="/list-your-estate">List Space</a></li>
+                    <li><a href="#">Solutions</a></li>
+                    <li class="dropdown">
+                        <a href="#">Business Size <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Small Business</a></li>
+                            <li><a href="#">Medium Business</a></li>
+                            <li><a href="#">Large Enterprises</a></li>
+                            <li><a href="#">Startups</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Resources</a></li>
+                </ul>
+
+                <!-- Mobile Menu Items -->
+                <div class="mobile-menu-items">
+                    <div class="auth-buttons mobile">
+                        <a href="/login"><button class="btn btn-outline">Login</button></a>
+                        <a href="/signup"><button class="btn btn-primary">Sign Up</button></a>
+                    </div>
+                    <div class="theme-switcher mobile">
+                        <button class="theme-toggle-btn">
+                            <i class="fas fa-palette"></i> Themes
+                        </button>
+                        <div class="theme-dropdown">
+                            <button class="theme-option" data-theme="light">
+                                <i class="fas fa-sun"></i> Light
+                            </button>
+                            <button class="theme-option" data-theme="dark">
+                                <i class="fas fa-moon"></i> Dark
+                            </button>
+                            <button class="theme-option" data-theme="elegant">
+                                <i class="fas fa-gem"></i> Elegant
+                            </button>
+                            <button class="theme-option" data-theme="minimal">
+                                <i class="fas fa-pencil-ruler"></i> Minimal
+                            </button>
+                            <button class="theme-option" data-theme="industrial">
+                                <i class="fas fa-warehouse"></i> Industrial
+                            </button>
+                            <button class="theme-option" data-theme="professional">
+                                <i class="fas fa-briefcase"></i> Professional
+                            </button>
+                            <button class="theme-option" data-theme="industrial">
+                                <i class="fas fa-warehouse"></i> Industrial
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="header-actions">
+                <div class="theme-switcher">
+                    <button class="theme-toggle-btn">
+                        <i class="fas fa-palette"></i> Themes
+                    </button>
+                    <div class="theme-dropdown">
+                        <button class="theme-option" data-theme="light">
+                            <i class="fas fa-sun"></i> Light
+                        </button>
+                        <button class="theme-option" data-theme="dark">
+                            <i class="fas fa-moon"></i> Dark
+                        </button>
+                        <button class="theme-option" data-theme="elegant">
+                            <i class="fas fa-gem"></i> Elegant
+                        </button>
+                        <button class="theme-option" data-theme="minimal">
+                            <i class="fas fa-pencil-ruler"></i> Minimal
+                        </button>
+                        <button class="theme-option" data-theme="industrial">
+                            <i class="fas fa-warehouse"></i> Industrial
+                        </button>
+                        <button class="theme-option" data-theme="professional">
+                            <i class="fas fa-briefcase"></i> Professional
+                        </button>
+                    </div>
+                </div>
+                <div class="auth-buttons">
+                    <a href="/login"><button class="btn btn-outline">Login</button></a>
+                    <a href="/signup"><button class="btn btn-primary">Sign Up</button></a>
+                </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="real-estate-main">
+        <div class="container">
+            <!-- Search Section -->
+            <section class="search-section">
+                <div class="search-container">
+                    <h1>Find Your Perfect Commercial Space</h1>
+                    <p>Discover warehouses, shops, offices, and more tailored to your business needs</p>
+
+                    <div class="search-bar">
+                        <div class="search-input-group">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput"
+                                placeholder="Search by location, property type, or keywords...">
+                        </div>
+                        <button class="btn btn-primary search-btn">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+
+                    <div class="quick-filters">
+                        <span class="quick-filter" data-type="warehouse">Warehouses</span>
+                        <span class="quick-filter" data-type="retail">Retail Spaces</span>
+                        <span class="quick-filter" data-type="office">Office Spaces</span>
+                        <span class="quick-filter" data-type="industrial">Industrial</span>
+                        <span class="quick-filter" data-type="restaurant">Restaurants</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Content -->
+            <div class="content-wrapper">
+                <!-- Filter Toggle Button (Mobile) -->
+                <button class="filter-toggle-btn" id="filterToggleBtn">
+                    <i class="fas fa-filter"></i> Show Filters
+                </button>
+
+                <!-- Filter Overlay (Mobile) -->
+                <div class="filter-overlay" id="filterOverlay"></div>
+
+                <!-- Filter Sidebar -->
+                <aside class="filter-sidebar" id="filterSidebar">
+                    <div class="filter-header">
+                        <h3><i class="fas fa-filter"></i> Filters</h3>
+                        <button class="filter-close-btn" id="filterCloseBtn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button class="clear-filters-btn">Clear All</button>
+                    </div>
+
+                    <!-- Property Type Filter -->
+                    <div class="filter-group">
+                        <h4>Property Type</h4>
+                        <div class="filter-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="propertyType" value="warehouse">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-warehouse"></i> Warehouse
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="propertyType" value="retail">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-store"></i> Retail Space
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="propertyType" value="office">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-building"></i> Office Space
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="propertyType" value="industrial">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-industry"></i> Industrial
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="propertyType" value="restaurant">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-utensils"></i> Restaurant
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="propertyType" value="storage">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-boxes"></i> Storage Unit
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Price Range Filter -->
+                    <div class="filter-group">
+                        <h4>Price Range (per month)</h4>
+                        <div class="price-range">
+                            <div class="price-inputs">
+                                <input type="number" id="minPrice" placeholder="Min" min="0">
+                                <span>-</span>
+                                <input type="number" id="maxPrice" placeholder="Max" min="0">
+                            </div>
+                            <div class="price-slider">
+                                <input type="range" id="priceSlider" min="0" max="50000" step="500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Size Range Filter -->
+                    <div class="filter-group">
+                        <h4>Size Range (sq ft)</h4>
+                        <div class="size-range">
+                            <div class="size-inputs">
+                                <input type="number" id="minSize" placeholder="Min" min="0">
+                                <span>-</span>
+                                <input type="number" id="maxSize" placeholder="Max" min="0">
+                            </div>
+                            <div class="size-slider">
+                                <input type="range" id="sizeSlider" min="0" max="100000" step="1000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location Filter -->
+                    <div class="filter-group">
+                        <h4>Location</h4>
+                        <div class="location-filter">
+                            <select id="cityFilter">
+                                <option value="">All Cities</option>
+                                <option value="new-york">New York</option>
+                                <option value="los-angeles">Los Angeles</option>
+                                <option value="chicago">Chicago</option>
+                                <option value="houston">Houston</option>
+                                <option value="phoenix">Phoenix</option>
+                                <option value="philadelphia">Philadelphia</option>
+                                <option value="san-antonio">San Antonio</option>
+                                <option value="san-diego">San Diego</option>
+                                <option value="dallas">Dallas</option>
+                                <option value="san-jose">San Jose</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Space Type Filter -->
+                    <div class="filter-group">
+                        <h4>Space Type</h4>
+                        <div class="filter-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="spaceType" value="dedicated">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-user"></i> Dedicated Space
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="spaceType" value="shared">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-users"></i> Shared Space
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="spaceType" value="co-working">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-handshake"></i> Co-working
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Amenities Filter -->
+                    <div class="filter-group">
+                        <h4>Amenities</h4>
+                        <div class="filter-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="parking">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-parking"></i> Parking
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="security">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-shield-alt"></i> Security
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="loading-dock">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-truck"></i> Loading Dock
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="climate-control">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-snowflake"></i> Climate Control
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="wifi">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-wifi"></i> WiFi
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="kitchen">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-utensils"></i> Kitchen
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="bathroom">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-restroom"></i> Bathroom
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="elevator">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-arrow-up"></i> Elevator
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Lease Terms Filter -->
+                    <div class="filter-group">
+                        <h4>Lease Terms</h4>
+                        <div class="filter-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="leaseTerms" value="monthly">
+                                <span class="checkmark"></span>
+                                Monthly
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="leaseTerms" value="quarterly">
+                                <span class="checkmark"></span>
+                                Quarterly
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="leaseTerms" value="yearly">
+                                <span class="checkmark"></span>
+                                Yearly
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="leaseTerms" value="flexible">
+                                <span class="checkmark"></span>
+                                Flexible
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Availability Filter -->
+                    <div class="filter-group">
+                        <h4>Availability</h4>
+                        <div class="filter-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="availability" value="immediate">
+                                <span class="checkmark"></span>
+                                Immediate
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="availability" value="within-30-days">
+                                <span class="checkmark"></span>
+                                Within 30 Days
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="availability" value="within-90-days">
+                                <span class="checkmark"></span>
+                                Within 90 Days
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Business Size Filter -->
+                    <div class="filter-group">
+                        <h4>Business Size</h4>
+                        <div class="filter-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="businessSize" value="startup">
+                                <span class="checkmark"></span>
+                                Startup (1-10 employees)
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="businessSize" value="small">
+                                <span class="checkmark"></span>
+                                Small Business (11-50 employees)
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="businessSize" value="medium">
+                                <span class="checkmark"></span>
+                                Medium Business (51-200 employees)
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="businessSize" value="large">
+                                <span class="checkmark"></span>
+                                Large Enterprise (200+ employees)
+                            </label>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Results Section -->
+                <section class="results-section">
+                    <div class="results-header">
+                        <div class="results-info">
+                            <h3>Commercial Spaces</h3>
+                            <span class="results-count">Showing <span id="resultsCount">0</span> results</span>
+                        </div>
+                        <div class="results-controls">
+                            <div class="sort-controls">
+                                <label for="sortSelect">Sort by:</label>
+                                <select id="sortSelect">
+                                    <option value="relevance">Relevance</option>
+                                    <option value="price-low">Price: Low to High</option>
+                                    <option value="price-high">Price: High to Low</option>
+                                    <option value="size-low">Size: Small to Large</option>
+                                    <option value="size-high">Size: Large to Small</option>
+                                    <option value="newest">Newest First</option>
+                                    <option value="oldest">Oldest First</option>
+                                </select>
+                            </div>
+                            <div class="view-controls">
+                                <button class="view-btn active" data-view="grid">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <button class="view-btn" data-view="list">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="results-grid" id="resultsGrid">
+                        <!-- Property cards will be dynamically generated here -->
+                    </div>
+
+                    <div class="pagination">
+                        <button class="pagination-btn" id="prevPage">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <div class="page-numbers">
+                            <span class="page-number active">1</span>
+                            <span class="page-number">2</span>
+                            <span class="page-number">3</span>
+                            <span class="page-dots">...</span>
+                            <span class="page-number">10</span>
+                        </div>
+                        <button class="pagination-btn" id="nextPage">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="/javascript/index.js"></script>
+    <script src="/javascript/real_estate.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Your Estate | Hustlerati</title>
+    <meta name="description"
+        content="Find, compare, and rent commercial spaces tailored to your business needs anytime, anywhere in the world.">
+    <meta name="keywords" content="commercial space rental, business space, retail space, warehouse rental, industrial space,
+        restaurant space, office space, commercial real estate, business solutions, Hustlerati">
+    <meta name="author" content="Hustlerati Team">
+    <link rel="icon" href="/images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/stylesheets/default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Hustlerati</h1>
+                <p>Commercial Spaces for Every Business</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="/real_estate">Find Space</a></li>
+                    <li><a href="/list-your-estate">List Space</a></li>
+                    <li><a href="#">Solutions</a></li>
+                    <li class="dropdown">
+                        <a href="#">Business Size <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Small Business</a></li>
+                            <li><a href="#">Medium Business</a></li>
+                            <li><a href="#">Large Enterprises</a></li>
+                            <li><a href="#">Startups</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Resources</a></li>
+                </ul>
+
+                <!-- Mobile Menu Items -->
+                <div class="mobile-menu-items">
+                    <div class="auth-buttons mobile">
+                        <a href="/login"><button class="btn btn-outline">Login</button></a>
+                        <a href="/signup"><button class="btn btn-primary">Sign Up</button></a>
+                    </div>
+                    <div class="theme-switcher mobile">
+                        <button class="theme-toggle-btn">
+                            <i class="fas fa-palette"></i> Themes
+                        </button>
+                        <div class="theme-dropdown">
+                            <button class="theme-option" data-theme="light">
+                                <i class="fas fa-sun"></i> Light
+                            </button>
+                            <button class="theme-option" data-theme="dark">
+                                <i class="fas fa-moon"></i> Dark
+                            </button>
+                            <button class="theme-option" data-theme="elegant">
+                                <i class="fas fa-gem"></i> Elegant
+                            </button>
+                            <button class="theme-option" data-theme="minimal">
+                                <i class="fas fa-pencil-ruler"></i> Minimal
+                            </button>
+                            <button class="theme-option" data-theme="industrial">
+                                <i class="fas fa-warehouse"></i> Industrial
+                            </button>
+                            <button class="theme-option" data-theme="professional">
+                                <i class="fas fa-briefcase"></i> Professional
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="header-actions">
+                <div class="theme-switcher">
+                    <button class="theme-toggle-btn">
+                        <i class="fas fa-palette"></i> Themes
+                    </button>
+                    <div class="theme-dropdown">
+                        <button class="theme-option" data-theme="light">
+                            <i class="fas fa-sun"></i> Light
+                        </button>
+                        <button class="theme-option" data-theme="dark">
+                            <i class="fas fa-moon"></i> Dark
+                        </button>
+                        <button class="theme-option" data-theme="elegant">
+                            <i class="fas fa-gem"></i> Elegant
+                        </button>
+                        <button class="theme-option" data-theme="minimal">
+                            <i class="fas fa-pencil-ruler"></i> Minimal
+                        </button>
+                        <button class="theme-option" data-theme="industrial">
+                            <i class="fas fa-warehouse"></i> Industrial
+                        </button>
+                        <button class="theme-option" data-theme="professional">
+                            <i class="fas fa-briefcase"></i> Professional
+                        </button>
+                    </div>
+                </div>
+                <div class="auth-buttons">
+                    <a href="/login"><button class="btn btn-outline">Login</button></a>
+                    <a href="/signup"><button class="btn btn-primary">Sign Up</button></a>
+                </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="submit-estate-main">
+        <div class="container">
+            <div class="submit-estate-container">
+                <div class="submit-estate-header">
+                    <h1><i class="fas fa-plus-circle"></i> List Your Commercial Space</h1>
+                    <p>Reach thousands of businesses looking for commercial spaces like yours</p>
+                </div>
+
+                <form class="submit-estate-form" id="submitEstateForm">
+                    <!-- Basic Information Section -->
+                    <div class="form-section">
+                        <h2><i class="fas fa-info-circle"></i> Basic Information</h2>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="propertyTitle">Property Title *</label>
+                                <input type="text" id="propertyTitle" name="propertyTitle" required
+                                    placeholder="e.g., Modern Warehouse in Downtown">
+                            </div>
+                            <div class="form-group">
+                                <label for="propertyType">Property Type *</label>
+                                <select id="propertyType" name="propertyType" required>
+                                    <option value="">Select Property Type</option>
+                                    <option value="warehouse">Warehouse</option>
+                                    <option value="retail">Retail Space</option>
+                                    <option value="office">Office Space</option>
+                                    <option value="industrial">Industrial</option>
+                                    <option value="restaurant">Restaurant</option>
+                                    <option value="storage">Storage Unit</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="propertySize">Size (sq ft) *</label>
+                                <input type="number" id="propertySize" name="propertySize" required
+                                    placeholder="e.g., 5000">
+                            </div>
+                            <div class="form-group">
+                                <label for="monthlyPrice">Monthly Price ($) *</label>
+                                <input type="number" id="monthlyPrice" name="monthlyPrice" required
+                                    placeholder="e.g., 5000">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="propertyDescription">Description *</label>
+                            <textarea id="propertyDescription" name="propertyDescription" rows="4" required
+                                placeholder="Describe your property, its features, and what makes it unique..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="badge">Badge</label>
+                            <select id="badge" name="badge">
+                                <option value="">Select Badge</option>
+                                <option value="Kitchen ready">Kitchen ready</option>
+                                <option value="Available immediately">Available immediately</option>
+                                <option value="Available">Available</option>
+                                <option value="Prime location">Prime location</option>
+                                <option value="tech ready">Tech ready</option>
+                                <option value="industrial grade">Industrial grade</option>
+                                <option value="secure storage">Secure storage</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Location Section -->
+                    <div class="form-section">
+                        <h2><i class="fas fa-map-marker-alt"></i> Location</h2>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="propertyCity">City *</label>
+                                <select id="propertyCity" name="propertyCity" required>
+                                    <option value="">Select City</option>
+                                    <option value="new-york">New York</option>
+                                    <option value="los-angeles">Los Angeles</option>
+                                    <option value="chicago">Chicago</option>
+                                    <option value="houston">Houston</option>
+                                    <option value="phoenix">Phoenix</option>
+                                    <option value="philadelphia">Philadelphia</option>
+                                    <option value="san-antonio">San Antonio</option>
+                                    <option value="san-diego">San Diego</option>
+                                    <option value="dallas">Dallas</option>
+                                    <option value="san-jose">San Jose</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="propertyAddress">Address *</label>
+                                <input type="text" id="propertyAddress" name="propertyAddress" required
+                                    placeholder="e.g., 123 Business Street">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="propertyZipCode">ZIP Code *</label>
+                                <input type="text" id="propertyZipCode" name="propertyZipCode" required
+                                    placeholder="e.g., 10001">
+                            </div>
+                            <div class="form-group">
+                                <label for="propertyNeighborhood">Neighborhood</label>
+                                <input type="text" id="propertyNeighborhood" name="propertyNeighborhood"
+                                    placeholder="e.g., Downtown, Midtown, etc.">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Space Details Section -->
+                    <div class="form-section">
+                        <h2><i class="fas fa-cogs"></i> Space Details</h2>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="spaceType">Space Type *</label>
+                                <select id="spaceType" name="spaceType" required>
+                                    <option value="">Select Space Type</option>
+                                    <option value="dedicated">Dedicated Space</option>
+                                    <option value="shared">Shared Space</option>
+                                    <option value="co-working">Co-working</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="leaseTerms">Lease Terms *</label>
+                                <select id="leaseTerms" name="leaseTerms" required>
+                                    <option value="">Select Lease Terms</option>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="quarterly">Quarterly</option>
+                                    <option value="yearly">Yearly</option>
+                                    <option value="flexible">Flexible</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="availability">Availability *</label>
+                                <select id="availability" name="availability" required>
+                                    <option value="">Select Availability</option>
+                                    <option value="immediate">Immediate</option>
+                                    <option value="within-30-days">Within 30 Days</option>
+                                    <option value="within-90-days">Within 90 Days</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="businessSize">Target Business Size</label>
+                                <select id="businessSize" name="businessSize">
+                                    <option value="">Select Business Size</option>
+                                    <option value="startup">Startup (1-10 employees)</option>
+                                    <option value="small">Small Business (11-50 employees)</option>
+                                    <option value="medium">Medium Business (51-200 employees)</option>
+                                    <option value="large">Large Enterprise (200+ employees)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Amenities Section -->
+                    <div class="form-section">
+                        <h2><i class="fas fa-star"></i> Amenities</h2>
+                        <p class="section-description">Select all amenities that apply to your property</p>
+
+                        <div class="amenities-grid">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="parking">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-parking"></i> Parking
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="security">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-shield-alt"></i> Security
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="loading-dock">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-truck"></i> Loading Dock
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="climate-control">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-snowflake"></i> Climate Control
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="wifi">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-wifi"></i> WiFi
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="kitchen">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-utensils"></i> Kitchen
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="bathroom">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-restroom"></i> Bathroom
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="elevator">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-arrow-up"></i> Elevator
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information Section -->
+                    <div class="form-section">
+                        <h2><i class="fas fa-phone"></i> Contact Information</h2>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactName">Contact Name *</label>
+                                <input type="text" id="contactName" name="contactName" required
+                                    placeholder="e.g., John Smith">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactPhone">Phone Number *</label>
+                                <input type="tel" id="contactPhone" name="contactPhone" required
+                                    placeholder="e.g., (555) 123-4567">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactEmail">Email Address *</label>
+                            <input type="email" id="contactEmail" name="contactEmail" required
+                                placeholder="e.g., john@example.com">
+                        </div>
+                    </div>
+
+                    <!-- Images Section -->
+                    <div class="form-section">
+                        <h2><i class="fas fa-images"></i> Property Images</h2>
+                        <p class="section-description">Upload high-quality images of your property (up to 5 images)</p>
+
+                        <div class="image-upload-area">
+                            <div class="upload-zone" id="uploadZone">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag and drop images here or click to browse</p>
+                                <input type="file" id="propertyImages" name="propertyImages" multiple accept="image/*"
+                                    style="display: none;">
+                                <button type="button" class="btn btn-outline"
+                                    onclick="document.getElementById('propertyImages').click()">
+                                    Choose Files
+                                </button>
+                            </div>
+                            <div class="image-preview" id="imagePreview"></div>
+                        </div>
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div class="form-section">
+                        <div class="terms-checkbox">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="agreeTerms" required>
+                                <span class="checkmark"></span>
+                                I agree to the <a href="/tos-and-privacy" target="_blank">Terms of Service</a> and <a
+                                    href="/tos-and-privacy" target="_blank">Privacy Policy</a> *
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="saveDraftBtn">
+                            <i class="fas fa-save"></i> Save as Draft
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Submit Listing
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="/javascript/index.js"></script>
+    <script src="/javascript/submit_estate.js"></script>
+</body>
+
+</html>

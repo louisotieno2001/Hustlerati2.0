@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Hustlerati</title>
+    <meta name="description"
+        content="Find, compare, and rent commercial spaces tailored to your business needs anytime, anywhere in the world.">
+    <meta name="keywords" content="commercial space rental, business space, retail space, warehouse rental, industrial space,
+        restaurant space, office space, commercial real estate, business solutions, Hustlerati">
+    <meta name="author" content="Hustlerati Team">
+    <link rel="icon" href="/images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/stylesheets/default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="light-theme">
+    <main class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>Welcome Back</h2>
+                <p>Login to access your Hustlerati account</p>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <button type="button" class="toggle-password" aria-label="Show password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="/forgot-password" class="forgot-password">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+
+                <div class="auth-divider">
+                    <span>or continue with</span>
+                </div>
+
+                <div class="social-login">
+                    <button type="button" class="social-btn google">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                    <button type="button" class="social-btn linkedin">
+                        <i class="fab fa-linkedin-in"></i> LinkedIn
+                    </button>
+                </div>
+
+                <div class="auth-footer">
+                    Don't have an account? <a href="/signup">Sign up</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="auth-image">
+            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                alt="Commercial Space">
+            <div class="image-overlay">
+                <h3>Find Your Perfect Commercial Space</h3>
+                <p>Join thousands of businesses that found their ideal location through Hustlerati</p>
+            </div>
+        </div>
+
+        <div class="general-error-dialog">
+            <div class="error-message" id="generalError"></div>
+            <button class="close-error-btn" onclick="closeErrorDialog()">Close</button>
+        </div>
+
+        <div class="general-success-dialog">
+            <div class="success-message" id="generalSuccess"></div>
+            <button class="close-success-btn" onclick="closeSuccessDialog()">Close</button>
+        </div>
+    </main>
+
+    <script src="/javascript/auth-theme.js"></script>
+    <script src="/javascript/auth.js"></script>
+</body>
+
+</html>
