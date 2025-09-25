@@ -1,213 +1,3 @@
-// Real Estate Page JavaScript
-
-// Sample property data
-const sampleProperties = [
-    {
-        id: 1,
-        title: "Modern Warehouse Space",
-        type: "warehouse",
-        price: 8500,
-        size: 15000,
-        location: "New York",
-        city: "new-york",
-        spaceType: "dedicated",
-        amenities: ["parking", "security", "loading-dock", "climate-control"],
-        leaseTerms: "yearly",
-        availability: "immediate",
-        businessSize: ["small", "medium"],
-        description: "Spacious warehouse with modern amenities, perfect for storage and distribution.",
-        image: "🏭",
-        badge: "Available Now"
-    },
-    {
-        id: 2,
-        title: "Downtown Retail Space",
-        type: "retail",
-        price: 12000,
-        size: 2500,
-        location: "Los Angeles",
-        city: "los-angeles",
-        spaceType: "dedicated",
-        amenities: ["parking", "security", "wifi", "bathroom"],
-        leaseTerms: "monthly",
-        availability: "immediate",
-        businessSize: ["startup", "small"],
-        description: "Prime retail location in downtown LA with high foot traffic.",
-        image: "🏪",
-        badge: "Prime Location"
-    },
-    {
-        id: 3,
-        title: "Tech Office Hub",
-        type: "office",
-        price: 18000,
-        size: 8000,
-        location: "San Francisco",
-        city: "san-jose",
-        spaceType: "co-working",
-        amenities: ["wifi", "kitchen", "bathroom", "elevator"],
-        leaseTerms: "flexible",
-        availability: "within-30-days",
-        businessSize: ["startup", "small", "medium"],
-        description: "Modern co-working space designed for tech startups and creative teams.",
-        image: "🏢",
-        badge: "Tech Ready"
-    },
-    {
-        id: 4,
-        title: "Industrial Manufacturing Facility",
-        type: "industrial",
-        price: 25000,
-        size: 50000,
-        location: "Chicago",
-        city: "chicago",
-        spaceType: "dedicated",
-        amenities: ["parking", "security", "loading-dock", "climate-control"],
-        leaseTerms: "yearly",
-        availability: "within-90-days",
-        businessSize: ["medium", "large"],
-        description: "Large industrial facility with heavy machinery support and loading capabilities.",
-        image: "🏭",
-        badge: "Industrial Grade"
-    },
-    {
-        id: 5,
-        title: "Restaurant Space",
-        type: "restaurant",
-        price: 9500,
-        size: 3000,
-        location: "Houston",
-        city: "houston",
-        spaceType: "dedicated",
-        amenities: ["parking", "kitchen", "bathroom", "wifi"],
-        leaseTerms: "monthly",
-        availability: "immediate",
-        businessSize: ["startup", "small"],
-        description: "Fully equipped restaurant space with commercial kitchen and dining area.",
-        image: "🍽️",
-        badge: "Kitchen Ready"
-    },
-    {
-        id: 6,
-        title: "Storage Facility Units",
-        type: "storage",
-        price: 800,
-        size: 200,
-        location: "Phoenix",
-        city: "phoenix",
-        spaceType: "shared",
-        amenities: ["security", "climate-control"],
-        leaseTerms: "monthly",
-        availability: "immediate",
-        businessSize: ["startup", "small"],
-        description: "Secure storage units with climate control, perfect for inventory or equipment.",
-        image: "📦",
-        badge: "Secure Storage"
-    },
-    {
-        id: 7,
-        title: "Creative Studio Space",
-        type: "office",
-        price: 6500,
-        size: 1500,
-        location: "Philadelphia",
-        city: "philadelphia",
-        spaceType: "shared",
-        amenities: ["wifi", "kitchen", "bathroom"],
-        leaseTerms: "quarterly",
-        availability: "within-30-days",
-        businessSize: ["startup", "small"],
-        description: "Creative studio space with natural lighting and collaborative areas.",
-        image: "🎨",
-        badge: "Creative Hub"
-    },
-    {
-        id: 8,
-        title: "Distribution Center",
-        type: "warehouse",
-        price: 35000,
-        size: 75000,
-        location: "Dallas",
-        city: "dallas",
-        spaceType: "dedicated",
-        amenities: ["parking", "security", "loading-dock", "climate-control"],
-        leaseTerms: "yearly",
-        availability: "within-90-days",
-        businessSize: ["large"],
-        description: "Massive distribution center with multiple loading docks and office space.",
-        image: "🚚",
-        badge: "Distribution Ready"
-    },
-    {
-        id: 9,
-        title: "Boutique Retail Space",
-        type: "retail",
-        price: 7500,
-        size: 1200,
-        location: "San Diego",
-        city: "san-diego",
-        spaceType: "dedicated",
-        amenities: ["parking", "security", "wifi"],
-        leaseTerms: "monthly",
-        availability: "immediate",
-        businessSize: ["startup", "small"],
-        description: "Charming boutique space in trendy neighborhood with high visibility.",
-        image: "🛍️",
-        badge: "Boutique Ready"
-    },
-    {
-        id: 10,
-        title: "Executive Office Suite",
-        type: "office",
-        price: 22000,
-        size: 5000,
-        location: "New York",
-        city: "new-york",
-        spaceType: "dedicated",
-        amenities: ["parking", "security", "wifi", "kitchen", "bathroom", "elevator"],
-        leaseTerms: "yearly",
-        availability: "within-30-days",
-        businessSize: ["medium", "large"],
-        description: "Luxury executive office suite with premium amenities and city views.",
-        image: "🏢",
-        badge: "Executive"
-    },
-    {
-        id: 11,
-        title: "Food Processing Facility",
-        type: "industrial",
-        price: 28000,
-        size: 35000,
-        location: "San Antonio",
-        city: "san-antonio",
-        spaceType: "dedicated",
-        amenities: ["parking", "security", "loading-dock", "climate-control", "kitchen"],
-        leaseTerms: "yearly",
-        availability: "within-90-days",
-        businessSize: ["medium", "large"],
-        description: "Specialized food processing facility with commercial kitchen equipment.",
-        image: "🍕",
-        badge: "Food Grade"
-    },
-    {
-        id: 12,
-        title: "Co-working Innovation Hub",
-        type: "office",
-        price: 4500,
-        size: 2000,
-        location: "Los Angeles",
-        city: "los-angeles",
-        spaceType: "co-working",
-        amenities: ["wifi", "kitchen", "bathroom", "elevator"],
-        leaseTerms: "flexible",
-        availability: "immediate",
-        businessSize: ["startup", "small"],
-        description: "Innovation hub with meeting rooms, event space, and networking opportunities.",
-        image: "💡",
-        badge: "Innovation Hub"
-    }
-];
-
 // Global variables
 let filteredProperties = [...sampleProperties];
 let currentPage = 1;
@@ -585,100 +375,31 @@ function sortProperties(sortBy) {
 
 // Render properties
 function renderProperties() {
-    const resultsGrid = document.getElementById('resultsGrid');
+    const allCards = document.querySelectorAll('.property-card');
+    const noResults = document.getElementById('noResults');
+
+    allCards.forEach(card => card.style.display = 'none');
+
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const propertiesToShow = filteredProperties.slice(startIndex, endIndex);
 
-    resultsGrid.innerHTML = '';
-
     if (propertiesToShow.length === 0) {
-        resultsGrid.innerHTML = `
-            <div class="no-results">
-                <i class="fas fa-search" style="font-size: 3rem; color: var(--text-light); margin-bottom: 20px;"></i>
-                <h3>No properties found</h3>
-                <p>Try adjusting your filters or search criteria</p>
-            </div>
-        `;
+        noResults.style.display = 'block';
+        updatePagination();
         return;
     }
 
+    noResults.style.display = 'none';
+
     propertiesToShow.forEach(property => {
-        const propertyCard = createPropertyCard(property);
-        resultsGrid.appendChild(propertyCard);
+        const card = document.querySelector(`.property-card[data-id="${property.id}"]`);
+        if (card) {
+            card.style.display = 'block';
+        }
     });
 
     updatePagination();
-}
-
-// Create property card
-function createPropertyCard(property) {
-    const card = document.createElement('div');
-    card.className = `property-card ${currentView === 'list' ? 'list-view' : ''}`;
-
-    const amenitiesHTML = property.amenities.map(amenity =>
-        `<span class="amenity-tag">${getAmenityLabel(amenity)}</span>`
-    ).join('');
-
-    card.innerHTML = `
-        <div class="property-image">
-            ${property.image}
-            <div class="property-badge">${property.badge}</div>
-        </div>
-        <div class="property-content">
-            <div class="property-header">
-                <div>
-                    <h3 class="property-title">${property.title}</h3>
-                    <div class="property-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        ${property.location}
-                    </div>
-                </div>
-                <div class="property-price">$${property.price.toLocaleString()}/mo</div>
-            </div>
-            
-            <div class="property-details">
-                <div class="property-detail">
-                    <span class="detail-value">${property.size.toLocaleString()}</span>
-                    <span class="detail-label">sq ft</span>
-                </div>
-                <div class="property-detail">
-                    <span class="detail-value">${property.type}</span>
-                    <span class="detail-label">type</span>
-                </div>
-                <div class="property-detail">
-                    <span class="detail-value">${property.spaceType}</span>
-                    <span class="detail-label">space</span>
-                </div>
-            </div>
-            
-            <div class="property-amenities">
-                ${amenitiesHTML}
-            </div>
-            
-            <div class="property-actions">
-                <button class="btn btn-outline">View Details</button>
-                <button class="btn btn-primary">Contact Owner</button>
-            </div>
-        </div>
-    `;
-
-    return card;
-}
-
-// Get amenity label
-function getAmenityLabel(amenity) {
-    const labels = {
-        'parking': 'Parking',
-        'security': 'Security',
-        'loading-dock': 'Loading Dock',
-        'climate-control': 'Climate Control',
-        'wifi': 'WiFi',
-        'kitchen': 'Kitchen',
-        'bathroom': 'Bathroom',
-        'elevator': 'Elevator'
-    };
-    return labels[amenity] || amenity;
 }
 
 // Update results count

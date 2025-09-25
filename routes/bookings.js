@@ -1,3 +1,4 @@
+// Use node-fetch version 3.x which is ESM only, so import dynamically
 const express = require('express');
 const router = express.Router();
 
@@ -71,7 +72,8 @@ function normalizeProperty(item) {
         property_type: item.property_type,
         space_type: item.space_type,
         lease_terms: item.lease_terms,
-        business_size: item.business_size
+        business_size: item.business_size,
+        whatsapp_link: item.whatsapp_link,
     };
 }
 
@@ -93,16 +95,22 @@ async function getRealEstate() {
     }
 }
 
-// Get all real estate listings
-router.get('/', async (req, res) => {
-    const realEstates = await getRealEstate();
-    const properties = realEstates.map(normalizeProperty);
-    // console.log("Results of real estate fetch", properties);
-    res.render('real_estate', { properties });
+// Middleware to check authentication
+const checkAuth = (req, res, next) => {
+    if (req.session.user) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+};
+
+// Fallback route (redirect to real_estate if no property specified)
+router.get('/', checkAuth, (req, res) => {
+    res.redirect('/real_estate');
 });
 
-// Get individual property details
-router.get('/:id', async (req, res) => {
+// Booking route for specific property
+router.get('/:id', checkAuth, async (req, res) => {
     try {
         const propertyId = req.params.id;
         const realEstates = await getRealEstate();
@@ -111,20 +119,18 @@ router.get('/:id', async (req, res) => {
         const propertyRaw = realEstates.find(p => p.id === propertyId);
 
         if (!propertyRaw) {
-            return res.status(404).render('real_estate_details', {
-                property: null,
-                error: 'Property not found'
-            });
+            return res.redirect('/real_estate');
         }
 
         const property = normalizeProperty(propertyRaw);
-        res.render('real_estate_details', { property, error: null });
+        const userId = req.session.user.id; // Assuming user ID is stored in session
+
+        // console.log(property)
+
+        res.render('bookings', { property, userId });
     } catch (error) {
-        console.error('Error fetching property details:', error);
-        res.status(500).render('real_estate_details', {
-            property: null,
-            error: 'Failed to load property details'
-        });
+        console.error('Error fetching property for booking:', error);
+        res.redirect('/real_estate');
     }
 });
 

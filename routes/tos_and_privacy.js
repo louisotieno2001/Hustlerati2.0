@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
     try {
         const tosAndPrivacy = await getTosAndPrivacy();
 
-        // console.log("Results of privacy fetch", tosAndPrivacy);
+        console.log("Results of privacy fetch", tosAndPrivacy);
 
         // Since the API returns an array, we need to get the first item
         const tosAndPrivacyData = tosAndPrivacy && tosAndPrivacy.length > 0 ? tosAndPrivacy[0] : null;

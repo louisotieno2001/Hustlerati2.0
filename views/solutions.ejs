@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutions | Hustlerati</title>
+    <meta name="description"
+        content="Find, compare, and rent commercial spaces tailored to your business needs anytime, anywhere in the world.">
+    <meta name="keywords" content="commercial space rental, business space, retail space, warehouse rental, industrial space,
+        restaurant space, office space, commercial real estate, business solutions, Hustlerati">
+    <meta name="author" content="Hustlerati Team">
+    <link rel="icon" href="/images/logo.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/images/logo.png">
+    <link rel="stylesheet" href="/stylesheets/default.css">
+    <link rel="stylesheet" href="/stylesheets/solutions.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <%- include('partials/header') %>
+
+    <main>
+        <section class="space-types">
+            <div class="container">
+                <h3>Commercial Space Solutions</h3>
+                <p class="section-subtitle">We connect businesses with the perfect commercial spaces for their needs</p>
+                <div class="types-grid">
+                    <div class="type-card">
+                        <div class="type-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h4>Retail Spaces</h4>
+                        <p>Storefronts, shopping centers, and boutique spaces for your retail business</p>
+                        <a href="#" class="type-link">Browse Retail <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="type-card">
+                        <div class="type-icon">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        <h4>Warehouses</h4>
+                        <p>Storage, distribution, and logistics facilities of all sizes</p>
+                        <a href="#" class="type-link">Browse Warehouses <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="type-card">
+                        <div class="type-icon">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <h4>Industrial</h4>
+                        <p>Manufacturing plants, workshops, and heavy commercial spaces</p>
+                        <a href="#" class="type-link">Browse Industrial <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="type-card">
+                        <div class="type-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h4>Restaurants</h4>
+                        <p>Fully equipped kitchens and dining spaces for food businesses</p>
+                        <a href="#" class="type-link">Browse Restaurants <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="type-card">
+                        <div class="type-icon">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <h4>Flex Spaces</h4>
+                        <p>Adaptable spaces that can serve multiple commercial purposes</p>
+                        <a href="#" class="type-link">Browse Flex Spaces <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="type-card">
+                        <div class="type-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <h4>Showrooms</h4>
+                        <p>Spaces designed to showcase products and services</p>
+                        <a href="#" class="type-link">Browse Showrooms <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="business-solutions">
+            <div class="container">
+                <div class="solution-content">
+                    <h3>Solutions for Every Business Size</h3>
+                    <p>Whether you're a startup, growing business, or established enterprise, we have space solutions
+                        tailored to your needs.</p>
+
+                    <div class="solution-tabs">
+                        <button class="tab-btn active" data-tab="small">Small Business</button>
+                        <button class="tab-btn" data-tab="medium">Medium Business</button>
+                        <button class="tab-btn" data-tab="large">Large Enterprise</button>
+                    </div>
+
+                    <div class="tab-content active" id="small">
+                        <div class="solution-card">
+                            <h4>Affordable Spaces for Small Businesses</h4>
+                            <ul>
+                                <li><i class="fas fa-check-circle"></i> Short-term leases with flexible terms</li>
+                                <li><i class="fas fa-check-circle"></i> Shared commercial spaces to reduce costs</li>
+                                <li><i class="fas fa-check-circle"></i> Move-in ready locations in high-traffic areas
+                                </li>
+                                <li><i class="fas fa-check-circle"></i> Special financing options for qualifying
+                                    businesses</li>
+                            </ul>
+                            <button class="btn btn-primary">Explore Small Business Solutions</button>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="medium">
+                        <div class="solution-card">
+                            <h4>Growth-Oriented Solutions for Medium Businesses</h4>
+                            <ul>
+                                <li><i class="fas fa-check-circle"></i> Medium-term leases with expansion options</li>
+                                <li><i class="fas fa-check-circle"></i> Custom build-outs for your specific needs</li>
+                                <li><i class="fas fa-check-circle"></i> Regional locations with distribution advantages
+                                </li>
+                                <li><i class="fas fa-check-circle"></i> Dedicated account managers for your business
+                                </li>
+                            </ul>
+                            <button class="btn btn-primary">Explore Medium Business Solutions</button>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="large">
+                        <div class="solution-card">
+                            <h4>Enterprise-Level Commercial Solutions</h4>
+                            <ul>
+                                <li><i class="fas fa-check-circle"></i> Large-scale industrial and warehouse facilities
+                                </li>
+                                <li><i class="fas fa-check-circle"></i> Long-term leases with favorable corporate terms
+                                </li>
+                                <li><i class="fas fa-check-circle"></i> Nationwide portfolio management</li>
+                                <li><i class="fas fa-check-circle"></i> Custom real estate advisory services</li>
+                            </ul>
+                            <button class="btn btn-primary">Explore Enterprise Solutions</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="solution-image">
+                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1473&q=80"
+                        alt="Business Solutions">
+                </div>
+            </div>
+        </section>
+
+        <section class="space-owners">
+            <div class="container">
+                <div class="owners-image">
+                    <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                        alt="Space Owners">
+                </div>
+                <div class="owners-content">
+                    <h3>For Commercial Space Owners</h3>
+                    <p>Maximize the potential of your commercial property with our platform.</p>
+
+                    <div class="owners-features">
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h5>Higher Occupancy Rates</h5>
+                                <p>Connect with quality tenants quickly and reduce vacancy periods.</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h5>Flexible Lease Options</h5>
+                                <p>Offer short-term, long-term, or shared space arrangements.</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h5>Secure Payments</h5>
+                                <p>Reliable rent collection with our integrated payment system.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary btn-large">
+                        <i class="fas fa-plus-circle"></i> List Your Space
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+     <!-- Footer -->
+    <%- include('partials/footer') %>
+
+    <script src="/javascript/accessibility.js"></script>
+    <script src="/javascript/solutions.js"></script>
+    <script src="/javascript/auth-theme.js"></script>
+    <script src="/javascript/index.js"></script>
+</body>
+</html>

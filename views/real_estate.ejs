@@ -21,16 +21,16 @@
         <div class="container">
             <div class="logo">
                 <h1>Hustlerati</h1>
-                <p>Commercial Spaces for Every Business</p>
+                <p>The Democratic Economy</p>
             </div>
             <nav>
                 <ul>
                     <li><a href="/" class="active">Home</a></li>
                     <li><a href="/real_estate">Find Space</a></li>
                     <li><a href="/list-your-estate">List Space</a></li>
-                    <li><a href="#">Solutions</a></li>
+                    <li><a href="/solutions">Solutions</a></li>
                     <li class="dropdown">
-                        <a href="#">Business Size <i class="fas fa-chevron-down"></i></a>
+                        <a href="/solutions">Business Size <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Small Business</a></li>
                             <li><a href="#">Medium Business</a></li>
@@ -428,7 +428,57 @@
                     </div>
 
                     <div class="results-grid" id="resultsGrid">
-                        <!-- Property cards will be dynamically generated here -->
+                        <% if (properties && properties.length > 0) { %>
+                            <% properties.forEach(function(property) { %>
+                                <div class="property-card grid-view" data-id="<%= property.id %>" data-type="<%= property.type %>" data-price="<%= property.price %>" data-size="<%= property.size %>" data-city="<%= property.city %>" data-space-type="<%= property.spaceType %>" data-lease-terms="<%= property.leaseTerms %>" data-availability="<%= property.availability %>" data-amenities="<%= JSON.stringify(property.amenities).replace(/"/g, '"') %>" data-business-size="<%= JSON.stringify(property.businessSize).replace(/"/g, '"') %>" data-title="<%= property.title.replace(/"/g, '"') %>" data-location="<%= property.location.replace(/"/g, '"') %>" data-description="<%= property.description.replace(/"/g, '"') %>">
+                                    <div class="property-image">
+                                        <%- property.image %>
+                                        <div class="property-badge"><%= property.badge %></div>
+                                    </div>
+                                    <div class="property-content">
+                                        <div class="property-header">
+                                            <div>
+                                                <h3 class="property-title"><%= property.title %></h3>
+                                                <div class="property-location">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <%= property.location %>
+                                                </div>
+                                            </div>
+                                            <div class="property-price">$<%= property.price.toLocaleString() %>/mo</div>
+                                        </div>
+                                        <div class="property-details">
+                                            <div class="property-detail">
+                                                <span class="detail-value"><%= property.size.toLocaleString() %></span>
+                                                <span class="detail-label">sq ft</span>
+                                            </div>
+                                            <div class="property-detail">
+                                                <span class="detail-value"><%= property.type %></span>
+                                                <span class="detail-label">type</span>
+                                            </div>
+                                            <div class="property-detail">
+                                                <span class="detail-value"><%= property.spaceType %></span>
+                                                <span class="detail-label">space</span>
+                                            </div>
+                                        </div>
+                                        <div class="property-amenities">
+                                            <% property.amenities.forEach(function(amenity) { %>
+                                                <span class="amenity-tag"><%= amenity %></span>
+                                            <% }); %>
+                                        </div>
+                                        <div class="property-actions">
+                                            <a href="/real_estate/<%= property.id %>" class="btn btn-outline">View Details</a>
+                                            <a href="/booking/<%= property.id %>" class="btn btn-primary">Book</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="no-results" id="noResults">
+                                <i class="fas fa-search" style="font-size: 3rem; color: var(--text-light); margin-bottom: 20px;"></i>
+                                <h3>No properties found</h3>
+                                <p>Try adjusting your filters or search criteria</p>
+                            </div>
+                        <% } %>
                     </div>
 
                     <div class="pagination">
@@ -450,8 +500,8 @@
             </div>
         </div>
     </main>
-
     <script src="/javascript/index.js"></script>
+    <script src="/javascript/accessibility.js"></script>
     <script src="/javascript/real_estate.js"></script>
 </body>
 

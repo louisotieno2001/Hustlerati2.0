@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hustlerati - Real Estate Details</title>
+    <link rel="icon" href="/images/logo.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/images/logo.png">
+    <link rel="stylesheet" href="/stylesheets/default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Hustlerati</h1>
+                <p>The Democratic Economy</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="/real_estate">Find Space</a></li>
+                    <li><a href="/list-your-estate">List Space</a></li>
+                    <li><a href="/solutions">Solutions</a></li>
+                    <li class="dropdown">
+                        <a href="/solutions">Business Size <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Small Business</a></li>
+                            <li><a href="#">Medium Business</a></li>
+                            <li><a href="#">Large Enterprises</a></li>
+                            <li><a href="#">Startups</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Resources</a></li>
+                </ul>
+
+                <!-- Mobile Menu Items -->
+                <div class="mobile-menu-items">
+                    <div class="auth-buttons mobile">
+                        <a href="/login"><button class="btn btn-outline">Login</button></a>
+                        <a href="/signup"><button class="btn btn-primary">Sign Up</button></a>
+                    </div>
+                    <div class="theme-switcher mobile">
+                        <button class="theme-toggle-btn">
+                            <i class="fas fa-palette"></i> Themes
+                        </button>
+                        <div class="theme-dropdown">
+                            <button class="theme-option" data-theme="light">
+                                <i class="fas fa-sun"></i> Light
+                            </button>
+                            <button class="theme-option" data-theme="dark">
+                                <i class="fas fa-moon"></i> Dark
+                            </button>
+                            <button class="theme-option" data-theme="elegant">
+                                <i class="fas fa-gem"></i> Elegant
+                            </button>
+                            <button class="theme-option" data-theme="minimal">
+                                <i class="fas fa-pencil-ruler"></i> Minimal
+                            </button>
+                            <button class="theme-option" data-theme="industrial">
+                                <i class="fas fa-warehouse"></i> Industrial
+                            </button>
+                            <button class="theme-option" data-theme="professional">
+                                <i class="fas fa-briefcase"></i> Professional
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="header-actions">
+                <div class="theme-switcher">
+                    <button class="theme-toggle-btn">
+                        <i class="fas fa-palette"></i> Themes
+                    </button>
+                    <div class="theme-dropdown">
+                        <button class="theme-option" data-theme="light">
+                            <i class="fas fa-sun"></i> Light
+                        </button>
+                        <button class="theme-option" data-theme="dark">
+                            <i class="fas fa-moon"></i> Dark
+                        </button>
+                        <button class="theme-option" data-theme="elegant">
+                            <i class="fas fa-gem"></i> Elegant
+                        </button>
+                        <button class="theme-option" data-theme="minimal">
+                            <i class="fas fa-pencil-ruler"></i> Minimal
+                        </button>
+                        <button class="theme-option" data-theme="industrial">
+                            <i class="fas fa-warehouse"></i> Industrial
+                        </button>
+                        <button class="theme-option" data-theme="professional">
+                            <i class="fas fa-briefcase"></i> Professional
+                        </button>
+                    </div>
+                </div>
+                <div class="auth-buttons">
+                    <a href="/login"><button class="btn btn-outline">Login</button></a>
+                    <a href="/signup"><button class="btn btn-primary">Sign Up</button></a>
+                </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="real-estate-details">
+            <div class="container">
+                <% if (error) { %>
+                    <div class="error-message">
+                        <h1>Error</h1>
+                        <p class="error-message"><%= error %></p>
+                        <a href="/real_estate" class="btn btn-primary">Back to Listings</a>
+                    </div>
+                <% } else if (property) { %>
+                    <div class="property-details-container">
+
+                        <!-- Property Header -->
+                        <div class="property-header">
+                            <div class="property-title-section">
+                                <h1><%= property.title || 'Untitled Property' %></h1>
+                                <div class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span><%= property.location || 'Location not specified' %></span>
+                                </div>
+                                <div class="property-price">
+                                    <span class="price-amount">$<%= Number(property.price || 0).toLocaleString() %></span>
+                                    <span class="price-period">/month</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Property Images -->
+                        <div class="property-images">
+                            <div class="main-image">
+                                <% if (property.images) { %>
+                                    <img src="/assets/<%= property.images %>" alt="<%= property.title %>" id="mainImage">
+                                <% } else { %>
+                                    <div class="no-image">
+                                        <i class="fas fa-building"></i>
+                                        <p>No image available</p>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <!-- Property Information Grid -->
+                        <div class="property-info-grid">
+                            <!-- Main Details -->
+                            <div class="info-section">
+                                <h2>Property Details</h2>
+                                <div class="details-grid">
+                                    <div class="detail-item">
+                                        <i class="fas fa-ruler-combined"></i>
+                                        <div>
+                                            <span class="detail-label">Size: </span>
+                                            <span class="detail-value"><%= Number(property.size || 0).toLocaleString() %> sq ft</span>
+                                        </div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-building"></i>
+                                        <div>
+                                            <span class="detail-label">Property Type:</span>
+                                            <span class="detail-value"><%= property.property_type || property.type || 'Not specified' %></span>
+                                        </div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-users"></i>
+                                        <div>
+                                            <span class="detail-label">Space Type</span>
+                                            <span class="detail-value"><%= property.space_type || property.spaceType || 'Not specified' %></span>
+                                        </div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <div>
+                                            <span class="detail-label">Lease Terms:</span>
+                                            <span class="detail-value"><%= property.lease_terms || property.leaseTerms || 'Not specified' %></span>
+                                        </div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-clock"></i>
+                                        <div>
+                                            <span class="detail-label">Availability:</span>
+                                            <span class="detail-value"><%= property.availability || 'Not specified' %></span>
+                                        </div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-briefcase"></i>
+                                        <div>
+                                            <span class="detail-label">Business Size:</span>
+                                            <span class="detail-value"><%= Array.isArray(property.business_size) ? property.business_size.join(', ') : (property.business_size || property.businessSize || 'Not specified') %></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Amenities -->
+                            <div class="info-section">
+                                <h2>Amenities</h2>
+                                <div class="amenities-grid" id="amenitiesGrid">
+                                    <!-- Amenities will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="info-section">
+                                <h2>Description</h2>
+                                <div class="property-description">
+                                    <p><%= property.description || 'No description available for this property.' %></p>
+                                </div>
+                            </div>
+
+                            <!-- Contact Information -->
+                            <div class="info-section">
+                                <h2>Contact Information</h2>
+                                <div class="contact-info">
+                                    <div class="contact-item">
+                                        <i class="fas fa-user"></i>
+                                        <span>Property Owner</span>
+                                    </div>
+                                    <div class="contact-actions">
+                                        <button class="btn btn-outline" id="shareBtn">
+                                            <i class="fas fa-share"></i> Share
+                                        </button>
+                                        <button class="btn btn-outline" id="favoriteBtn">
+                                            <i class="fas fa-heart"></i> Save
+                                        </button>
+                                    </div>
+                                    <div class="contact-actions">
+                                        <button class="btn btn-outline">
+                                            <i class="fas fa-phone"></i> Call
+                                        </button>
+                                        <button class="btn btn-outline">
+                                            <i class="fas fa-envelope"></i> Email
+                                        </button>
+                                        
+                                        <button class="btn btn-primary">
+                                            <i class="fas fa-calendar"></i> Schedule Visit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <div class="error-message">
+                        <h1>Property Not Found</h1>
+                        <p>The property you're looking for doesn't exist or has been removed.</p>
+                        <a href="/real_estate" class="btn btn-primary">Back to Listings</a>
+                    </div>
+                <% } %>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Hustlerati</h4>
+                    <p>The leading platform for commercial space rental, serving businesses of all sizes and property
+                        owners nationwide.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>For Businesses</h4>
+                    <ul>
+                        <li><a href="#">Find Space</a></li>
+                        <li><a href="#">Small Business Solutions</a></li>
+                        <li><a href="#">Enterprise Solutions</a></li>
+                        <li><a href="#">Lease Options</a></li>
+                        <li><a href="#">Space Calculator</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>For Owners</h4>
+                    <ul>
+                        <li><a href="#">List Your Property</a></li>
+                        <li><a href="#">Property Management</a></li>
+                        <li><a href="#">Lease Templates</a></li>
+                        <li><a href="#">Pricing Strategies</a></li>
+                        <li><a href="#">Owner Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Safety</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy;
+                    <script>document.write(new Date().getFullYear())</script> Hustlerati. All rights reserved.
+                </p>
+                <div class="footer-links">
+                    <a href="#">Accessibility</a>
+                    <a href="#">Sitemap</a>
+                    <a href="#">Do Not Sell My Info</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        window.__PROPERTY_DATA__ = <%- JSON.stringify(property || null) %>;
+    </script>
+    <script src="/javascript/index.js"></script>
+    <script src="/javascript/property_details.js"></script>
+    <script src="/javascript/accessibility.js"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Help Center | Hustlerati</title>
+     <link rel="icon" href="/images/logo.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/images/logo.png">
+    <link rel="stylesheet" href="/stylesheets/default.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* Help Center Specific Styles */
+        .help-container {
+            max-width: 900px;
+            margin: 120px auto 60px;
+            padding: 0 15px;
+        }
+
+        .help-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .contact-list {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .contact-list h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .contact-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .contact-list li {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-list li i {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            min-width: 25px;
+        }
+
+        .contact-form {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+        }
+
+        .contact-form h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .help-container {
+                margin: 100px 15px 40px;
+            }
+
+            .help-title {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body class="light-theme">
+    <!-- Header -->
+    <%- include('partials/header') %>
+
+    <main>
+        <section class="help-container">
+            <h2 class="help-title">Help Center</h2>
+
+            <div class="contact-list">
+                <h3>Contact Information</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                    <li><i class="fas fa-envelope"></i> Email: <a href="mailto:support@hustlerati.com">support@hustlerati.com</a></li>
+                    <li><i class="fas fa-map-marker-alt"></i> Address: 123 Hustlerati St, Business City, USA</li>
+                    <li><i class="fas fa-clock"></i> Support Hours: Mon-Fri 9am - 6pm</li>
+                </ul>
+            </div>
+
+            <div class="contact-form">
+                <h3>Contact Us</h3>
+                <form id="contactForm" action="/help_center/contact" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name <span aria-hidden="true">*</span></label>
+                        <input type="text" id="name" name="name" required aria-required="true" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email <span aria-hidden="true">*</span></label>
+                        <input type="email" id="email" name="email" required aria-required="true" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message <span aria-hidden="true">*</span></label>
+                        <textarea id="message" name="message" required aria-required="true"></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+
+    <script src="/javascript/accessibility.js"></script>
+    <script src="/javascript/index.js"></script>
+</body>
+
+</html>

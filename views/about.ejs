@@ -4,30 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Hustlerati | Commercial Space Rental Platform</title>
     <meta name="description"
-        content="Find, compare, and rent commercial spaces tailored to your business needs anytime, anywhere in the world.">
-    <meta name="keywords" content="commercial space rental, business space, retail space, warehouse rental, industrial space,
-    restaurant space, office space, commercial real estate, business solutions, Hustlerati">
+        content="Learn about Hustlerati's mission to democratize commercial space rental, making it accessible for businesses of all sizes through community-driven solutions.">
+    <meta name="keywords" content="about Hustlerati, commercial space rental, democratic economy, business solutions, property rental platform">
     <meta name="author" content="Hustlerati Team">
     <link rel="icon" href="/images/logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Terms of Service and Privacy Policy | Hustlerati</title>
+    <link rel="apple-touch-icon" href="/images/logo.png">
     <link rel="stylesheet" href="/stylesheets/default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body>
+<body class="light-theme">
     <header>
         <div class="container">
             <div class="logo">
                 <h1>Hustlerati</h1>
-                <p>Commercial Spaces for Every Business</p>
+                <p>The Democratic Economy</p>
             </div>
             <nav>
                 <ul>
-                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="/real_estate">Find Space</a></li>
                     <li><a href="/list-your-estate">List Space</a></li>
-                    <li><a href="solutions">Solutions</a></li>
+                    <li><a href="/solutions">Solutions</a></li>
                     <li class="dropdown">
                         <a href="/solutions">Business Size <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
@@ -69,9 +69,6 @@
                             <button class="theme-option" data-theme="professional">
                                 <i class="fas fa-briefcase"></i> Professional
                             </button>
-                            <button class="theme-option" data-theme="industrial">
-                                <i class="fas fa-warehouse"></i> Industrial
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -112,34 +109,136 @@
             </div>
         </div>
     </header>
+
     <main>
-        <div class="container">
-            <h1>Terms of Service and Privacy Policy</h1>
-        </div>
-        <div class="terms-container">
-            <div class="terms-content">
-                <h1>Terms of Service</h1>
-                <p class="last-updated">Last Updated: <%= tosAndPrivacy.tos_last_updated ? new
-                        Date(tosAndPrivacy.tos_last_updated).toLocaleDateString() : 'N/A' %>
-                </p>
-                <div class="tos-content">
-                    <%- tosAndPrivacy.tos %>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>About <span class="highlight">Hustlerati</span></h2>
+                    <p>Revolutionizing commercial space rental through democratic principles. We're building a platform where businesses of all sizes can access the spaces they need, powered by community and innovation.</p>
+                    <div class="hero-actions" style="display: flex; gap: 15px; margin-bottom: 30px;">
+                        <a href="/real_estate" class="btn btn-primary btn-large">
+                            <i class="fas fa-search"></i> Find Your Space
+                        </a>
+                        <a href="/list-your-estate" class="btn btn-secondary btn-large">
+                            <i class="fas fa-plus"></i> List Your Property
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80"
+                        alt="About Hustlerati">
                 </div>
             </div>
-        </div>
-        <div class="privacy-container">
-            <div class="privacy-content">
-                <h1>Privacy Policy</h1>
-                <p class="last-updated">Last Updated: <%= tosAndPrivacy.privacy_last_updated ? new
-                        Date(tosAndPrivacy.privacy_last_updated).toLocaleDateString() : 'N/A' %>
-                </p>
-                <div class="privacy-content">
-                    <%- tosAndPrivacy.privacy %>
+        </section>
+
+        <section class="mission">
+            <div class="container">
+                <div class="mission-content">
+                    <h2>Our Mission</h2>
+                    <p>To democratize access to commercial spaces, making it possible for every business owner, entrepreneur, and hustler to find the perfect location to grow their dreams. We believe that location shouldn't be a barrier to success.</p>
+                    <div class="mission-stats">
+                        <div class="stat">
+                            <h3>1000+</h3>
+                            <p>Spaces Listed</p>
+                        </div>
+                        <div class="stat">
+                            <h3>500+</h3>
+                            <p>Businesses Served</p>
+                        </div>
+                        <div class="stat">
+                            <h3>50+</h3>
+                            <p>Cities Covered</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <section class="what-we-do">
+            <div class="container">
+                <h2>What We Do</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Smart Space Discovery</h3>
+                        <p>Our advanced search and filtering system helps you find commercial spaces that match your specific business needs, location preferences, and budget.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Community-Driven Rentals</h3>
+                        <p>Join a community of like-minded entrepreneurs. Pool resources, share opportunities, and collectively access spaces that might otherwise be out of reach.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Seamless Transactions</h3>
+                        <p>From interest expression to final rental agreement, our platform handles the entire process with transparency, security, and efficiency.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Growth Analytics</h3>
+                        <p>Track market trends, space utilization, and business growth metrics to make informed decisions about your commercial space needs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="team">
+            <div class="container">
+                <h2>Meet Our Team</h2>
+                <p>The visionaries behind Hustlerati's democratic approach to commercial real estate.</p>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3>Founder & CEO</h3>
+                        <p>Louis</p>
+                        <p>Visionary leader passionate about democratizing access to opportunities for all hustlers and entrepreneurs.</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Tech Lead</h3>
+                        <p>Development Team</p>
+                        <p>Building the robust platform that powers our democratic economy with cutting-edge technology.</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <h3>Community Manager</h3>
+                        <p>Community Team</p>
+                        <p>Fostering connections between property owners, businesses, and entrepreneurs in our growing ecosystem.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="container">
+                <div class="cta-card">
+                    <h3>Ready to Join the Democratic Economy?</h3>
+                    <p>Whether you're looking for space or have space to share, Hustlerati connects you with opportunities that drive growth.</p>
+                    <div class="cta-buttons">
+                        <a href="/real_estate"><button class="btn btn-primary btn-large">Find Space</button></a>
+                        <a href="/list-your-estate"><button class="btn btn-outline btn-large">List Your Property</button></a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
-     <footer>
+
+    <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
@@ -169,7 +268,7 @@
                         <li><a href="/list-your-estate">List Your Property</a></li>
                         <li><a href="/dashboard">Property Management</a></li>
                         <li><a href="/lease-templates">Lease Templates</a></li>
-                        <li><a href="/procing-strategies">Pricing Strategies</a></li>
+                        <li><a href="/pricing-strategies">Pricing Strategies</a></li>
                         <li><a href="/resources">Owner Resources</a></li>
                     </ul>
                 </div>
@@ -206,8 +305,9 @@
             </div>
         </div>
     </footer>
-    <script src="/javascript/accessibility.js"></script>
+
     <script src="/javascript/index.js"></script>
+    <script src="/javascript/accessibility.js"></script>
 </body>
 
 </html>

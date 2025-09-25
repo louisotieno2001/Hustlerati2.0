@@ -1,211 +1,7 @@
 // Submit Estate Form JavaScript
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('submitEstateForm');
-    const uploadZone = document.getElementById('uploadZone');
-    const imagePreview = document.getElementById('imagePreview');
     const saveDraftBtn = document.getElementById('saveDraftBtn');
-
-    let uploadedImages = [];
-    const maxImages = 5;
-    const minImages = 1;
-
-    // Image Upload Handling
-    function handleImageUpload(files) {
-        const validFiles = Array.from(files).filter(file => {
-            const isValidType = file.type.startsWith('image/');
-            const isValidSize = file.size <= 5 * 1024 * 1024; // 5MB limit
-
-            if (!isValidType) {
-                showError('Please select only image files (JPEG, PNG, GIF, etc.)');
-                return false;
-            }
-
-            if (!isValidSize) {
-                showError('Image size must be less than 5MB');
-                return false;
-            }
-
-            return true;
-        });
-
-        if (uploadedImages.length + validFiles.length > maxImages) {
-            showError(`You can only upload a maximum of ${maxImages} images`);
-            return;
-        }
-
-        validFiles.forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const imageData = {
-                    id: Date.now() + Math.random(),
-                    file: file,
-                    src: e.target.result,
-                    name: file.name,
-                    base64: e.target.result // Store base64 for submission
-                };
-
-                uploadedImages.push(imageData);
-                displayImagePreview(imageData);
-                updateUploadZone();
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-
-    // Display Image Preview
-    function displayImagePreview(imageData) {
-        const previewItem = document.createElement('div');
-        previewItem.className = 'image-preview-item';
-        previewItem.dataset.imageId = imageData.id;
-
-        previewItem.innerHTML = `
-            <img src="${imageData.src}" alt="${imageData.name}">
-            <button type="button" class="remove-image" onclick="removeImage('${imageData.id}')">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="image-overlay">
-                <button type="button" class="edit-image" onclick="editImage('${imageData.id}')">
-                    <i class="fas fa-edit"></i>
-                </button>
-            </div>
-        `;
-
-        imagePreview.appendChild(previewItem);
-    }
-
-    // Remove Image
-    window.removeImage = function (imageId) {
-        uploadedImages = uploadedImages.filter(img => img.id !== imageId);
-        const previewItem = document.querySelector(`[data-image-id="${imageId}"]`);
-        if (previewItem) {
-            previewItem.remove();
-        }
-        updateUploadZone();
-    };
-
-    // Edit Image (Replace)
-    window.editImage = function (imageId) {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = function (e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const imageIndex = uploadedImages.findIndex(img => img.id === imageId);
-                    if (imageIndex !== -1) {
-                        uploadedImages[imageIndex] = {
-                            id: imageId,
-                            file: file,
-                            src: e.target.result,
-                            name: file.name,
-                            base64: e.target.result // Store base64 for submission
-                        };
-
-                        const previewItem = document.querySelector(`[data-image-id="${imageId}"]`);
-                        if (previewItem) {
-                            const img = previewItem.querySelector('img');
-                            img.src = e.target.result;
-                            img.alt = file.name;
-                        }
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-        input.click();
-    };
-
-    // Update Upload Zone
-    function updateUploadZone() {
-        const remainingSlots = maxImages - uploadedImages.length;
-
-        if (remainingSlots === 0) {
-            uploadZone.innerHTML = `
-                <i class="fas fa-check-circle" style="color: var(--primary-color);"></i>
-                <p>Maximum images uploaded (${maxImages})</p>
-                <button type="button" class="btn btn-outline" onclick="clearAllImages()">
-                    Clear All Images
-                </button>
-            `;
-            uploadZone.style.cursor = 'default';
-        } else {
-            uploadZone.innerHTML = `
-                <i class="fas fa-cloud-upload-alt"></i>
-                <p>Drag and drop images here or click to browse</p>
-                <p style="font-size: 0.9rem; opacity: 0.8;">${remainingSlots} slot${remainingSlots > 1 ? 's' : ''} remaining</p>
-                <input type="file" id="propertyImages" name="propertyImages" multiple accept="image/*" style="display: none;">
-                <button type="button" class="btn btn-outline" onclick="triggerFileInput()">
-                    Choose Files
-                </button>
-            `;
-            uploadZone.style.cursor = 'pointer';
-
-            // Re-attach file input event listener
-            const newFileInput = uploadZone.querySelector('#propertyImages');
-            if (newFileInput) {
-                newFileInput.addEventListener('change', handleFileInputChange);
-            }
-        }
-    }
-
-    // Trigger file input
-    window.triggerFileInput = function () {
-        const fileInput = document.getElementById('propertyImages');
-        if (fileInput) {
-            fileInput.click();
-        }
-    };
-
-    // Handle file input change
-    function handleFileInputChange(e) {
-        handleImageUpload(e.target.files);
-        // Reset input value to allow selecting the same file again
-        e.target.value = '';
-    }
-
-    // Clear All Images
-    window.clearAllImages = function () {
-        uploadedImages = [];
-        imagePreview.innerHTML = '';
-        updateUploadZone();
-    };
-
-    // Drag and Drop Events
-    uploadZone.addEventListener('dragover', function (e) {
-        e.preventDefault();
-        uploadZone.classList.add('dragover');
-    });
-
-    uploadZone.addEventListener('dragleave', function (e) {
-        e.preventDefault();
-        uploadZone.classList.remove('dragover');
-    });
-
-    uploadZone.addEventListener('drop', function (e) {
-        e.preventDefault();
-        uploadZone.classList.remove('dragover');
-        const files = e.dataTransfer.files;
-        handleImageUpload(files);
-    });
-
-    // Click to upload functionality
-    uploadZone.addEventListener('click', function (e) {
-        // Only trigger if clicking on the upload zone itself, not on buttons
-        if (e.target === uploadZone || e.target.tagName === 'I' || e.target.tagName === 'P') {
-            const fileInput = uploadZone.querySelector('#propertyImages');
-            if (fileInput) {
-                fileInput.click();
-            }
-        }
-    });
-
-    // Initial file input event listener
-    const initialFileInput = document.getElementById('propertyImages');
-    if (initialFileInput) {
-        initialFileInput.addEventListener('change', handleFileInputChange);
-    }
 
     // Form Validation
     function validateForm() {
@@ -221,11 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 field.style.borderColor = '';
             }
         });
-
-        // Check image requirements
-        if (uploadedImages.length < minImages) {
-            errors.push(`At least ${minImages} image is required`);
-        }
 
         // Check email format
         const emailField = document.getElementById('contactEmail');
@@ -344,12 +135,12 @@ document.addEventListener('DOMContentLoaded', function () {
         submitBtn.disabled = true;
 
         try {
-            // Collect form data by IDs
-            const formData = {
+            // Create FormData object
+            const userData = {
                 propertyTitle: document.getElementById('propertyTitle').value,
                 propertyType: document.getElementById('propertyType').value,
-                propertySize: parseInt(document.getElementById('propertySize').value),
-                monthlyPrice: parseInt(document.getElementById('monthlyPrice').value),
+                propertySize: document.getElementById('propertySize').value,
+                monthlyPrice: document.getElementById('monthlyPrice').value,
                 propertyDescription: document.getElementById('propertyDescription').value,
                 propertyCity: document.getElementById('propertyCity').value,
                 propertyAddress: document.getElementById('propertyAddress').value,
@@ -360,12 +151,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 availability: document.getElementById('availability').value,
                 businessSize: document.getElementById('businessSize').value,
                 badge: document.getElementById('badge').value,
-                amenities: Array.from(document.querySelectorAll('input[name="amenities"]:checked')).map(cb => cb.value),
                 contactName: document.getElementById('contactName').value,
                 contactPhone: document.getElementById('contactPhone').value,
                 contactEmail: document.getElementById('contactEmail').value,
                 agreeTerms: document.querySelector('input[name="agreeTerms"]').checked,
-                images: uploadedImages // Array of image objects
+                amenities: Array.from(document.querySelectorAll('input[name="amenities"]:checked')).map(cb => cb.value)
             };
 
             const response = await fetch('/submit-estate', {
@@ -373,8 +163,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(userData)
             });
+
 
             const result = await response.json();
 
@@ -404,7 +195,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Save to localStorage as fallback
         const draftData = {
             formData: Object.fromEntries(formData),
-            images: uploadedImages.map(img => ({ name: img.name, src: img.src })),
             timestamp: new Date().toISOString()
         };
 
@@ -437,25 +227,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
 
-                // Load images
-                draft.images.forEach(imgData => {
-                    // Convert base64 back to file object
-                    fetch(imgData.src)
-                        .then(res => res.blob())
-                        .then(blob => {
-                            const file = new File([blob], imgData.name, { type: blob.type });
-                            const imageData = {
-                                id: Date.now() + Math.random(),
-                                file: file,
-                                src: imgData.src,
-                                name: imgData.name
-                            };
-                            uploadedImages.push(imageData);
-                            displayImagePreview(imageData);
-                            updateUploadZone();
-                        });
-                });
-
                 showSuccess('Draft loaded successfully!');
             } catch (error) {
                 console.error('Error loading draft:', error);
@@ -464,7 +235,5 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Initialize
-    updateUploadZone();
     loadDraft();
 });

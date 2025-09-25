@@ -107,7 +107,7 @@ body {
 /* Dashboard Layout */
 .dashboard-container {
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
         "header header"
         "sidebar main";
     grid-template-columns: 280px 1fr;
@@ -118,7 +118,7 @@ body {
 .dashboard-header {
     grid-area: header;
     background-color: var(--card-bg);
-    box-shadow: var(--shadow);
+    /* box-shadow: var(--shadow); */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -126,6 +126,18 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
+}
+
+.space-card {
+    padding: 1em;
+    background: var(--card-bg);
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.view-details{
+    text-decoration: none;
+    background: var(--accent-color);
 }
 
 .dashboard-sidebar {
@@ -143,6 +155,8 @@ body {
     grid-area: main;
     padding: 2rem;
     background-color: var(--background-color);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
 }
 
 /* Header Styles */
@@ -381,11 +395,73 @@ body {
 .tab-content.active {
     display: block;
     animation: fadeIn 0.3s ease;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+}
+
+.bookings-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.bookings-title button {
+    background-color: var(--card-bg);
+    color: var(--primary-color);
+    border: none;
+    padding: 1em;
+    border-radius: 5px;
+}
+
+.bookings-title a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.booking-body {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+}
+
+.booking-card {
+    padding: 1em;
+    background: var(--card-bg);
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.booking-body-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1em;
+    background: var(--accent-color);
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+.booking-body-title i {
+    margin-right: 4px;
+}
+
+.divider {
+    padding: 1px;
+    background: var(--text-color);
+    margin-top: 5px;
+    border-radius: 5px;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Stats Grid */
@@ -447,7 +523,7 @@ body {
 /* Responsive Styles */
 @media (max-width: 992px) {
     .dashboard-container {
-        grid-template-areas: 
+        grid-template-areas:
             "header"
             "main";
         grid-template-columns: 1fr;
@@ -492,4 +568,192 @@ body {
     .logo {
         display: none;
     }
+}
+
+/* Settings Tab Styles */
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 100%;
+}
+
+.user-info {
+    background-color: var(--card-bg);
+    border-radius: 0.75rem;
+    padding: 0;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: relative;
+}
+
+.preferences {
+    background-color: var(--card-bg);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.user-info h3, .preferences h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    padding: 1.5rem 1.5rem 0 1.5rem;
+}
+
+.cover-image {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.cover-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cover-edit-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 0.75rem; /* Increased padding for larger button */
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem; /* Increased font size for better visibility */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 11000;
+}
+
+.cover-edit-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.profile-picture {
+    position: absolute;
+    bottom: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid var(--card-bg);
+    overflow: hidden;
+    z-index: 10000;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-edit-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 11000;
+}
+
+.profile-edit-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.user-form-container {
+    padding: 1.5rem;
+    padding-top: 140px; /* Space for profile picture */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.preferences-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--card-bg);
+    padding: 2px;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"] {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+}
+
+.form-group input[readonly] {
+    background-color: var(--border-color);
+    cursor: not-allowed;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-success {
+    background-color: #00b894;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #00a085;
+}
+
+.cover-edit-btn, .profile-edit-btn {
+    margin-top: 0.5rem;
+}
+
+.verify-email-btn, .verify-phone-btn {
+    margin-left: 1rem;
+}
+
+.form-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 0.5rem;
 }

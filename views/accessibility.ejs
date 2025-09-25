@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Settings - Hustlerati 2.0</title>
+    <link rel="icon" href="/images/logo.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/images/logo.png">
+    <link rel="stylesheet" href="/stylesheets/default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <%- include('partials/header') %>
+
+    <!-- Main Content -->
+    <main class="accessibility-main">
+        <div class="container">
+            <!-- Hero Section -->
+            <div class="accessibility-hero">
+                <h1><i class="fas fa-universal-access"></i> Accessibility Settings</h1>
+                <p>Customize your experience to make Hustlerati more accessible and comfortable for you</p>
+            </div>
+
+            <!-- Settings Grid -->
+            <div class="settings-grid">
+                <!-- Text & Display Settings -->
+                <div class="settings-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-font text-primary"></i> Text & Display</h2>
+                        <p>Adjust text size, spacing, and visual elements</p>
+                    </div>
+
+                    <div class="settings-group">
+                        <!-- Font Size -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Font Size</h3>
+                                <p>Adjust the size of text throughout the site</p>
+                            </div>
+                            <div class="setting-controls">
+                                <button class="size-btn" data-action="decrease" aria-label="Decrease font size">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span class="size-display" id="font-size-display">100%</span>
+                                <button class="size-btn" data-action="increase" aria-label="Increase font size">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button class="reset-btn" data-reset="font-size" aria-label="Reset font size">
+                                    <i class="fas fa-undo"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Line Height -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Line Height</h3>
+                                <p>Adjust spacing between lines of text</p>
+                            </div>
+                            <div class="setting-controls">
+                                <select id="line-height-select" aria-label="Select line height">
+                                    <option value="1.2">Compact (1.2)</option>
+                                    <option value="1.5" selected>Normal (1.5)</option>
+                                    <option value="1.8">Relaxed (1.8)</option>
+                                    <option value="2.0">Extra Relaxed (2.0)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Letter Spacing -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Letter Spacing</h3>
+                                <p>Adjust spacing between individual letters</p>
+                            </div>
+                            <div class="setting-controls">
+                                <select id="letter-spacing-select" aria-label="Select letter spacing">
+                                    <option value="normal">Normal</option>
+                                    <option value="0.05em">Slight (0.05em)</option>
+                                    <option value="0.1em">Moderate (0.1em)</option>
+                                    <option value="0.15em">Wide (0.15em)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color & Contrast Settings -->
+                <div class="settings-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-palette"></i> Color & Contrast</h2>
+                        <p>Choose color schemes and contrast levels</p>
+                    </div>
+
+                    <div class="settings-group">
+                        <!-- Contrast Mode -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Contrast Mode</h3>
+                                <p>Enhance contrast for better readability</p>
+                            </div>
+                            <div class="setting-controls">
+                                <div class="toggle-options">
+                                    <button class="contrast-btn active" data-contrast="normal">Normal</button>
+                                    <button class="contrast-btn" data-contrast="high">High Contrast</button>
+                                    <button class="contrast-btn" data-contrast="dark">Dark Mode</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Color Scheme -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Color Scheme</h3>
+                                <p>Select a color combination that works best for you</p>
+                            </div>
+                            <div class="setting-controls">
+                                <div class="color-options">
+                                    <button class="color-scheme-btn" data-scheme="default" style="background: linear-gradient(45deg, #4a6bff, #00cec9);">
+                                        <span>Default</span>
+                                    </button>
+                                    <button class="color-scheme-btn" data-scheme="deuteranopia" style="background: linear-gradient(45deg, #0077b5, #ff9500);">
+                                        <span>Blue-Orange</span>
+                                    </button>
+                                    <button class="color-scheme-btn" data-scheme="tritanopia" style="background: linear-gradient(45deg, #e74c3c, #2ecc71);">
+                                        <span>Red-Green</span>
+                                    </button>
+                                    <button class="color-scheme-btn" data-scheme="monochrome" style="background: linear-gradient(45deg, #2c3e50, #95a5a6);">
+                                        <span>Monochrome</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Motion & Animation Settings -->
+                <div class="settings-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-running"></i> Motion & Animation</h2>
+                        <p>Control animations and motion effects</p>
+                    </div>
+
+                    <div class="settings-group">
+                        <!-- Reduce Motion -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Reduce Motion</h3>
+                                <p>Minimize animations and transitions</p>
+                            </div>
+                            <div class="setting-controls">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="reduce-motion-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Auto-play Media -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Auto-play Media</h3>
+                                <p>Control automatic playback of videos and animations</p>
+                            </div>
+                            <div class="setting-controls">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="autoplay-toggle" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Focus & Navigation Settings -->
+                <div class="settings-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-mouse-pointer"></i> Focus & Navigation</h2>
+                        <p>Enhance keyboard navigation and focus indicators</p>
+                    </div>
+
+                    <div class="settings-group">
+                        <!-- Focus Indicators -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Focus Indicators</h3>
+                                <p>Make keyboard focus more visible</p>
+                            </div>
+                            <div class="setting-controls">
+                                <div class="toggle-options">
+                                    <button class="focus-btn active" data-focus="default">Default</button>
+                                    <button class="focus-btn" data-focus="enhanced">Enhanced</button>
+                                    <button class="focus-btn" data-focus="high-contrast">High Contrast</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skip Links -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Skip Links</h3>
+                                <p>Show navigation links to skip to main content</p>
+                            </div>
+                            <div class="setting-controls">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="skip-links-toggle" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Tab Navigation -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Tab Order Highlights</h3>
+                                <p>Highlight elements in tab order</p>
+                            </div>
+                            <div class="setting-controls">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="tab-highlights-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reading Assistance -->
+                <div class="settings-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book-reader"></i> Reading Assistance</h2>
+                        <p>Tools to help with reading and comprehension</p>
+                    </div>
+
+                    <div class="settings-group">
+                        <!-- Reading Mask -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Reading Mask</h3>
+                                <p>Highlight current line and dim surrounding text</p>
+                            </div>
+                            <div class="setting-controls">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="reading-mask-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Text-to-Speech -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Text-to-Speech</h3>
+                                <p>Enable screen reader support and voice output</p>
+                            </div>
+                            <div class="setting-controls">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="tts-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Dyslexia Font -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Dyslexia-Friendly Font</h3>
+                                <p>Use fonts designed to help with dyslexia</p>
+                            </div>
+                            <div class="setting-controls">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="dyslexia-font-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Settings -->
+                <div class="settings-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-cogs"></i> Content Settings</h2>
+                        <p>Control how content is displayed and loaded</p>
+                    </div>
+
+                    <div class="settings-group">
+                        <!-- Image Alternatives -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Image Descriptions</h3>
+                                <p>Show alternative text for images</p>
+                            </div>
+                            <div class="setting-controls">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="alt-text-toggle" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Link Underlines -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Link Underlines</h3>
+                                <p>Always show underlines on links</p>
+                            </div>
+                            <div class="setting-controls">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="link-underlines-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Large Click Areas -->
+                        <div class="setting-item">
+                            <div class="setting-content">
+                                <h3>Large Click Areas</h3>
+                                <p>Increase clickable area size for better touch/click targets</p>
+                            </div>
+                            <div class="setting-controls">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="large-click-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="accessibility-actions">
+                <button class="btn btn-primary btn-large" id="save-settings">
+                    <i class="fas fa-save"></i> Save Settings
+                </button>
+                <button class="btn btn-outline btn-large" id="reset-all">
+                    <i class="fas fa-undo"></i> Reset All
+                </button>
+                <button class="btn btn-secondary btn-large" id="preview-changes">
+                    <i class="fas fa-eye"></i> Preview Changes
+                </button>
+            </div>
+
+            <!-- Help Section -->
+            <div class="help-section">
+                <h2><i class="fas fa-question-circle"></i> Need Help?</h2>
+                <div class="help-content">
+                    <div class="help-item">
+                        <h3>Keyboard Shortcuts</h3>
+                        <ul>
+                            <li><kbd>Ctrl</kbd> + <kbd>+</kbd> - Increase font size</li>
+                            <li><kbd>Ctrl</kbd> + <kbd>-</kbd> - Decrease font size</li>
+                            <li><kbd>Ctrl</kbd> + <kbd>0</kbd> - Reset font size</li>
+                            <li><kbd>Tab</kbd> - Navigate through elements</li>
+                            <li><kbd>Enter</kbd> or <kbd>Space</kbd> - Activate buttons/links</li>
+                        </ul>
+                    </div>
+                    <div class="help-item">
+                        <h3>Screen Reader Support</h3>
+                        <p>Our site is fully compatible with popular screen readers including JAWS, NVDA, and VoiceOver.</p>
+                    </div>
+                    <div class="help-item">
+                        <h3>Contact Support</h3>
+                        <p>If you need additional assistance, please contact our accessibility support team at <a href="mailto:accessibility@hustlerati.com">accessibility@hustlerati.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+
+    <script src="/javascript/accessibility.js"></script>
+    <script src="/javascript/index.js"></script>
+</body>
+</html>

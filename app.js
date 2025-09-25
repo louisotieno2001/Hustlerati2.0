@@ -17,8 +17,7 @@ const PORT = process.env.PORT || 3000;
 // Directus API configuration
 const url = process.env.DIRECTUS_URL;
 const accessToken = process.env.DIRECTUS_TOKEN;
-// Initialize multer without disk storage
-const upload = multer().single('media'); // Use memory storage
+// Initialize multer for multiple files
 const apiProxy = createProxyMiddleware({
     target: 'http://0.0.0.0:8055/assets', // Target server where requests should be proxied
     changeOrigin: true, // Adjust the origin of the request to the target
@@ -66,6 +65,11 @@ const checkSession = (req, res, next) => {
     }
 };
 
+/**
+    @param path  {String}
+    @param config {RequestInit}
+*/
+
 // Query function for Directus API
 async function query(path, config) {
     try {
@@ -84,23 +88,26 @@ async function query(path, config) {
     }
 }
 
+// Initialize multer without disk storage
+const upload = multer().single('media'); // Use memory storage
+
+// Upload to directus files
 async function uploadToDirectus(file) {
     const formData = new FormData();
-    formData.append('file', file.buffer, {
-        filename: file.originalname,
-        contentType: file.mimetype
-    });
+    formData.append('file', file.buffer, { filename: file.originalname, contentType: file.mimetype }); // Append the file buffer with metadata
 
     try {
-        const res = await axios.post(`${url}/files`, formData, {
-            headers: {
-                "Authorization": `Bearer ${accessToken}`,
-                ...formData.getHeaders()
-            }
+        const res = await query(`/files`, {
+            method: 'POST',
+            body: formData,
+            headers: formData.getHeaders(), // Set the correct headers for FormData
         });
-        return res.data;
+
+        console.log
+        const uploadedAsset = await res.json();
+        return uploadedAsset; // Return uploaded asset data
     } catch (error) {
-        console.error('Error uploading to Directus:', error.response?.data || error.message);
+        console.error('Error uploading to Directus:', error);
         throw new Error('Failed to upload file to Directus');
     }
 }
@@ -126,183 +133,55 @@ const tosAndPrivacyRoutes = require('./routes/tos_and_privacy');
 app.use('/tos-and-privacy', tosAndPrivacyRoutes);
 const submitEstateRoutes = require('./routes/submit_estate');
 app.use('/list-your-estate', submitEstateRoutes);
-
-async function submitEstate(data) {
-  let res = await query(`/items/real_estates/`, {
-    method: 'POST',
-    headers: { "Content-type" : "application/json"},
-    body: JSON.stringify(data) // Send user data in the request body
-  });
-  return await res.json();
-}
-
-// New route to handle real estate submission
-app.post('/submit-estate', async (req, res) => {
-    try {
-        const data = req.body;
-
-        // Validate required fields
-        const requiredFields = [
-            'propertyTitle', 'propertyType', 'propertySize', 'monthlyPrice',
-            'propertyDescription', 'propertyCity', 'propertyAddress', 'propertyZipCode',
-            'spaceType', 'leaseTerms', 'availability', 'contactName', 'contactPhone', 'contactEmail'
-        ];
-
-        const missingFields = requiredFields.filter(field => !data[field]);
-
-        if (missingFields.length > 0) {
-            return res.status(400).json({
-                success: false,
-                message: `Missing required fields: ${missingFields.join(', ')}`
-            });
-        }
-
-        // Validate images
-        if (!data.images || data.images.length === 0) {
-            return res.status(400).json({
-                success: false,
-                message: 'At least one image is required'
-            });
-        }
-
-        if (data.images.length > 5) {
-            return res.status(400).json({
-                success: false,
-                message: 'Maximum 5 images allowed'
-            });
-        }
-
-        // Upload images to Directus
-        const uploadedImageIds = [];
-        for (const image of data.images) {
-            // Validate image object structure
-            if (!image || !image.base64 || !image.name) {
-                console.error('Invalid image object:', image);
-                return res.status(400).json({
-                    success: false,
-                    message: 'Invalid image data provided'
-                });
-            }
-
-            try {
-                // image.base64 contains base64 string, extract mime type and data
-                const [mimePart, base64Data] = image.base64.split(',');
-                if (!mimePart || !base64Data) {
-                    console.error('Invalid base64 format for image:', image.name);
-                    return res.status(400).json({
-                        success: false,
-                        message: 'Invalid image format'
-                    });
-                }
-
-                const mimeType = mimePart.split(':')[1].split(';')[0]; // Extract mime type from data:image/jpeg;base64,
-                const buffer = Buffer.from(base64Data, 'base64');
-
-                // Create a file-like object for upload
-                const file = {
-                    buffer: buffer,
-                    originalname: image.name,
-                    mimetype: mimeType
-                };
-
-                const uploadedAsset = await uploadToDirectus(file);
-                uploadedImageIds.push(uploadedAsset.data.id);
-            } catch (uploadError) {
-                console.error('Error uploading image:', uploadError);
-                return res.status(500).json({
-                    success: false,
-                    message: 'Failed to upload one or more images'
-                });
-            }
-        }
-
-        // Prepare property data for Directus
-        const propertyData = {
-            title: data.propertyTitle,
-            property_type: data.propertyType,
-            size: parseInt(data.propertySize),
-            price: parseInt(data.monthlyPrice),
-            description: data.propertyDescription,
-            city: data.propertyCity,
-            location: data.propertyAddress,
-            space_type: data.spaceType,
-            lease_terms: data.leaseTerms,
-            availability: data.availability,
-            business_size: data.businessSize || '',
-            amenities: Array.isArray(data.amenities) ? data.amenities : [data.amenities].filter(Boolean),
-            images: uploadedImageIds, // Array of Directus file IDs (UUIDs)
-            badge: data.badge || '',
-            feature_this_estate: false,
-            status: 'pending',
-            date_created: new Date().toISOString(),
-            date_updated: new Date().toISOString()
-        };
-
-        console.log("Property Data:", propertyData);
-
-        // Save property listing to Directus real_estates table
-        const response = await submitEstate(propertyData);
-
-        console.log("Directus Response:", response);
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Directus error:', errorData);
-            return res.status(500).json({
-                success: false,
-                message: 'Failed to save property listing'
-            });
-        }
-
-        const savedProperty = await response.json();
-
-        res.json({
-            success: true,
-            message: 'Property listing submitted successfully!',
-            data: {
-                id: savedProperty.data.id,
-                ...propertyData
-            }
-        });
-
-    } catch (error) {
-        console.error('Error processing property submission:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Internal server error. Please try again.'
-        });
-    }
-});
+const solutionsRoutes = require('./routes/solutions');
+app.use('/solutions', solutionsRoutes);
+const aboutRoutes = require('./routes/about');
+app.use('/about', aboutRoutes);
+const siteMap = require('./routes/sitemap');
+app.use('/sitemap', siteMap);
+const preferencesRoute = require('./routes/preferences');
+app.use('/preferences', preferencesRoute);
+const accessibilityRoute = require('./routes/accessibility');
+app.use('/accessibility', accessibilityRoute);
+const helpCenter = require('./routes/help_center');
+app.use('/help-center', helpCenter);
+const resourceRoute = require('./routes/resources');
+app.use('/resources', resourceRoute);
+const faqRoute = require('./routes/faqs');
+app.use('/faqs', faqRoute);
+const bookRoute = require('./routes/bookings');
+const { Console } = require('console');
+app.use('/booking', bookRoute)
 
 async function registerUser(userData) {
-  let res = await query(`/items/users/`, {
-    method: 'POST',
-    body: JSON.stringify(userData) // Send user data in the request body
-  });
-  return await res.json();
+    let res = await query(`/items/users/`, {
+        method: 'POST',
+        body: JSON.stringify(userData) // Send user data in the request body
+    });
+    return await res.json();
 }
 
 app.post('/register', async (req, res) => {
-  try {
-    const { fullName, email, phone, password, terms } = req.body;
+    try {
+        const { fullName, email, phone, password, terms } = req.body;
 
-    if (!fullName || !email || !phone || !password || !terms) {
-      return res.status(400).json({ error: 'Please fill in all fields' });
+        if (!fullName || !email || !phone || !password || !terms) {
+            return res.status(400).json({ error: 'Please fill in all fields' });
+        }
+
+        const userData = {
+            name: fullName, email: email, phone: phone, password: password, tos_and_privacy_agreement: terms
+        };
+
+        // Register the user
+        const newUser = await registerUser(userData);
+
+        // Send response indicating success
+        res.status(201).json({ message: 'User registered successfully', user: newUser });
+    } catch (error) {
+        console.error('Error inserting user:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-
-    const userData = {
-      name: fullName, email: email, phone: phone, password: password, tos_and_privacy_agreement: terms
-    };
-
-    // Register the user
-    const newUser = await registerUser(userData);
-
-    // Send response indicating success
-    res.status(201).json({ message: 'User registered successfully', user: newUser });
-  } catch (error) {
-    console.error('Error inserting user:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
 });
 
 async function loginUser(email) {
@@ -346,7 +225,7 @@ app.post('/login', async (req, res) => {
         const user = usersResponse.data[0];
 
         // console.log(user)
-        const isPasswordValid = password === user.password; 
+        const isPasswordValid = password === user.password;
 
         console.log("Password", password, "User Password", user.password, "Is Password Valid", isPasswordValid);
 
@@ -366,6 +245,197 @@ app.post('/login', async (req, res) => {
         // Handle internal server error
         console.error('Error logging in user:', error);
         res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+async function uploadRealEstate(userData) {
+    try {
+        // Use your custom query function to send the update query
+        const res = await query(`/items/real_estates/`, {
+            method: 'POST', // Assuming you want to update an existing item
+            body: JSON.stringify(userData) // Convert userData to JSON string
+        });
+        const updatedData = await res.json();
+        return updatedData; // Return updated data
+    } catch (error) {
+        console.error('Error:', error);
+        throw new Error('Failed to update');
+    }
+}
+
+app.post('/submit-estate', async (req, res) => {
+    try {
+        const data = req.body;
+
+        const requiredFields = [
+            'propertyTitle', 'propertyType', 'propertySize', 'monthlyPrice',
+            'propertyDescription', 'propertyCity', 'propertyAddress', 'propertyZipCode',
+            'spaceType', 'leaseTerms', 'availability', 'contactName', 'contactPhone', 'contactEmail'
+        ];
+
+        const missingFields = requiredFields.filter(field => !data[field]);
+        if (missingFields.length > 0) {
+            return res.status(400).json({
+                success: false,
+                message: `Missing required fields: ${missingFields.join(', ')}`
+            });
+        }
+
+        // Prepare property data for Directus without images
+        const propertyData = {
+            title: data.propertyTitle,
+            property_type: data.propertyType,
+            size: String(data.propertySize),
+            price: String(data.monthlyPrice),
+            description: data.propertyDescription,
+            city: data.propertyCity,
+            location: data.propertyAddress,
+            space_type: data.spaceType,
+            lease_terms: data.leaseTerms,
+            availability: data.availability,
+            business_size: data.businessSize || '',
+            amenities: Array.isArray(data.amenities) ? data.amenities : [data.amenities].filter(Boolean),
+            badge: data.badge || '',
+            feature_this_estate: false,
+            status: 'pending',
+            date_created: new Date().toISOString(),
+            date_updated: new Date().toISOString(),
+            contact_name: data.contactName,
+            contact_phone: data.contactPhone,
+            contact_email: data.contactEmail
+        };
+
+        const response = await uploadRealEstate(propertyData);
+
+        if (response.errors) {
+            console.error('Directus error:', response.errors);
+            return res.status(500).json({
+                success: false,
+                message: response.errors[0]?.message || 'Failed to save property listing'
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Property listing submitted successfully!',
+            data: {
+                id: response.data.id,
+                ...propertyData
+            }
+        });
+
+    } catch (error) {
+        console.error('Error processing property submission:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error. Please try again.'
+        });
+    }
+});
+
+async function bookSapce(userData) {
+    try {
+        // Use your custom query function to send the update query
+        const res = await query(`/items/bookings/`, {
+            method: 'POST', // Assuming you want to update an existing item
+            body: JSON.stringify(userData) // Convert userData to JSON string
+        });
+        const updatedData = await res.json();
+        return updatedData; // Return updated data
+    } catch (error) {
+        console.error('Error:', error);
+        throw new Error('Failed to update');
+    }
+}
+
+// POST route to handle booking
+app.post('/book', checkSession, async (req, res) => {
+    try {
+        const { type, propertyId, propertyDescription, propertyPrice, price, propertyName, propertyLocation } = req.body;
+        const userId = req.session.user.id;
+
+        if (!type || !propertyId) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        if (!['individual', 'group'].includes(type)) {
+            return res.status(400).json({ error: 'Invalid booking type' });
+        }
+
+        // Create booking in Directus
+        const bookingData = {
+            user_id: userId,
+            property_id: propertyId,
+            type,
+            location: propertyLocation,
+            name: propertyName,
+            contribution: price,
+            price: propertyPrice,
+            description: propertyDescription
+        };
+
+        // console.log("Data", bookingData)
+
+        const newBooking = await bookSapce(bookingData)
+
+        // console.log(newBooking)
+        return res.status(200).json({ message: 'Success' });
+    } catch (error) {
+        console.error('Error processing booking:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+async function uploadProfileImage(userData) {
+    try {
+        const res = await query(`/items/users?filter[id][_eq]=${userData.id}`, {
+            method: 'PUT',
+            body: JSON.stringify(userData)
+        });
+
+        console.log("From inside function ", res)
+        const updatedData = await res.json();
+        return updatedData; // Return updated data
+    } catch (error) {
+        console.error('Error:', error);
+        throw new Error('Failed to update');
+    }
+}
+
+// Update user profile
+app.post('/upload-profile', upload, async (req, res) => {
+    try {
+        // Ensure that req.file contains the expected file information
+        const id = req.session.user.id;
+
+        // Ensure that req.file contains the expected file information
+        if (!req.file) {
+            return res.status(400).json({ message: 'No media uploaded' });
+        }
+
+        console.log(req.file);
+
+        // Upload the file to Directus
+        const uploadedAsset = await uploadToDirectus(req.file);
+
+        console.log("Image",uploadedAsset)
+        // Update userData object with profile_image field
+        const userData = {
+            id: id, // Assuming req.user contains user information
+            profile_image: uploadedAsset.data,
+        };
+
+        console.log("IUserdata", userData);
+
+        // Update user data with the new profile pic path
+        const updatedData = await uploadProfileImage(userData);
+
+        console.log("Updated data",updatedData.errors)
+
+        res.status(201).json({ message: 'Profile picture updated successfully', updatedData });
+    } catch (error) {
+        console.error('Error updating profile picture:', error);
+        res.status(500).json({ message: 'Failed to update profile picture. Please try again.' });
     }
 });
 

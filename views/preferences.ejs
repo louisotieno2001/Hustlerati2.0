@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Preferences - Hustlerati 2.0</title>
+    <link rel="icon" href="/images/logo.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/images/logo.png">
+    <link rel="stylesheet" href="/stylesheets/default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <%- include('partials/header') %>
+
+        <!-- Main Content -->
+        <main class="preferences-main">
+            <div class="container">
+                <div class="preferences-container">
+                    <!-- Header Section -->
+                    <div class="preferences-header">
+                        <h1><i class="fas fa-shield-alt"></i> Privacy Preferences</h1>
+                        <p>Manage your data privacy settings and control how we collect, use, and share your
+                            information.</p>
+                    </div>
+
+                    <!-- Preferences Form -->
+                    <form id="preferencesForm" class="preferences-form">
+                        <!-- Data Collection Section -->
+                        <div class="preference-section">
+                            <div class="section-header">
+                                <h2><i class="fas fa-database"></i> Data Collection</h2>
+                                <p>Choose what types of data we can collect to improve your experience.</p>
+                            </div>
+
+                            <div class="preference-group">
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Usage Analytics</h3>
+                                        <p>Help us improve our services by collecting anonymous usage data and
+                                            performance metrics.</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="analytics" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Location Data</h3>
+                                        <p>Allow access to your location to provide location-based services and
+                                            recommendations.</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="location">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Device Information</h3>
+                                        <p>Collect information about your device to optimize performance and
+                                            troubleshoot issues.</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="deviceInfo" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data Sharing Section -->
+                        <div class="preference-section">
+                            <div class="section-header">
+                                <h2><i class="fas fa-share-alt"></i> Data Sharing & Sales</h2>
+                                <p>Control how your data is shared with third parties and whether it can be sold.</p>
+                            </div>
+
+                            <div class="preference-group">
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Marketing Communications</h3>
+                                        <p>Receive personalized marketing emails and promotional offers from us.</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="marketingEmails">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Third-Party Advertising</h3>
+                                        <p>Allow us to share data with advertising partners for personalized ads.</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="thirdPartyAds">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Data Sales Opt-Out</h3>
+                                        <p>Opt out of having your personal information sold to third parties.</p>
+                                        <small class="preference-note">Required by CCPA privacy laws</small>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="dataSalesOptOut" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Partner Integrations</h3>
+                                        <p>Share data with trusted partners to enhance your experience across services.
+                                        </p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="partnerSharing">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cookie Preferences Section -->
+                        <div class="preference-section">
+                            <div class="section-header">
+                                <h2><i class="fas fa-cookie-bite"></i> Cookie Preferences</h2>
+                                <p>Manage how we use cookies and similar technologies on our website.</p>
+                            </div>
+
+                            <div class="preference-group">
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Essential Cookies</h3>
+                                        <p>Required cookies for basic website functionality and security.</p>
+                                        <small class="preference-note">These cookies cannot be disabled</small>
+                                    </div>
+                                    <div class="essential-badge">Always Active</div>
+                                </div>
+
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Functional Cookies</h3>
+                                        <p>Remember your preferences and improve your browsing experience.</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="functionalCookies" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Analytics Cookies</h3>
+                                        <p>Help us understand how visitors interact with our website.</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="analyticsCookies" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Marketing Cookies</h3>
+                                        <p>Used to deliver relevant advertisements and track campaign performance.</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="marketingCookies">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Communication Preferences Section -->
+                        <div class="preference-section">
+                            <div class="section-header">
+                                <h2><i class="fas fa-envelope"></i> Communication Preferences</h2>
+                                <p>Choose how and when you want to hear from us.</p>
+                            </div>
+
+                            <div class="preference-group">
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Email Notifications</h3>
+                                        <p>Receive important updates about your account and services via email.</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="emailNotifications" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>SMS Notifications</h3>
+                                        <p>Get text messages for urgent updates and security alerts.</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="smsNotifications">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Push Notifications</h3>
+                                        <p>Receive push notifications in your browser for real-time updates.</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="pushNotifications">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Newsletter Subscription</h3>
+                                        <p>Subscribe to our newsletter for industry insights and updates.</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="newsletter">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data Retention Section -->
+                        <div class="preference-section">
+                            <div class="section-header">
+                                <h2><i class="fas fa-clock"></i> Data Retention</h2>
+                                <p>Set preferences for how long we retain your data.</p>
+                            </div>
+
+                            <div class="preference-group">
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Account Data Retention</h3>
+                                        <p>Choose how long to keep your account data after account deletion.</p>
+                                        <select id="dataRetention" class="preference-select">
+                                            <option value="immediate">Delete immediately</option>
+                                            <option value="30days" selected>30 days</option>
+                                            <option value="90days">90 days</option>
+                                            <option value="1year">1 year</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="preference-item">
+                                    <div class="preference-content">
+                                        <h3>Activity Logs</h3>
+                                        <p>Control how long we keep logs of your activity for security purposes.</p>
+                                        <select id="activityLogs" class="preference-select">
+                                            <option value="1year">1 year</option>
+                                            <option value="2years" selected>2 years</option>
+                                            <option value="5years">5 years</option>
+                                            <option value="indefinite">Indefinite</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Privacy Rights Section -->
+                        <div class="preference-section">
+                            <div class="section-header">
+                                <h2><i class="fas fa-gavel"></i> Your Privacy Rights</h2>
+                                <p>Exercise your data privacy rights under applicable laws.</p>
+                            </div>
+
+                            <div class="privacy-rights-grid">
+                                <div class="right-card">
+                                    <i class="fas fa-eye"></i>
+                                    <h3>Right to Access</h3>
+                                    <p>Request a copy of all personal data we have about you.</p>
+                                    <button type="button" class="btn btn-outline btn-small"
+                                        onclick="requestDataAccess()">
+                                        Request Access
+                                    </button>
+                                </div>
+
+                                <div class="right-card">
+                                    <i class="fas fa-edit"></i>
+                                    <h3>Right to Rectification</h3>
+                                    <p>Request correction of inaccurate or incomplete personal data.</p>
+                                    <button type="button" class="btn btn-outline btn-small"
+                                        onclick="requestRectification()">
+                                        Request Correction
+                                    </button>
+                                </div>
+
+                                <div class="right-card">
+                                    <i class="fas fa-trash"></i>
+                                    <h3>Right to Erasure</h3>
+                                    <p>Request deletion of your personal data (Right to be Forgotten).</p>
+                                    <button type="button" class="btn btn-outline btn-small" onclick="requestErasure()">
+                                        Request Deletion
+                                    </button>
+                                </div>
+
+                                <div class="right-card">
+                                    <i class="fas fa-ban"></i>
+                                    <h3>Right to Restriction</h3>
+                                    <p>Request limitation on how your personal data is processed.</p>
+                                    <button type="button" class="btn btn-outline btn-small"
+                                        onclick="requestRestriction()">
+                                        Request Restriction
+                                    </button>
+                                </div>
+
+                                <div class="right-card">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <h3>Data Portability</h3>
+                                    <p>Request your data in a structured, machine-readable format.</p>
+                                    <button type="button" class="btn btn-outline btn-small"
+                                        onclick="requestPortability()">
+                                        Request Data
+                                    </button>
+                                </div>
+
+                                <div class="right-card">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <h3>Right to Object</h3>
+                                    <p>Object to processing of your personal data for certain purposes.</p>
+                                    <button type="button" class="btn btn-outline btn-small"
+                                        onclick="objectProcessing()">
+                                        Object to Processing
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="resetToDefaults()">
+                                <i class="fas fa-undo"></i> Reset to Defaults
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Preferences
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Additional Information -->
+                    <div class="additional-info">
+                        <div class="info-section">
+                            <h3><i class="fas fa-info-circle"></i> Important Information</h3>
+                            <ul>
+                                <li>Your preferences are stored securely and can be updated at any time.</li>
+                                <li>Some changes may take up to 24 hours to take effect across all our systems.</li>
+                                <li>You can withdraw consent for optional data processing at any time.</li>
+                                <li>For more information, please review our <a href="/privacy">Privacy Policy</a>.</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-section">
+                            <h3><i class="fas fa-question-circle"></i> Need Help?</h3>
+                            <p>If you have questions about your privacy preferences or need assistance, please contact
+                                our Data Protection Officer at <a
+                                    href="mailto:privacy@hustlerati.com">privacy@hustlerati.com</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <%- include('partials/footer') %>
+
+            <!-- Success/Error Messages -->
+            <div id="successMessage" class="general-success-dialog">
+                <p id="successText">Preferences saved successfully!</p>
+                <button class="close-success-btn">OK</button>
+            </div>
+
+            <div id="errorMessage" class="general-error-dialog">
+                <p id="errorText">An error occurred while saving your preferences.</p>
+                <button class="close-error-btn">OK</button>
+            </div>
+
+            <script>
+                // Toggle switch functionality
+                document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+                    toggle.addEventListener('change', function () {
+                        // You can add logic here to handle preference changes
+                        console.log(`${this.id}: ${this.checked}`);
+                    });
+                });
+
+                // Form submission
+                document.getElementById('preferencesForm').addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    // Collect all preferences
+                    const preferences = {
+                        analytics: document.getElementById('analytics').checked,
+                        location: document.getElementById('location').checked,
+                        deviceInfo: document.getElementById('deviceInfo').checked,
+                        marketingEmails: document.getElementById('marketingEmails').checked,
+                        thirdPartyAds: document.getElementById('thirdPartyAds').checked,
+                        dataSalesOptOut: document.getElementById('dataSalesOptOut').checked,
+                        partnerSharing: document.getElementById('partnerSharing').checked,
+                        functionalCookies: document.getElementById('functionalCookies').checked,
+                        analyticsCookies: document.getElementById('analyticsCookies').checked,
+                        marketingCookies: document.getElementById('marketingCookies').checked,
+                        emailNotifications: document.getElementById('emailNotifications').checked,
+                        smsNotifications: document.getElementById('smsNotifications').checked,
+                        pushNotifications: document.getElementById('pushNotifications').checked,
+                        newsletter: document.getElementById('newsletter').checked,
+                        dataRetention: document.getElementById('dataRetention').value,
+                        activityLogs: document.getElementById('activityLogs').value
+                    };
+
+                    // Here you would typically send the preferences to your server
+                    console.log('Saving preferences:', preferences);
+
+                    // Show success message
+                    showSuccessMessage('Your privacy preferences have been saved successfully!');
+                });
+
+                // Privacy rights functions
+                function requestDataAccess() {
+                    showSuccessMessage('Your data access request has been submitted. You will receive a response within 30 days.');
+                }
+
+                function requestRectification() {
+                    showSuccessMessage('Your data rectification request has been submitted. We will review and update your information as needed.');
+                }
+
+                function requestErasure() {
+                    if (confirm('Are you sure you want to request deletion of your personal data? This action cannot be undone.')) {
+                        showSuccessMessage('Your data erasure request has been submitted. We will process this request within 30 days.');
+                    }
+                }
+
+                function requestRestriction() {
+                    showSuccessMessage('Your data processing restriction request has been submitted.');
+                }
+
+                function requestPortability() {
+                    showSuccessMessage('Your data portability request has been submitted. You will receive your data within 30 days.');
+                }
+
+                function objectProcessing() {
+                    showSuccessMessage('Your objection to data processing has been recorded.');
+                }
+
+                function resetToDefaults() {
+                    if (confirm('Are you sure you want to reset all preferences to default settings?')) {
+                        // Reset all toggles to default state
+                        document.getElementById('analytics').checked = true;
+                        document.getElementById('location').checked = false;
+                        document.getElementById('deviceInfo').checked = true;
+                        document.getElementById('marketingEmails').checked = false;
+                        document.getElementById('thirdPartyAds').checked = false;
+                        document.getElementById('dataSalesOptOut').checked = true;
+                        document.getElementById('partnerSharing').checked = false;
+                        document.getElementById('functionalCookies').checked = true;
+                        document.getElementById('analyticsCookies').checked = true;
+                        document.getElementById('marketingCookies').checked = false;
+                        document.getElementById('emailNotifications').checked = true;
+                        document.getElementById('smsNotifications').checked = false;
+                        document.getElementById('pushNotifications').checked = false;
+                        document.getElementById('newsletter').checked = false;
+                        document.getElementById('dataRetention').value = '30days';
+                        document.getElementById('activityLogs').value = '2years';
+
+                        showSuccessMessage('Preferences have been reset to default settings.');
+                    }
+                }
+
+                // Message display functions
+                function showSuccessMessage(message) {
+                    document.getElementById('successText').textContent = message;
+                    document.getElementById('successMessage').classList.add('active');
+                }
+
+                function showErrorMessage(message) {
+                    document.getElementById('errorText').textContent = message;
+                    document.getElementById('errorMessage').classList.add('active');
+                }
+
+                // Close message dialogs
+                document.querySelector('.close-success-btn').addEventListener('click', function () {
+                    document.getElementById('successMessage').classList.remove('active');
+                });
+
+                document.querySelector('.close-error-btn').addEventListener('click', function () {
+                    document.getElementById('errorMessage').classList.remove('active');
+                });
+
+                // Close dialogs when clicking outside
+                document.getElementById('successMessage').addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+
+                document.getElementById('errorMessage').addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            </script>
+
+            <script src="/javascript/accessibility.js"></script>
+            <script src="/javascript/index.js"></script>
+</body>
+
+</html>

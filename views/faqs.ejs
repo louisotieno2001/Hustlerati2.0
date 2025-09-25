@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FAQs | Hustlerati</title>
+     <link rel="icon" href="/images/logo.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/images/logo.png">
+    <link rel="stylesheet" href="/stylesheets/default.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* FAQ Accordion Styles */
+        .faq-container {
+            max-width: 900px;
+            margin: 120px auto 60px;
+            padding: 0 15px;
+        }
+
+        .faq-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .faq-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 8px 20px rgba(74, 107, 255, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .faq-question {
+            cursor: pointer;
+            padding: 20px 30px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .faq-question:hover {
+            color: var(--primary-color);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 30px;
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.6;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px; /* enough to show content */
+            padding: 15px 30px 25px;
+        }
+
+        .faq-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        @media (max-width: 768px) {
+            .faq-container {
+                margin: 100px 15px 40px;
+            }
+
+            .faq-title {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+
+            .faq-question {
+                font-size: 1.1rem;
+                padding: 15px 20px;
+            }
+
+            .faq-answer {
+                font-size: 0.95rem;
+                padding: 0 20px;
+            }
+
+            .faq-item.active .faq-answer {
+                padding: 10px 20px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body class="light-theme">
+     <!-- Header -->
+    <%- include('partials/header') %>
+
+    <main>
+        <section class="faq-container">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What is Hustlerati and how does it work?
+                    <i class="fas fa-plus faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    Hustlerati is a commercial space rental platform that democratizes access to spaces for businesses of all sizes. Helping ordinary people pool resources and run a  business anywhere in the world. Our platform connects property owners with entrepreneurs and businesses to find and list commercial spaces easily and transparently.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How can I list my property on Hustlerati?
+                    <i class="fas fa-plus faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    To list your property, simply create an account, navigate to the "List Your Property" section, and fill out the listing form with details about your space. Once submitted, your property will be reviewed by Hustlerati and on approval will me made visible to potential renters on our platform.
+                </div>
+            </div>
+
+        </section>
+    </main>
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+
+    <script>
+        // FAQ accordion toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                faqItem.classList.toggle('active');
+            });
+        });
+    </script>
+
+    <script src="/javascript/accessibility.js"></script>
+    <script src="/javascript/index.js"></script>
+</body>
+
+</html>

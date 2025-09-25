@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hustlerati Dashboard</title>
-     <meta name="description"
+    <meta name="description"
         content="Find, compare, and rent commercial spaces tailored to your business needs anytime, anywhere in the world.">
-    <meta name="keywords"
-        content="commercial space rental, business space, retail space, warehouse rental, industrial space,
+    <meta name="keywords" content="commercial space rental, business space, retail space, warehouse rental, industrial space,
         restaurant space, office space, commercial real estate, business solutions, Hustlerati">
     <meta name="author" content="Hustlerati Team">
     <link rel="icon" href="/images/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/stylesheets/dashboard.css">
+    <!-- <link rel="stylesheet" href="/stylesheets/default.css"> -->
 </head>
+
 <body class="light-theme">
     <div class="dashboard-container">
         <!-- Header -->
@@ -51,17 +53,17 @@
                     </div>
                 </div>
                 <a href="/list-your-estate"><button class="btn btn-primary list-space-btn">
-                    <i class="fas fa-plus"></i> List Space
-                </button></a>
+                        <i class="fas fa-plus"></i> List Space
+                    </button></a>
                 <div class="user-dropdown">
                     <button class="user-btn">
                         <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-avatar">
                     </button>
                     <div class="dropdown-menu">
                         <a href="#"><i class="fas fa-user"></i> Profile</a>
-                        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="/"><i class="fas fa-cog"></i> Home</a>
                         <div class="divider"></div>
-                        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
             </div>
@@ -72,8 +74,12 @@
             <div class="user-profile">
                 <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="profile-avatar">
                 <div class="profile-info">
-                    <h4><%= user.name %></h4>
-                    <p><%= user.email %></p>
+                    <h4>
+                        <%= user.name %>
+                    </h4>
+                    <p>
+                        <%= user.email %>
+                    </p>
                 </div>
             </div>
             <nav class="sidebar-nav">
@@ -82,13 +88,17 @@
                         <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                     </li>
                     <li data-tab="spaces">
-                        <a href="#"><i class="fas fa-store"></i> My Spaces <span class="badge">3</span></a>
+                        <a href="#"><i class="fas fa-store"></i> My Spaces <span class="badge">
+                                <%= listedSpaces.length %>
+                            </span></a>
                     </li>
                     <li data-tab="leases">
                         <a href="#"><i class="fas fa-file-contract"></i> Leases</a>
                     </li>
                     <li data-tab="bookings">
-                        <a href="#"><i class="fas fa-calendar-check"></i> Bookings</a>
+                        <a href="#"><i class="fas fa-calendar-check"></i> Bookings <span class="badge">
+                                <%= activeBookings.length %>
+                            </span></a>
                     </li>
                     <li data-tab="analytics">
                         <a href="#"><i class="fas fa-chart-line"></i> Analytics</a>
@@ -107,42 +117,60 @@
                 <div class="stats-grid">
                     <div class="stat-card">
                         <i class="fas fa-store"></i>
-                        <h3><%= listedSpaces %></h3>
+                        <h3>
+                            <%= listedSpaces.length %>
+                        </h3>
                         <p>Listed Spaces</p>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-calendar-check"></i>
-                        <h3><%= activeBookings %></h3>
+                        <h3>
+                            <%= activeBookings.length %>
+                        </h3>
                         <p>Active Bookings</p>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-dollar-sign"></i>
-                        <h3>$<%= monthlyRevenue %></h3>
+                        <h3>$<%= monthlyRevenue %>
+                        </h3>
                         <p>Monthly Revenue</p>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-star"></i>
-                        <h3><%= averageRating %></h3>
+                        <h3>
+                            <%= averageRating %>
+                        </h3>
                         <p>Average Rating</p>
                     </div>
                 </div>
             </div>
 
             <div class="tab-content" id="spaces-tab">
-                <h2>My Spaces</h2>
+                <div class="booking-body-title">
+                    <i class="fa-solid fa-building"></i>
+                    <h2>My Spaces</h2>
+                </div>
+
                 <div class="space-list">
-                    <% if (spaces && spaces.length > 0) { %>
-                        <% spaces.forEach(space => { %>
+                    <% if (listedSpaces && listedSpaces.length> 0) { %>
+                        <% listedSpaces.forEach(space=> { %>
                             <div class="space-card">
-                                <h4><%= space.title %></h4>
-                                <p><%= space.description %></p>
+                                <h4>
+                                    <%= space.title %>
+                                </h4>
+                                <p>
+                                    <%= space.description %>
+                                </p>
                                 <p>Price: $<%= space.price %>/month</p>
-                                <p>Status: <%= space.status %></p>
+                                <p>Status: <%= space.status %>
+                                </p>
+                                <a href="/real_estate/<%= space.id %>" class="btn btn-outline view-details">View
+                                    Details</a>
                             </div>
-                        <% }); %>
-                    <% } else { %>
-                        <p>No spaces listed yet.</p>
-                    <% } %>
+                            <% }); %>
+                                <% } else { %>
+                                    <p>No spaces listed yet.</p>
+                                    <% } %>
                 </div>
             </div>
 
@@ -152,8 +180,67 @@
             </div>
 
             <div class="tab-content" id="bookings-tab">
-                <h2>Bookings</h2>
-                <!-- Bookings content -->
+                <div class="bookings-title">
+                    <h2>Bookings</h2>
+                    <button>
+                        <a href="/real_estate">Book a space</a>
+                    </button>
+                </div>
+                <div class="bookings-body">
+                    <div class="booking-body-title">
+                        <i class="fa-solid fa-user"></i>
+                        <h4>Individual Bookings</h4>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="individual-bookings">
+                        <% if (activeBookings && activeBookings.length> 0) { %>
+                            <% activeBookings.forEach(space=> { %>
+                                <% if (space.type==='individual' ) { %>
+                                    <div class="booking-card">
+                                        <h4>
+                                            <%= space.name %>
+                                        </h4>
+                                        <p>Price: <%= space.price %>
+                                        </p>
+                                        <p>Your contribution: <%= space.price %>
+                                        </p>
+                                        <a href="/real_estate/<%= space.property_id %>"
+                                            class="btn btn-outline view-details">View Details</a>
+                                    </div>
+                                    <% } %>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <p>No individual spaces booked yet.</p>
+                                                <% } %>
+                    </div>
+                    <div class="booking-body-title">
+                        <i class="fa-solid fa-user-group"></i>
+                        <h4>Group Bookings</h4>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="group-bookings">
+                        <% if (activeBookings && activeBookings.length> 0) { %>
+                            <% activeBookings.forEach(space=> { %>
+                                <% if (space.type==='group' ) { %>
+                                    <div class="booking-card">
+                                        <h4>
+                                            <%= space.name %>
+                                        </h4>
+                                        <p>Price: <%= space.price %>
+                                        </p>
+                                        <p>Your contribution: <%= space.contribution %>
+                                        </p>
+                                        <a href="/real_estate/<%= space.property_id %>"
+                                            class="btn btn-outline view-details">View Details</a>
+                                    </div>
+                                    <% } %>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <p>No group spaces booked yet.</p>
+                                                <% } %>
+                    </div>
+                </div>
+
             </div>
 
             <div class="tab-content" id="analytics-tab">
@@ -163,11 +250,89 @@
 
             <div class="tab-content" id="settings-tab">
                 <h2>Settings</h2>
-                <!-- Settings content -->
+                <div class="settings-container">
+                    <div class="user-info">
+                        <!-- <h3>User Profile</h3> -->
+                        <div class="cover-image">
+                            <img id="cover-preview"
+                                src="<%= user.cover_image || 'https://picsum.photos/900/200?random=1' %>"
+                                alt="Cover Image">
+
+                            <input type="file" id="cover-upload" accept="image/*" style="display: none;">
+                            <button class="cover-edit-btn"><i class="fas fa-camera"></i></button>
+
+                        </div>
+                        <div class="profile-picture">
+                            <img id="profile-preview"
+                                src="<%= user.profile_image || 'https://randomuser.me/api/portraits/men/32.jpg' %>"
+                                alt="Profile Picture">
+
+                            <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+                            <button class="profile-edit-btn"><i class="fas fa-camera"></i></button>
+                        </div>
+
+
+                        <div class="user-form-container">
+                            <form id="user-form">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" name="name" value="<%= user.name %>" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" value="<%= user.email %>" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="tel" id="phone" name="phone" value="<%= user.phone || '' %>" readonly>
+                                </div>
+                                <!-- Add other fields as needed -->
+                                <button type="button" id="edit-btn" class="btn btn-primary">Edit Profile</button>
+                                <button type="submit" id="save-btn" class="btn btn-success" style="display: none;">Save
+                                    Changes</button>
+                                <button type="button" id="cancel-btn" class="btn btn-outline"
+                                    style="display: none;">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="preferences">
+                        <h3>Preferences</h3>
+                        <div class="form-group">
+                            <label for="pref-email">Email</label>
+                            <input type="email" id="pref-email" value="<%= user.email %>" readonly>
+                            <button id="verify-email-btn" class="btn btn-outline"
+                                style="display: <%= (new Date() - new Date(user.last_email_verification || 0)) > 6*30*24*60*60*1000 ? 'inline-block' : 'none' %>;">Verify
+                                Email</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="pref-phone">Phone</label>
+                            <input type="tel" id="pref-phone" value="<%= user.phone || '' %>" readonly>
+                            <button id="verify-phone-btn" class="btn btn-outline"
+                                style="display: <%= (new Date() - new Date(user.last_phone_verification || 0)) > 6*30*24*60*60*1000 ? 'inline-block' : 'none' %>;">Verify
+                                Phone</button>
+                        </div>
+                        <div class="form-group">
+                            <div class="preferences-item">
+                                <label for="dark-theme-toggle">Dark Theme</label>
+                                <input type="checkbox" id="dark-theme-toggle" <%= user.preferences &&
+                                    user.preferences.dark_theme ? 'checked' : '' %>>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="preferences-item">
+                                <label for="email-verifications-toggle">Email Notifications</label>
+                                <input type="checkbox" id="email-verifications-toggle" <%=user.preferences &&
+                                    user.preferences.email_verifications ? 'checked' : '' %>>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
 
+    <script src="/javascript/accessibility.js"></script>
     <script src="/javascript/dashboard.js"></script>
 </body>
+
 </html>

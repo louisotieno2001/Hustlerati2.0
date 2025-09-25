@@ -23,34 +23,57 @@ async function query(path, config) {
     }
 }
 
+
+async function getRealEstates(userId) {
+    try {
+        const response = await query(`/items/real_estates?filter[user_id][_eq]=${userId}`, {
+            method: 'GET'
+        });
+
+        if (response.ok) {
+            const estateData = await response.json();
+            return estateData.data;
+        } else {
+            throw new Error('Failed to fetch products');
+        }
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw error;
+    }
+}
+
+async function getBookings(userId) {
+    try {
+        const response = await query(`/items/bookings?filter[user_id][_eq]=${userId}`, {
+            method: 'GET'
+        });
+
+        if (response.ok) {
+            const estateData = await response.json();
+            return estateData.data;
+        } else {
+            throw new Error('Failed to fetch products');
+        }
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw error;
+    }
+}
+
 // Dashboard route with session check
 router.get('/', async (req, res) => {
     if (!req.session.user) {
         return res.redirect('/login');
     }
     const user = req.session.user;
+    // For now, keep other stats hardcoded or set to 0
+    const monthlyRevenue = 0; 
+    const averageRating = 0; 
+    const activeBookings = await getBookings(user.id)
+    const listedSpaces = await getRealEstates(user.id);
 
-    try {
-        // Fetch user's listed spaces
-        const response = await query(`/items/real_estates?filter[contact_email][_eq]=${encodeURIComponent(user.email)}`);
-        let listedSpaces = 0;
-        let spaces = [];
-        if (response.ok) {
-            const data = await response.json();
-            listedSpaces = data.data.length;
-            spaces = data.data;
-        }
 
-        // For now, keep other stats hardcoded or set to 0
-        const activeBookings = 0; // TODO: Fetch from bookings collection if exists
-        const monthlyRevenue = 0; // TODO: Calculate from spaces or bookings
-        const averageRating = 0; // TODO: Fetch from ratings
-
-        res.render('dashboard', { user, listedSpaces, activeBookings, monthlyRevenue, averageRating, spaces });
-    } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-        res.render('dashboard', { user, listedSpaces: 0, activeBookings: 0, monthlyRevenue: 0, averageRating: 0, spaces: [] });
-    }
+    res.render('dashboard', { user, activeBookings, monthlyRevenue, averageRating, listedSpaces });
 });
 
 module.exports = router;
