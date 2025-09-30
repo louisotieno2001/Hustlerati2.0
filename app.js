@@ -18,9 +18,13 @@ const PORT = process.env.PORT || 3000;
 const url = process.env.DIRECTUS_URL;
 const accessToken = process.env.DIRECTUS_TOKEN;
 // Initialize multer for multiple files
+// Proxy configuration
 const apiProxy = createProxyMiddleware({
     target: 'http://0.0.0.0:8055/assets', // Target server where requests should be proxied
     changeOrigin: true, // Adjust the origin of the request to the target
+    headers: {
+        "Authorization": "Bearer " + accessToken
+    }
 });
 
 // PostgreSQL connection pool
@@ -61,7 +65,7 @@ const checkSession = (req, res, next) => {
     if (req.session.user) {
         next(); // Continue to the next middleware or route
     } else {
-        res.redirect('/'); // Redirect to the login page if no session is found
+        res.redirect('/login'); // Redirect to the login page if no session is found
     }
 };
 
@@ -72,26 +76,19 @@ const checkSession = (req, res, next) => {
 
 // Query function for Directus API
 async function query(path, config) {
-    try {
-        const res = await fetch(encodeURI(`${url}${path}`), {
-            headers:
-            {
-                "Authorization": `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
-            },
-            ...config
-        });
-        return res;
-    } catch (error) {
-        console.error('Error during fetch:', error);
-        throw new Error('Database connection failed.');
-    }
+    const res = await fetch(encodeURI(`${url}${path}`), {
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+        },
+        ...config
+    });
+    return res;
 }
 
 // Initialize multer without disk storage
 const upload = multer().single('media'); // Use memory storage
 
-// Upload to directus files
 async function uploadToDirectus(file) {
     const formData = new FormData();
     formData.append('file', file.buffer, { filename: file.originalname, contentType: file.mimetype }); // Append the file buffer with metadata
@@ -102,8 +99,6 @@ async function uploadToDirectus(file) {
             body: formData,
             headers: formData.getHeaders(), // Set the correct headers for FormData
         });
-
-        console.log
         const uploadedAsset = await res.json();
         return uploadedAsset; // Return uploaded asset data
     } catch (error) {
@@ -150,8 +145,13 @@ app.use('/resources', resourceRoute);
 const faqRoute = require('./routes/faqs');
 app.use('/faqs', faqRoute);
 const bookRoute = require('./routes/bookings');
-const { Console } = require('console');
 app.use('/booking', bookRoute)
+const blogRoute = require('./routes/blog');
+app.use('/blog', blogRoute)
+const cartRoute = require('./routes/cart');
+app.use('/cart', checkSession ,cartRoute)
+const ordersRoute = require('./routes/orders');
+app.use('/orders', ordersRoute);
 
 async function registerUser(userData) {
     let res = await query(`/items/users/`, {
@@ -348,6 +348,20 @@ async function bookSapce(userData) {
     }
 }
 
+async function updateBookStatus(userData) {
+    try {
+        const res = await query(`/items/real_estates/${userData.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(userData)
+        });
+        const updatedData = await res.json();
+        return updatedData; // Return updated data
+    } catch (error) {
+        console.error('Error:', error);
+        throw new Error('Failed to update');
+    }
+}
+
 // POST route to handle booking
 app.post('/book', checkSession, async (req, res) => {
     try {
@@ -374,9 +388,15 @@ app.post('/book', checkSession, async (req, res) => {
             description: propertyDescription
         };
 
+        const userData = {
+            id: propertyId,
+            booking_type: type,
+        }
+
         // console.log("Data", bookingData)
 
         const newBooking = await bookSapce(bookingData)
+        const bookStatus = await updateBookStatus(userData)
 
         // console.log(newBooking)
         return res.status(200).json({ message: 'Success' });
@@ -388,9 +408,9 @@ app.post('/book', checkSession, async (req, res) => {
 
 async function uploadProfileImage(userData) {
     try {
-        const res = await query(`/items/users?filter[id][_eq]=${userData.id}`, {
-            method: 'PUT',
-            body: JSON.stringify(userData)
+        const res = await query(`/items/users/${userData.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ profile_image: userData.profile_image })
         });
 
         console.log("From inside function ", res)
@@ -418,11 +438,11 @@ app.post('/upload-profile', upload, async (req, res) => {
         // Upload the file to Directus
         const uploadedAsset = await uploadToDirectus(req.file);
 
-        console.log("Image",uploadedAsset)
+        console.log("Image", uploadedAsset)
         // Update userData object with profile_image field
         const userData = {
             id: id, // Assuming req.user contains user information
-            profile_image: uploadedAsset.data,
+            profile_image: uploadedAsset.data.id,
         };
 
         console.log("IUserdata", userData);
@@ -430,13 +450,55 @@ app.post('/upload-profile', upload, async (req, res) => {
         // Update user data with the new profile pic path
         const updatedData = await uploadProfileImage(userData);
 
-        console.log("Updated data",updatedData.errors)
+        console.log("Updated data", updatedData.errors)
 
         res.status(201).json({ message: 'Profile picture updated successfully', updatedData });
     } catch (error) {
         console.error('Error updating profile picture:', error);
         res.status(500).json({ message: 'Failed to update profile picture. Please try again.' });
     }
+});
+
+async function submitMessage(userData) {
+    let res = await query(`/items/messages/`, {
+        method: 'POST',
+        body: JSON.stringify(userData) // Send user data in the request body
+    });
+    return await res.json();
+}
+
+app.post('/message', async (req, res) => {
+    try {
+        const { type, email, message, name } = req.body;
+
+        if (!type || !email || !name || !message) {
+            return res.status(400).json({ error: 'Please fill in all fields' });
+        }
+
+        const userData = {
+            type: type, name: name, email: email, message: message
+        };
+
+        // Register the user
+        const newMessage = await submitMessage(userData);
+
+        // Send response indicating success
+        res.status(201).json({ message: 'Message sent successfully', user: newMessage });
+    } catch (error) {
+        console.error('Error inserting user:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.get('/logout', async (req, res) => {
+    // Destroy the session
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('Could not log out. Please try again.');
+        }
+        // Redirect to the root route
+        res.redirect('/');
+    });
 });
 
 app.listen(PORT, () => {

@@ -156,20 +156,30 @@
 
             <div class="contact-form">
                 <h3>Contact Us</h3>
-                <form id="contactForm" action="/help_center/contact" method="POST">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="type">Issue type</label>
+                        <select name="type" id="type">
+                            <option value="">Select option</option>
+                            <option value="request_data_deletion">Request data deletion</option>
+                            <option value="compliments">Compliments</option>
+                            <option value="unlist_property">Unlist my property</option>
+                            <option value="request_booking_cancellation">Cancel my booking</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="name">Name <span aria-hidden="true">*</span></label>
-                        <input type="text" id="name" name="name" required aria-required="true" />
+                        <input type="text" id="name" name="name" placeholder="Your name" required aria-required="true" />
                     </div>
                     <div class="form-group">
                         <label for="email">Email <span aria-hidden="true">*</span></label>
-                        <input type="email" id="email" name="email" required aria-required="true" />
+                        <input type="email" id="email" name="email" placeholder="Your email" required aria-required="true" />
                     </div>
                     <div class="form-group">
                         <label for="message">Message <span aria-hidden="true">*</span></label>
-                        <textarea id="message" name="message" required aria-required="true"></textarea>
+                        <textarea id="message" name="message" placeholder="Write your message..." required aria-required="true"></textarea>
                     </div>
-                    <button type="submit" class="btn-submit">Send Message</button>
+                    <button type="button" class="btn-submit" id="btn-submit">Send Message</button>
                 </form>
             </div>
         </section>
@@ -177,7 +187,7 @@
 
     <!-- Footer -->
     <%- include('partials/footer') %>
-
+    <script src="/javascript/help_center.js"></script>
     <script src="/javascript/accessibility.js"></script>
     <script src="/javascript/index.js"></script>
 </body>

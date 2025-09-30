@@ -263,7 +263,8 @@ nav a.active::after {
     z-index: 100;
 }
 
-.dropdown:hover .dropdown-menu {
+.dropdown:hover .dropdown-menu,
+.dropdown.active .dropdown-menu {
     opacity: 1;
     visibility: visible;
 }
@@ -1022,10 +1023,51 @@ footer {
 }
 
 .real-estate-details .container .property-details-container .property-images {
-    width:91.5%;
+    width: 91.5%;
+    margin-bottom: 10px;
+}
+
+.real-estate-details .property-images .main-image {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.real-estate-details .property-images .main-image img {
+    width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.real-estate-details .property-images .main-image img:hover {
+    transform: scale(1.05);
+}
+
+.real-estate-details .property-images .main-image .no-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: var(--card-bg);
+    color: var(--text-light);
+    font-size: 3rem;
+}
+
+.real-estate-details .property-images .main-image .no-image i {
     margin-bottom: 10px;
+    font-size: 2.5rem;
+    color: var(--text-color);
+}
+
+.real-estate-details .property-images .main-image .no-image p {
+    font-size: 1rem;
+    margin: 0;
+    color: var(--text-light);
 }
 
 .real-estate-details .container .property-details-container .property-header {
@@ -1033,7 +1075,7 @@ footer {
     flex-direction: column;
     justify-content: start;
     align-items: start;
-    width:91.5%;
+    width: 91.5%;
     height: max-content;
     padding: 2px;
     margin-bottom: 10px;
@@ -1065,6 +1107,10 @@ footer {
     margin-bottom: 20px;
 }
 
+.tos-container {
+    margin-top: 100px;
+}
+
 /* Responsive Design for Steps */
 @media (max-width: 768px) {
     .how-it-works {
@@ -1078,7 +1124,7 @@ footer {
     .how-it-works .container .steps {
         grid-template-columns: 1fr;
         gap: 20px;
-        padding: 0 20px;
+        padding: 0;
     }
 
     .how-it-works .container .steps .step {
@@ -1102,6 +1148,14 @@ footer {
     .how-it-works .container .steps .step p {
         font-size: 0.9rem;
     }
+
+    /* Increase width of container in real_estate_details.ejs by reducing margins */
+    .real-estate-details .container {
+        margin-left: 1px;
+        margin-right: 1px;
+        width: auto;
+        max-width: none;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1117,6 +1171,13 @@ footer {
 
     .step-icon i {
         font-size: 1.2rem;
+    }
+
+     .real-estate-details .container {
+        margin-left: 1px;
+        margin-right: 1px;
+        width: auto;
+        max-width: none;
     }
 }
 
@@ -1142,6 +1203,7 @@ footer {
     .hero .container {
         margin-top: 30px;
         flex-direction: column;
+        text-align: center;
     }
 
     .hero-content,
@@ -1533,12 +1595,16 @@ footer {
 
 .input-with-icon {
     position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .input-with-icon i {
     position: absolute;
-    left: 15px;
-    top: 50%;
+    left: 0px;
+    top: 10%;
     transform: translateY(-50%);
     color: var(--text-light);
 }
@@ -1765,7 +1831,7 @@ footer {
 .privacy-container {
     max-width: 900px;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 20px;
     padding: 40px 20px;
     background-color: var(--card-bg);
     border-radius: 10px;
@@ -1964,6 +2030,10 @@ footer {
     background: none;
     padding: 0;
     color: var(--text-color);
+}
+
+.tos-container h1 {
+    text-align: center;
 }
 
 /* Responsive styles for Terms and Privacy */
@@ -2369,7 +2439,7 @@ footer {
     font-size: 0.9rem;
 }
 
-.get-invite{
+.get-invite {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -2470,9 +2540,24 @@ footer {
 
 /* Responsive Styles for Booking Page */
 @media (max-width: 768px) {
+    .bookings-main .container {
+        margin: 0 10px;
+        width: auto;
+        max-width: none;
+        padding: 0;
+    }
+
     .bookings-container {
-        margin: 0 15px;
+        margin: 0;
         padding: 30px 20px;
+        max-width: none;
+    }
+
+    .resources-main .container {
+        margin: 0 10px;
+        width: auto;
+        max-width: none;
+        padding: 0;
     }
 
     .bookings-header h1 {
@@ -2555,8 +2640,7 @@ footer {
 }
 
 .submit-estate-container {
-    margin-top: 120px;
-    margin-bottom: 40px;
+    margin: 120px 350px;
     display: flex;
     flex-direction: column;
     align-items: left;
@@ -2882,11 +2966,11 @@ footer {
 /* Responsive Styles for Submit Estate Form */
 @media (max-width: 768px) {
     .submit-estate-main {
-        padding: 20px 0;
+        padding: 100px 0;
     }
 
     .submit-estate-container {
-        margin: 0 15px;
+        margin: 0 5px;
         border-radius: 10px;
     }
 

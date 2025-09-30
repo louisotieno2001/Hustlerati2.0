@@ -14,6 +14,43 @@
     <link rel="stylesheet" href="/stylesheets/default.css">
     <link rel="stylesheet" href="/stylesheets/real_estate.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            color: #000;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #000;
+        }
+
+        .booking-type-badge{
+            margin-left: 110px;
+        }
+    </style>
 </head>
 
 <body>
@@ -115,7 +152,7 @@
     </header>
 
     <main class="real-estate-main">
-        <div class="container">
+        <div class="comtainer">
             <!-- Search Section -->
             <section class="search-section">
                 <div class="search-container">
@@ -430,10 +467,45 @@
                     <div class="results-grid" id="resultsGrid">
                         <% if (properties && properties.length > 0) { %>
                             <% properties.forEach(function(property) { %>
-                                <div class="property-card grid-view" data-id="<%= property.id %>" data-type="<%= property.type %>" data-price="<%= property.price %>" data-size="<%= property.size %>" data-city="<%= property.city %>" data-space-type="<%= property.spaceType %>" data-lease-terms="<%= property.leaseTerms %>" data-availability="<%= property.availability %>" data-amenities="<%= JSON.stringify(property.amenities).replace(/"/g, '"') %>" data-business-size="<%= JSON.stringify(property.businessSize).replace(/"/g, '"') %>" data-title="<%= property.title.replace(/"/g, '"') %>" data-location="<%= property.location.replace(/"/g, '"') %>" data-description="<%= property.description.replace(/"/g, '"') %>">
+                                <div class="property-card grid-view" data-id="<%= property.id %>" data-type="<%= property.type %>" data-price="<%= property.price %>" data-size="<%= property.size %>" data-city="<%= property.city %>" data-space-type="<%= property.spaceType %>" data-lease-terms="<%= property.leaseTerms %>" data-availability="<%= property.availability %>" data-amenities="<%= JSON.stringify(property.amenities).replace(/"/g, '"') %>" data-business-size="<%= JSON.stringify(property.businessSize).replace(/"/g, '"') %>" data-title="<%= property.title.replace(/"/g, '"') %>" data-location="<%= property.location.replace(/"/g, '"') %>" data-description="<%= property.description.replace(/"/g, '"') %>" data-booking-type="<%= property.booking_type %>">
                                     <div class="property-image">
-                                        <%- property.image %>
+                                    <% if (property.media && property.media.id) { %>
+                                    <% const mediaUrl = property.media.url || `/assets/${property.media.id}`; %>
+                                    <% const filename = property.media.filename_download || property.media.filename_disk || ''; %>
+                                    <% if (filename.endsWith('.mp4') || filename.endsWith('.webm') || filename.endsWith('.ogg') || filename.endsWith('.mov')) { %>
+                                        <video class="property-media" controls preload="metadata">
+                                            <source src="<%= mediaUrl %>" type="video/mp4">
+                                            <source src="<%= mediaUrl %>" type="video/webm">
+                                            <source src="<%= mediaUrl %>" type="video/ogg">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    <% } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif') || filename.endsWith('.webp')) { %>
+                                        <img class="property-media" 
+                                             src="<%= mediaUrl %>" 
+                                             alt="Featured Image"
+                                             loading="lazy"
+                                             onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                                        <!-- Fallback content if image fails to load -->
+                                        <div class="media-fallback" style="display:none;">
+                                            <i class="fas fa-image"></i>
+                                            <span>Image Preview Unavailable</span>
+                                        </div>
+                                    <% } else { %>
+                                        <!-- Default media fallback -->
+                                        <div class="media-fallback">
+                                            <i class="fas fa-file-alt"></i>
+                                            <span>Media Preview</span>
+                                        </div>
+                                    <% } %>
+                                <% } else { %>
+                                    <!-- No media fallback -->
+                                    <div class="media-fallback">
+                                        <i class="fas fa-newspaper"></i>
+                                        <span>property Article</span>
+                                    </div>
+                                <% } %> 
                                         <div class="property-badge"><%= property.badge %></div>
+                                        <div class="property-badge booking-type-badge"><%= property.booking_type %></div>
                                     </div>
                                     <div class="property-content">
                                         <div class="property-header">
@@ -467,7 +539,7 @@
                                         </div>
                                         <div class="property-actions">
                                             <a href="/real_estate/<%= property.id %>" class="btn btn-outline">View Details</a>
-                                            <a href="/booking/<%= property.id %>" class="btn btn-primary">Book</a>
+                                            <button onclick="handleBook('<%= property.id %>', '<%= property.booking_type %>')" class="btn btn-primary">Book</button>
                                         </div>
                                     </div>
                                 </div>
@@ -500,6 +572,16 @@
             </div>
         </div>
     </main>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="continueBtn" class="btn btn-primary" style="display:none;">Continue</button>
+        </div>
+    </div>
+
     <script src="/javascript/index.js"></script>
     <script src="/javascript/accessibility.js"></script>
     <script src="/javascript/real_estate.js"></script>

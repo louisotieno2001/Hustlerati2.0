@@ -12,20 +12,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Tab switching functionality
     const navItems = document.querySelectorAll('.sidebar-nav li');
     const tabContents = document.querySelectorAll('.tab-content');
-    
+
     navItems.forEach(item => {
         item.addEventListener('click', function() {
             // Remove active class from all nav items and tabs
             navItems.forEach(navItem => navItem.classList.remove('active'));
             tabContents.forEach(tab => tab.classList.remove('active'));
-            
+
             // Add active class to clicked nav item
             this.classList.add('active');
-            
+
             // Show corresponding tab
             const tabId = this.getAttribute('data-tab') + '-tab';
             document.getElementById(tabId).classList.add('active');
-            
+
             // Close sidebar on mobile
             if (window.innerWidth < 992) {
                 sidebar.classList.remove('active');
@@ -35,17 +35,47 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Theme switcher functionality
-    const themeOptions = document.querySelectorAll('.theme-option');
-    
-    themeOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            const theme = this.getAttribute('data-theme');
-            document.body.className = theme + '-theme';
-            
-            // Save theme preference to localStorage
-            localStorage.setItem('hustlerati-theme', theme);
+    // Sub-tab switching functionality for orders
+    const subNavItems = document.querySelectorAll('.sub-tab-nav li');
+    const subTabContents = document.querySelectorAll('.sub-tab-content');
+
+    subNavItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Remove active class from all sub nav items and sub tabs
+            subNavItems.forEach(navItem => navItem.classList.remove('sub-active'));
+            subTabContents.forEach(tab => tab.classList.remove('active'));
+
+            // Add active class to clicked sub nav item
+            this.classList.add('sub-active');
+
+            // Show corresponding sub tab
+            const subTabId = this.getAttribute('data-sub-tab') + '-orders';
+            document.getElementById(subTabId).classList.add('active');
         });
+    });
+
+    // Theme select functionality
+    const themeSelect = document.getElementById('theme-select');
+
+    themeSelect.addEventListener('change', async () => {
+        const selectedTheme = themeSelect.value;
+        document.body.className = selectedTheme + '-theme';
+        localStorage.setItem('hustlerati-theme', selectedTheme);
+
+        // Update preferences
+        try {
+            const response = await fetch('/dashboard/update-preferences', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ theme: selectedTheme })
+            });
+            if (!response.ok) {
+                showPopup('Failed to update theme preference.', 'error');
+            }
+        } catch (error) {
+            console.error('Error updating theme preference:', error);
+            showPopup('Error updating theme preference.', 'error');
+        }
     });
 
     // Apply saved theme on page load
@@ -54,8 +84,64 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.className = savedTheme + '-theme';
     }
 
+    // Custom popup functionality
+    const customPopup = document.getElementById('custom-popup');
+    const popupMessage = document.getElementById('popup-message');
+    const popupClose = document.querySelector('.popup-close');
+    const popupOk = document.getElementById('popup-ok');
+
+    function showPopup(message, type = 'info') {
+        popupMessage.textContent = message;
+        // Optional: Add class for different types (success, error, etc.)
+        popupMessage.className = `popup-message ${type}`;
+        customPopup.style.display = 'block';
+    }
+
+    function hidePopup() {
+        customPopup.style.display = 'none';
+    }
+
+    popupClose.addEventListener('click', hidePopup);
+    popupOk.addEventListener('click', hidePopup);
+
+    // Close popup when clicking outside
+    window.addEventListener('click', function(e) {
+        if (e.target === customPopup) {
+            hidePopup();
+        }
+    });
+
+    // Header dropdown functionality
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    dropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('a');
+        const menu = dropdown.querySelector('.dropdown-menu');
+
+        // Toggle dropdown on click
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Close all other dropdowns
+            dropdowns.forEach(otherDropdown => {
+                if (otherDropdown !== dropdown) {
+                    otherDropdown.classList.remove('active');
+                }
+            });
+
+            // Toggle current dropdown
+            dropdown.classList.toggle('active');
+        });
+    });
+
     // Close dropdowns when clicking outside
     document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
+
         if (!e.target.closest('.theme-switcher')) {
             document.querySelector('.theme-dropdown').style.opacity = '0';
             document.querySelector('.theme-dropdown').style.visibility = 'hidden';
@@ -125,13 +211,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     body: formData
                 });
                 if (response.ok) {
-                    alert('Cover image updated successfully.');
+                    showPopup('Cover image updated successfully.', 'success');
                 } else {
-                    alert('Failed to upload cover image. Please try again.');
+                    showPopup('Failed to upload cover image. Please try again.', 'error');
                 }
             } catch (error) {
                 console.error('Error uploading cover image:', error);
-                alert('Error uploading cover image. Please check your internet connection and try again.');
+                showPopup('Error uploading cover image. Please check your internet connection and try again.', 'error');
             }
         }
     });
@@ -143,6 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     profileUploadInput.addEventListener('change', async () => {
         const file = profileUploadInput.files[0];
+        
         if (file) {
             // Show local preview immediately
             const reader = new FileReader();
@@ -165,13 +252,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 console.log("Server response", response)
                 if (response.ok) {
-                    alert('Profile image updated successfully.');
+                    showPopup('Profile image updated successfully.', 'success');
                 } else {
-                    alert('Failed to upload profile image. Please try again.');
+                    showPopup('Failed to upload profile image. Please try again.', 'error');
                 }
             } catch (error) {
                 console.error('Error uploading profile image:', error);
-                alert('Error uploading profile image. Please check your internet connection and try again.');
+                showPopup('Error uploading profile image. Please check your internet connection and try again.', 'error');
             }
         }
     });
@@ -217,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formData
             });
             if (response.ok) {
-                alert('Profile updated successfully.');
+                showPopup('Profile updated successfully.', 'success');
                 // Update default values to new values
                 userForm.name.defaultValue = userForm.name.value;
                 userForm.phone.defaultValue = userForm.phone.value;
@@ -225,11 +312,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 profilePreview.defaultSrc = profilePreview.src;
                 toggleEditMode(false);
             } else {
-                alert('Failed to update profile.');
+                showPopup('Failed to update profile.', 'error');
             }
         } catch (error) {
             console.error('Error updating profile:', error);
-            alert('Error updating profile.');
+            showPopup('Error updating profile.', 'error');
         }
     });
 
@@ -247,11 +334,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.body.className = enabled ? 'dark-theme' : 'light-theme';
                 localStorage.setItem('hustlerati-theme', enabled ? 'dark' : 'light');
             } else {
-                alert('Failed to update preferences.');
+                showPopup('Failed to update preferences.', 'error');
             }
         } catch (error) {
             console.error('Error updating preferences:', error);
-            alert('Error updating preferences.');
+            showPopup('Error updating preferences.', 'error');
         }
     });
 
@@ -264,11 +351,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({ email_verifications: enabled })
             });
             if (!response.ok) {
-                alert('Failed to update preferences.');
+                showPopup('Failed to update preferences.', 'error');
             }
         } catch (error) {
             console.error('Error updating preferences:', error);
-            alert('Error updating preferences.');
+            showPopup('Error updating preferences.', 'error');
         }
     });
 
@@ -277,14 +364,14 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const response = await fetch('/dashboard/send-email-verification', { method: 'POST' });
             if (response.ok) {
-                alert('Verification email sent.');
+                showPopup('Verification email sent.', 'success');
                 verifyEmailBtn.style.display = 'none';
             } else {
-                alert('Failed to send verification email.');
+                showPopup('Failed to send verification email.', 'error');
             }
         } catch (error) {
             console.error('Error sending verification email:', error);
-            alert('Error sending verification email.');
+            showPopup('Error sending verification email.', 'error');
         }
     });
 
@@ -292,14 +379,336 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const response = await fetch('/dashboard/send-phone-verification', { method: 'POST' });
             if (response.ok) {
-                alert('Verification SMS sent.');
+                showPopup('Verification SMS sent.', 'success');
                 verifyPhoneBtn.style.display = 'none';
             } else {
-                alert('Failed to send verification SMS.');
+                showPopup('Failed to send verification SMS.', 'error');
             }
         } catch (error) {
             console.error('Error sending verification SMS:', error);
-            alert('Error sending verification SMS.');
+            showPopup('Error sending verification SMS.', 'error');
         }
     });
+
+    // Cancel order functionality
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('cancel-order') || e.target.closest('.cancel-order')) {
+            const button = e.target.classList.contains('cancel-order') ? e.target : e.target.closest('.cancel-order');
+            const orderId = button.getAttribute('data-id');
+            if (confirm('Are you sure you want to cancel this order?')) {
+                cancelOrder(orderId, button);
+            }
+        }
+    });
+
+    async function cancelOrder(orderId, button) {
+        try {
+            const response = await fetch(`/orders/${orderId}/cancel`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                showPopup('Order cancelled successfully.', 'success');
+                // Remove the order card from DOM
+                const orderCard = button.closest('.order-card');
+                if (orderCard) {
+                    orderCard.remove();
+                }
+                // Update badge count
+                const ordersBadge = document.querySelector('li[data-tab="orders"] .badge');
+                if (ordersBadge) {
+                    const currentCount = parseInt(ordersBadge.textContent) || 0;
+                    ordersBadge.textContent = Math.max(0, currentCount - 1);
+                }
+            } else {
+                showPopup('Failed to cancel order.', 'error');
+            }
+        } catch (error) {
+            console.error('Error cancelling order:', error);
+            showPopup('Error cancelling order.', 'error');
+        }
+    }
+
+    // Image popup functionality
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.image-overlay')) {
+            const overlay = e.target.closest('.image-overlay');
+            const popup = overlay.nextElementSibling;
+            if (popup && popup.classList.contains('image-popup')) {
+                popup.classList.add('active');
+            }
+        }
+    });
+
+    // Close popup when clicking outside or close button
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('image-popup') || e.target.classList.contains('popup-close')) {
+            const popups = document.querySelectorAll('.image-popup.active');
+            popups.forEach(popup => popup.classList.remove('active'));
+        }
+    });
+
+    // Carousel navigation
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('carousel-prev') || e.target.classList.contains('carousel-next')) {
+            const button = e.target;
+            const carousel = button.closest('.popup-carousel');
+            const mediaItems = carousel.querySelectorAll('img, video');
+            let currentIndex = Array.from(mediaItems).findIndex(item => item.classList.contains('active'));
+
+            if (button.classList.contains('carousel-prev')) {
+                currentIndex = currentIndex > 0 ? currentIndex - 1 : mediaItems.length - 1;
+            } else {
+                currentIndex = currentIndex < mediaItems.length - 1 ? currentIndex + 1 : 0;
+            }
+
+            mediaItems.forEach((item, index) => {
+                item.classList.toggle('active', index === currentIndex);
+            });
+        }
+    });
+
+    // Image overlay navigation buttons for orders
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('overlay-prev') || e.target.classList.contains('overlay-next')) {
+            const button = e.target;
+            const overlay = button.closest('.image-overlay');
+            const media = JSON.parse(button.getAttribute('data-media'));
+            let currentIndex = parseInt(button.getAttribute('data-index'), 10);
+
+            if (button.classList.contains('overlay-prev')) {
+                currentIndex = currentIndex > 0 ? currentIndex - 1 : media.length - 1;
+            } else {
+                currentIndex = currentIndex < media.length - 1 ? currentIndex + 1 : 0;
+            }
+
+            // Update the data-index attribute on buttons
+            const prevButton = overlay.querySelector('.overlay-prev');
+            const nextButton = overlay.querySelector('.overlay-next');
+            prevButton.setAttribute('data-index', currentIndex);
+            nextButton.setAttribute('data-index', currentIndex);
+
+            // Update the overlay content image and count
+            const overlayContent = overlay.querySelector('.overlay-content');
+            const span = overlayContent.querySelector('span');
+            span.textContent = `+${media.length - 1} more (Showing ${currentIndex + 1} of ${media.length})`;
+
+            // Optionally, update the main image shown in the order card
+            const orderCard = overlay.closest('.order-card');
+            if (orderCard) {
+                const orderImage = orderCard.querySelector('.order-image img.order-media, .order-image video.order-media');
+                if (orderImage) {
+                    const mediaItem = media[currentIndex];
+                    const mediaUrl = mediaItem.url || `/assets/${mediaItem.id}`;
+                    const filename = mediaItem.filename_download || mediaItem.filename_disk || '';
+                    if (filename.match(/\.(mp4|webm|ogg|mov)$/i)) {
+                        // Replace image with video element
+                        const video = document.createElement('video');
+                        video.className = 'order-media';
+                        video.controls = true;
+                        video.preload = 'metadata';
+                        video.src = mediaUrl;
+                        orderImage.replaceWith(video);
+                    } else {
+                        // Replace video with image element
+                        const img = document.createElement('img');
+                        img.className = 'order-media';
+                        img.src = mediaUrl;
+                        img.alt = orderCard.querySelector('.order-details h4').textContent || 'Product Image';
+                        img.loading = 'lazy';
+                        orderImage.replaceWith(img);
+                    }
+                }
+            }
+        }
+    });
+
+    // Analytics charts
+    const orderStatusCtx = document.getElementById('orderStatusChart');
+    if (orderStatusCtx && orderStatusCtx.dataset.orders) {
+        const orders = JSON.parse(orderStatusCtx.dataset.orders);
+        const statusCounts = {};
+        orders.forEach(order => {
+            statusCounts[order.status] = (statusCounts[order.status] || 0) + 1;
+        });
+        new Chart(orderStatusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(statusCounts),
+                datasets: [{
+                    data: Object.values(statusCounts),
+                    backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+
+    const revenueCtx = document.getElementById('revenueChart');
+    if (revenueCtx && revenueCtx.dataset.revenue) {
+        const revenue = parseFloat(revenueCtx.dataset.revenue);
+        new Chart(revenueCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Monthly Revenue'],
+                datasets: [{
+                    label: 'Revenue ($)',
+                    data: [revenue],
+                    backgroundColor: '#36a2eb'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    const spacesStatusCtx = document.getElementById('spacesStatusChart');
+    if (spacesStatusCtx && spacesStatusCtx.dataset.spaces) {
+        const spaces = JSON.parse(spacesStatusCtx.dataset.spaces);
+        const statusCounts = {};
+        spaces.forEach(space => {
+            statusCounts[space.status] = (statusCounts[space.status] || 0) + 1;
+        });
+        new Chart(spacesStatusCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(statusCounts),
+                datasets: [{
+                    label: 'Number of Spaces',
+                    data: Object.values(statusCounts),
+                    backgroundColor: '#4bc0c0'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    const bookingsTypeCtx = document.getElementById('bookingsTypeChart');
+    if (bookingsTypeCtx && bookingsTypeCtx.dataset.bookings) {
+        const bookings = JSON.parse(bookingsTypeCtx.dataset.bookings);
+        const typeCounts = {};
+        bookings.forEach(booking => {
+            typeCounts[booking.type] = (typeCounts[booking.type] || 0) + 1;
+        });
+        new Chart(bookingsTypeCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(typeCounts),
+                datasets: [{
+                    data: Object.values(typeCounts),
+                    backgroundColor: ['#ff9f40', '#ffcd56']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+
+    // New chart: Recent Activity (orders + bookings)
+    const activityCtx = document.getElementById('activityChart');
+    if (activityCtx && activityCtx.dataset.orders && activityCtx.dataset.bookings) {
+        const recentOrders = JSON.parse(activityCtx.dataset.orders);
+        const recentBookings = JSON.parse(activityCtx.dataset.bookings);
+
+        // Prepare data for recent activity chart (combined orders and bookings count by date)
+        const activityData = {};
+
+        recentOrders.forEach(order => {
+            const date = new Date(order.created_at).toLocaleDateString();
+            activityData[date] = (activityData[date] || 0) + 1;
+        });
+
+        recentBookings.forEach(booking => {
+            const date = new Date(booking.created_at).toLocaleDateString();
+            activityData[date] = (activityData[date] || 0) + 1;
+        });
+
+        const labels = Object.keys(activityData).sort((a,b) => new Date(a) - new Date(b));
+        const dataPoints = labels.map(label => activityData[label]);
+
+        new Chart(activityCtx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Recent Activity',
+                    data: dataPoints,
+                    fill: false,
+                    borderColor: '#36a2eb',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Count'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // New chart: Space Performance (top 5 spaces by bookings count)
+    const performanceCtx = document.getElementById('performanceChart');
+    if (performanceCtx && performanceCtx.dataset.spaces) {
+        const spaces = JSON.parse(performanceCtx.dataset.spaces);
+
+        // Count bookings per space (assuming each space has bookings array)
+        const bookingCounts = {};
+        spaces.forEach(space => {
+            bookingCounts[space.title] = (bookingCounts[space.title] || 0) + (space.bookings ? space.bookings.length : 0);
+        });
+
+        const labels = Object.keys(bookingCounts);
+        const dataPoints = Object.values(bookingCounts);
+
+        new Chart(performanceCtx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Bookings Count',
+                    data: dataPoints,
+                    backgroundColor: '#ff6384'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
 });

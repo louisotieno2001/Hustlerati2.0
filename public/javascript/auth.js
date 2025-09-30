@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function () {
     socialButtons.forEach(button => {
         button.addEventListener('click', function () {
             const provider = this.classList.contains('google') ? 'Google' : 'LinkedIn';
-            showError(`In a real app, this would initiate ${provider} authentication`);
+            showError(`${provider} authentication coming soon to Hustlerati!`);
         });
     });
 });

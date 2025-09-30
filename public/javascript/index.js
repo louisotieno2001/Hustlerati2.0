@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Enhanced dropdown functionality for mobile
+    // Enhanced dropdown functionality for both mobile and desktop
     const dropdowns = document.querySelectorAll('.dropdown');
 
     dropdowns.forEach(dropdown => {
@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
             // If this dropdown is already open, close it
             if (dropdownOpen === dropdown) {
                 dropdown.classList.remove('active');
-                menu.style.display = 'none';
                 if (chevron) chevron.style.transform = 'rotate(0deg)';
                 dropdownOpen = null;
                 return;
@@ -95,8 +94,6 @@ document.addEventListener('DOMContentLoaded', function () {
             dropdowns.forEach(otherDropdown => {
                 if (otherDropdown !== dropdown) {
                     otherDropdown.classList.remove('active');
-                    const otherMenu = otherDropdown.querySelector('.dropdown-menu');
-                    if (otherMenu) otherMenu.style.display = 'none';
                     const otherChevron = otherDropdown.querySelector('.fas.fa-chevron-down');
                     if (otherChevron) otherChevron.style.transform = 'rotate(0deg)';
                 }
@@ -104,10 +101,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Open this dropdown
             dropdown.classList.add('active');
-            menu.style.display = 'block';
             if (chevron) chevron.style.transform = 'rotate(180deg)';
             dropdownOpen = dropdown;
         });
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('active');
+                const chevron = dropdown.querySelector('.fas.fa-chevron-down');
+                if (chevron) chevron.style.transform = 'rotate(0deg)';
+            });
+            dropdownOpen = null;
+        }
     });
 
     // Mobile theme switcher functionality
@@ -210,10 +218,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-
             const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
+
+            // Skip if it's an external link or not a hash link
+            if (targetId === '#' || targetId.startsWith('http') || targetId.startsWith('//')) {
+                return;
+            }
+
+            e.preventDefault();
 
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
@@ -225,23 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Desktop dropdown menu functionality (hover-based)
-    const desktopDropdowns = document.querySelectorAll('.dropdown');
 
-    desktopDropdowns.forEach(dropdown => {
-        const menu = dropdown.querySelector('.dropdown-menu');
-
-        // Only handle desktop hover behavior
-        if (window.innerWidth > 992) {
-            dropdown.addEventListener('mouseenter', function () {
-                menu.style.display = 'block';
-            });
-
-            dropdown.addEventListener('mouseleave', function () {
-                menu.style.display = 'none';
-            });
-        }
-    });
 
     const closeErrorDialog = () => {
         const errorDialog = document.querySelector('.general-error-dialog');

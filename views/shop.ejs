@@ -12,172 +12,421 @@
     <meta name="author" content="Hustlerati Team">
     <link rel="icon" href="/images/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/stylesheets/default.css">
+    <link rel="stylesheet" href="/stylesheets/shop.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-    <header>
+  <%- include('partials/header') %>
+    <main class="shop-main">
         <div class="container">
-            <div class="logo">
-                <h1>Hustlerati</h1>
-                <p>Commercial Spaces for Every Business</p>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#" class="active">Home</a></li>
-                    <li><a href="#">Find Space</a></li>
-                    <li><a href="#">List Space</a></li>
-                    <li><a href="#">Solutions</a></li>
-                    <li class="dropdown">
-                        <a href="#">Business Size <i class="fas fa-chevron-down"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Small Business</a></li>
-                            <li><a href="#">Medium Business</a></li>
-                            <li><a href="#">Large Enterprises</a></li>
-                            <li><a href="#">Startups</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Resources</a></li>
-                </ul>
-
-                <!-- Mobile Menu Items -->
-                <div class="mobile-menu-items">
-                    <div class="auth-buttons mobile">
-                        <a href="/login"><button class="btn btn-outline">Login</button></a>
-                        <a href="/signup"><button class="btn btn-primary">Sign Up</button></a>
+            <!-- Carousel Section -->
+            <section class="carousel">
+                <div class="carousel-container">
+                    <div class="carousel-slide active">
+                        <img src="https://picsum.photos/900/200?random=4" alt="Featured Product 1">
                     </div>
-                    <div class="theme-switcher mobile">
-                        <button class="theme-toggle-btn">
-                            <i class="fas fa-palette"></i> Themes
+                    <div class="carousel-slide">
+                        <img src="https://picsum.photos/900/200?random=5" alt="Featured Product 2">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://picsum.photos/900/200?random=1" alt="Featured Product 3">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://picsum.photos/900/200?random=2" alt="Featured Product 4">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://picsum.photos/900/200?random=3" alt="Featured Product 5">
+                    </div>
+                </div>
+                <button class="carousel-btn prev" id="prevBtn"><</button>
+                <button class="carousel-btn next" id="nextBtn">></button>
+            </section>
+
+            <!-- Products Section -->
+            <section class="products-section">
+                <div class="products-header">
+                    <div class="cart-icon" id="cartIcon">
+                        <a href="/cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                    </div>
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="Search products...">
+                        <button class="btn btn-primary search-btn" id="searchBtn">
+                            <i class="fas fa-search"></i> Search
                         </button>
-                        <div class="theme-dropdown">
-                            <button class="theme-option" data-theme="light">
-                                <i class="fas fa-sun"></i> Light
-                            </button>
-                            <button class="theme-option" data-theme="dark">
-                                <i class="fas fa-moon"></i> Dark
-                            </button>
-                            <button class="theme-option" data-theme="elegant">
-                                <i class="fas fa-gem"></i> Elegant
-                            </button>
-                            <button class="theme-option" data-theme="minimal">
-                                <i class="fas fa-pencil-ruler"></i> Minimal
-                            </button>
-                            <button class="theme-option" data-theme="professional">
-                                <i class="fas fa-briefcase"></i> Professional
-                            </button>
-                            <button class="theme-option" data-theme="industrial">
-                                <i class="fas fa-warehouse"></i> Industrial
-                            </button>
+                    </div>
+                </div>
+
+                <div class="content-wrapper">
+                    <!-- Filter Sidebar -->
+                    <aside class="filter-sidebar" id="filterSidebar">
+                        <div class="filter-header">
+                            <h3><i class="fas fa-filter"></i> Categories</h3>
+                            <button class="clear-filters-btn">Clear All</button>
+                        </div>
+
+                        <!-- Main Categories -->
+                        <div class="filter-group">
+                            <div class="category-cards">
+                                <div class="category-card" data-category="electronics">
+                                    <div class="card-header">
+                                        <i class="fas fa-plug"></i>
+                                        <h5>Electronics</h5>
+                                    </div>
+                                    <div class="subcategory-list" style="display:none;">
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="lighting">
+                                            <span class="checkmark"></span> Lighting
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="solar">
+                                            <span class="checkmark"></span> Solar
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="computing">
+                                            <span class="checkmark"></span> Computing
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="refrigerator">
+                                            <span class="checkmark"></span> Refrigerator
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="phones">
+                                            <span class="checkmark"></span> Phones
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="tablets">
+                                            <span class="checkmark"></span> Tablets
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="audio">
+                                            <span class="checkmark"></span> Audio
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="gaming">
+                                            <span class="checkmark"></span> Gaming
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="category-card" data-category="fashion">
+                                    <div class="card-header">
+                                        <i class="fas fa-tshirt"></i>
+                                        <h5>Fashion</h5>
+                                    </div>
+                                    <div class="subcategory-list" style="display:none;">
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="men">
+                                            <span class="checkmark"></span> Men's Clothing
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="women">
+                                            <span class="checkmark"></span> Women's Clothing
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="shoes">
+                                            <span class="checkmark"></span> Shoes
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="accessories">
+                                            <span class="checkmark"></span> Accessories
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="jewelry">
+                                            <span class="checkmark"></span> Jewelry
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="bags">
+                                            <span class="checkmark"></span> Bags
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="watches">
+                                            <span class="checkmark"></span> Watches
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="sunglasses">
+                                            <span class="checkmark"></span> Sunglasses
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="category-card" data-category="home">
+                                    <div class="card-header">
+                                        <i class="fas fa-home"></i>
+                                        <h5>Home & Garden</h5>
+                                    </div>
+                                    <div class="subcategory-list" style="display:none;">
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="gardening">
+                                            <span class="checkmark"></span> Gardening Tools
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="furniture">
+                                            <span class="checkmark"></span> Furniture
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="kitchen">
+                                            <span class="checkmark"></span> Kitchen Appliances
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="decor">
+                                            <span class="checkmark"></span> Decor
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="bedding">
+                                            <span class="checkmark"></span> Bedding
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="bathroom">
+                                            <span class="checkmark"></span> Bathroom
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="lighting">
+                                            <span class="checkmark"></span> Home Lighting
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="storage">
+                                            <span class="checkmark"></span> Storage
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="category-card" data-category="sports">
+                                    <div class="card-header">
+                                        <i class="fas fa-futbol"></i>
+                                        <h5>Sports & Outdoors</h5>
+                                    </div>
+                                    <div class="subcategory-list" style="display:none;">
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="fitness">
+                                            <span class="checkmark"></span> Fitness Equipment
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="outdoor">
+                                            <span class="checkmark"></span> Outdoor Gear
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="balls">
+                                            <span class="checkmark"></span> Sports Balls
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="camping">
+                                            <span class="checkmark"></span> Camping
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="hiking">
+                                            <span class="checkmark"></span> Hiking
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="cycling">
+                                            <span class="checkmark"></span> Cycling
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="swimming">
+                                            <span class="checkmark"></span> Swimming
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="team">
+                                            <span class="checkmark"></span> Team Sports
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="category-card" data-category="books">
+                                    <div class="card-header">
+                                        <i class="fas fa-book"></i>
+                                        <h5>Books</h5>
+                                    </div>
+                                    <div class="subcategory-list" style="display:none;">
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="fiction">
+                                            <span class="checkmark"></span> Fiction
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="nonfiction">
+                                            <span class="checkmark"></span> Non-Fiction
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="textbooks">
+                                            <span class="checkmark"></span> Textbooks
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="children">
+                                            <span class="checkmark"></span> Children's Books
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="biography">
+                                            <span class="checkmark"></span> Biography
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="science">
+                                            <span class="checkmark"></span> Science
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="history">
+                                            <span class="checkmark"></span> History
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="selfhelp">
+                                            <span class="checkmark"></span> Self-Help
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="category-card" data-category="health">
+                                    <div class="card-header">
+                                        <i class="fas fa-heartbeat"></i>
+                                        <h5>Health & Beauty</h5>
+                                    </div>
+                                    <div class="subcategory-list" style="display:none;">
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="skincare">
+                                            <span class="checkmark"></span> Skincare
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="haircare">
+                                            <span class="checkmark"></span> Hair Care
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="makeup">
+                                            <span class="checkmark"></span> Makeup
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="supplements">
+                                            <span class="checkmark"></span> Supplements
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="fitness">
+                                            <span class="checkmark"></span> Fitness
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="fragrance">
+                                            <span class="checkmark"></span> Fragrance
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="personal">
+                                            <span class="checkmark"></span> Personal Care
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="wellness">
+                                            <span class="checkmark"></span> Wellness
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="category-card" data-category="art">
+                                    <div class="card-header">
+                                        <i class="fas fa-palette"></i>
+                                        <h5>Art</h5>
+                                    </div>
+                                    <div class="subcategory-list" style="display:none;">
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="paintings">
+                                            <span class="checkmark"></span> Paintings
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="sculptures">
+                                            <span class="checkmark"></span> Sculptures
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="prints">
+                                            <span class="checkmark"></span> Prints
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="photography">
+                                            <span class="checkmark"></span> Photography
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="drawings">
+                                            <span class="checkmark"></span> Drawings
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="digital">
+                                            <span class="checkmark"></span> Digital Art
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="mixedmedia">
+                                            <span class="checkmark"></span> Mixed Media
+                                        </label>
+                                        <label class="sub-checkbox">
+                                            <input type="checkbox" value="supplies">
+                                            <span class="checkmark"></span> Art Supplies
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- Products Grid -->
+                    <div class="products-container">
+                        <div class="products-controls">
+                            <div class="sort-controls">
+                                <label for="sortSelect">Sort by:</label>
+                                <select id="sortSelect">
+                                    <option value="relevance">Relevance</option>
+                                    <option value="price-low">Price: Low to High</option>
+                                    <option value="price-high">Price: High to Low</option>
+                                    <option value="newest">Newest First</option>
+                                </select>
+                            </div>
+                            <div class="view-controls">
+                                <button class="view-btn active" data-view="grid">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <button class="view-btn" data-view="list">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="products-grid" id="productsGrid">
+                            <% if (products && products.length > 0) { %>
+                            <% products.forEach(function(product) { %>
+                                    <div class="product-card" data-category="<%= product.category || '' %>" data-subcategory="<%= product.sub_category || '' %>">
+                                        <a href="/shop/<%= product.id %>" class="product-link">
+                                            <div class="product-image">
+                                                <% if (product.image) { %>
+                                                    <img src="<%= product.image %>" alt="<%= product.title %>" loading="lazy">
+                                                <% } else { %>
+                                                    <div class="image-placeholder">
+                                                        <i class="fas fa-box"></i>
+                                                    </div>
+                                                <% } %>
+                                            </div>
+                                            <div class="product-content">
+                                                <h3 class="product-title"><%= product.name %></h3>
+                                                <p class="product-description"><%- product.description %></p>
+                                                <div class="product-price">$<%= product.price %></div>
+                                                <% if (product.units !== undefined) { %>
+                                                <div class="unit-alert <%= product.units >= 21 ? 'green' : (product.units > 5 ? 'yellow' : 'red') %>">
+                                                    <%= (product.units <= 20 && product.units > 5) || product.units <= 5 ? '!' : '' %> Units: <%= product.units %> left
+                                                </div>
+                                                <% } %>
+                                                <button class="btn btn-primary add-to-cart" data-id="<%= product.id %>">
+                                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                                </button>
+                                            </div>
+                                        </a>
+                                    </div>
+                                <% }); %>
+                            <% } else { %>
+                                <div class="no-products">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    <h3>No products available</h3>
+                                    <p>Check back later for new items</p>
+                                </div>
+                            <% } %>
                         </div>
                     </div>
                 </div>
-            </nav>
-            <div class="header-actions">
-                <div class="theme-switcher">
-                    <button class="theme-toggle-btn">
-                        <i class="fas fa-palette"></i> Themes
-                    </button>
-                    <div class="theme-dropdown">
-                        <button class="theme-option" data-theme="light">
-                            <i class="fas fa-sun"></i> Light
-                        </button>
-                        <button class="theme-option" data-theme="dark">
-                            <i class="fas fa-moon"></i> Dark
-                        </button>
-                        <button class="theme-option" data-theme="elegant">
-                            <i class="fas fa-gem"></i> Elegant
-                        </button>
-                        <button class="theme-option" data-theme="minimal">
-                            <i class="fas fa-pencil-ruler"></i> Minimal
-                        </button>
-                        <button class="theme-option" data-theme="industrial">
-                            <i class="fas fa-warehouse"></i> Industrial
-                        </button>
-                        <button class="theme-option" data-theme="professional">
-                            <i class="fas fa-briefcase"></i> Professional
-                        </button>
-                    </div>
-                </div>
-                <div class="auth-buttons">
-                    <a href="/login"><button class="btn btn-outline">Login</button></a>
-                    <a href="/signup"><button class="btn btn-primary">Sign Up</button></a>
-                </div>
-                <button class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+            </section>
         </div>
-    </header>
-     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Hustlerati</h4>
-                    <p>The leading platform for commercial space rental, serving businesses of all sizes and property
-                        owners nationwide.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h4>For Businesses</h4>
-                    <ul>
-                        <li><a href="/real_estate">Find Space</a></li>
-                        <li><a href="/solutions">Small Business Solutions</a></li>
-                        <li><a href="/solutions">Enterprise Solutions</a></li>
-                        <li><a href="/solutions">Lease Options</a></li>
-                        <li><a href="/solutions">Space Calculator</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>For Owners</h4>
-                    <ul>
-                        <li><a href="/list-your-estate">List Your Property</a></li>
-                        <li><a href="/dashboard">Property Management</a></li>
-                        <li><a href="/lease-templates">Lease Templates</a></li>
-                        <li><a href="/procing-strategies">Pricing Strategies</a></li>
-                        <li><a href="/resources">Owner Resources</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="/about">About Us</a></li>
-                        <li><a href="/careers">Careers</a></li>
-                        <li><a href="/press">Press</a></li>
-                        <li><a href="/blog">Blog</a></li>
-                        <li><a href="/contacts">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="/help-center">Help Center</a></li>
-                        <li><a href="/faqs">FAQs</a></li>
-                        <li><a href="/safety">Safety</a></li>
-                        <li><a href="/tos-and-privacy">Terms of Service</a></li>
-                        <li><a href="/tos-and-privacy">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy;
-                    <script>document.write(new Date().getFullYear())</script> Hustlerati. All rights reserved.
-                </p>
-                <div class="footer-links">
-                    <a href="/accessibility">Accessibility</a>
-                    <a href="/sitemap">Sitemap</a>
-                    <a href="/preferences">Do Not Sell My Info</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    </main>
+    <%- include('partials/footer') %>
+    <script>
+    </script>
     <script src="/javascript/accessibility.js"></script>
     <script src="/javascript/index.js"></script>
+    <script src="/javascript/shop.js"></script>
+    <script src="/javascript/cart.js"></script>
 </body>
 
 </html>

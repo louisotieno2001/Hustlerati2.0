@@ -7,6 +7,7 @@
     <link rel="icon" href="/images/logo.png" type="image/x-icon">
     <link rel="apple-touch-icon" href="/images/logo.png">
     <link rel="stylesheet" href="/stylesheets/default.css">
+    <link rel="stylesheet" href="/stylesheets/real_estate.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -130,21 +131,46 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Property Images -->
-                        <div class="property-images">
-                            <div class="main-image">
-                                <% if (property.images) { %>
-                                    <img src="/assets/<%= property.images %>" alt="<%= property.title %>" id="mainImage">
-                                <% } else { %>
-                                    <div class="no-image">
-                                        <i class="fas fa-building"></i>
-                                        <p>No image available</p>
-                                    </div>
-                                <% } %>
+                        <div class="property-image-wrapper">
+                            <!-- Property Images -->
+                            <div class="property-image">
+                                   <% if (property.media && property.media.id) { %>
+                                        <% const mediaUrl = property.media.url || `/assets/${property.media.id}`; %>
+                                        <% const filename = property.media.filename_download || property.media.filename_disk || ''; %>
+                                        <% if (filename.endsWith('.mp4') || filename.endsWith('.webm') || filename.endsWith('.ogg') || filename.endsWith('.mov')) { %>
+                                            <video class="property-media" controls preload="metadata">
+                                                <source src="<%= mediaUrl %>" type="video/mp4">
+                                                <source src="<%= mediaUrl %>" type="video/webm">
+                                                <source src="<%= mediaUrl %>" type="video/ogg">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        <% } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif') || filename.endsWith('.webp')) { %>
+                                            <img class="property-media" 
+                                                 src="<%= mediaUrl %>" 
+                                                 alt="Featured Image"
+                                                 loading="lazy"
+                                                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                                            <!-- Fallback content if image fails to load -->
+                                            <div class="media-fallback" style="display:none;">
+                                                <i class="fas fa-image"></i>
+                                                <span>Image Preview Unavailable</span>
+                                            </div>
+                                        <% } else { %>
+                                            <!-- Default media fallback -->
+                                            <div class="media-fallback">
+                                                <i class="fas fa-file-alt"></i>
+                                                <span>Media Preview</span>
+                                            </div>
+                                        <% } %>
+                                    <% } else { %>
+                                        <!-- No media fallback -->
+                                        <div class="media-fallback">
+                                            <i class="fas fa-newspaper"></i>
+                                            <span>property Article</span>
+                                        </div>
+                                    <% } %>
                             </div>
                         </div>
-
                         <!-- Property Information Grid -->
                         <div class="property-info-grid">
                             <!-- Main Details -->
@@ -200,7 +226,16 @@
                             <div class="info-section">
                                 <h2>Amenities</h2>
                                 <div class="amenities-grid" id="amenitiesGrid">
-                                    <!-- Amenities will be populated by JavaScript -->
+                                    <% if (property.amenities && property.amenities.length > 0) { %>
+                                        <% property.amenities.forEach(function(amenity) { %>
+                                            <div class="detail-item">
+                                                <i class="fas fa-check"></i>
+                                                <span><%= amenity %></span>
+                                            </div>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <p>No amenities listed.</p>
+                                    <% } %>
                                 </div>
                             </div>
 
@@ -254,76 +289,8 @@
             </div>
         </section>
     </main>
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Hustlerati</h4>
-                    <p>The leading platform for commercial space rental, serving businesses of all sizes and property
-                        owners nationwide.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h4>For Businesses</h4>
-                    <ul>
-                        <li><a href="#">Find Space</a></li>
-                        <li><a href="#">Small Business Solutions</a></li>
-                        <li><a href="#">Enterprise Solutions</a></li>
-                        <li><a href="#">Lease Options</a></li>
-                        <li><a href="#">Space Calculator</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>For Owners</h4>
-                    <ul>
-                        <li><a href="#">List Your Property</a></li>
-                        <li><a href="#">Property Management</a></li>
-                        <li><a href="#">Lease Templates</a></li>
-                        <li><a href="#">Pricing Strategies</a></li>
-                        <li><a href="#">Owner Resources</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Press</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Safety</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy;
-                    <script>document.write(new Date().getFullYear())</script> Hustlerati. All rights reserved.
-                </p>
-                <div class="footer-links">
-                    <a href="#">Accessibility</a>
-                    <a href="#">Sitemap</a>
-                    <a href="#">Do Not Sell My Info</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <script>
-        window.__PROPERTY_DATA__ = <%- JSON.stringify(property || null) %>;
-    </script>
+    <!-- Footer -->
+    <%- include('partials/footer') %>
     <script src="/javascript/index.js"></script>
     <script src="/javascript/property_details.js"></script>
     <script src="/javascript/accessibility.js"></script>

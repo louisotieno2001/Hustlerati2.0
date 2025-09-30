@@ -1,5 +1,6 @@
 // Global variables
-let filteredProperties = [...sampleProperties];
+let allProperties = [];
+let filteredProperties = [];
 let currentPage = 1;
 let itemsPerPage = 6;
 let currentView = 'grid';
@@ -18,8 +19,37 @@ let activeFilters = {
     searchQuery: ''
 };
 
+// Get properties from DOM data attributes
+function getPropertiesFromDOM() {
+    const propertyCards = document.querySelectorAll('.property-card');
+    const properties = [];
+
+    propertyCards.forEach(card => {
+        const property = {
+            id: card.dataset.id,
+            type: card.dataset.type,
+            price: parseFloat(card.dataset.price) || 0,
+            size: parseFloat(card.dataset.size) || 0,
+            city: card.dataset.city,
+            spaceType: card.dataset.spaceType,
+            leaseTerms: card.dataset.leaseTerms,
+            availability: card.dataset.availability,
+            amenities: JSON.parse(card.dataset.amenities || '[]'),
+            businessSize: JSON.parse(card.dataset.businessSize || '[]'),
+            title: card.dataset.title,
+            location: card.dataset.location,
+            description: card.dataset.description
+        };
+        properties.push(property);
+    });
+
+    return properties;
+}
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function () {
+    allProperties = getPropertiesFromDOM();
+    filteredProperties = [...allProperties];
     initializeFilters();
     initializeSearch();
     initializeViewControls();
@@ -280,7 +310,7 @@ function setView(view) {
 
 // Apply all filters
 function applyFilters() {
-    filteredProperties = sampleProperties.filter(property => {
+    filteredProperties = allProperties.filter(property => {
         // Property type filter
         if (activeFilters.propertyType.length > 0 && !activeFilters.propertyType.includes(property.type)) {
             return false;
@@ -378,26 +408,32 @@ function renderProperties() {
     const allCards = document.querySelectorAll('.property-card');
     const noResults = document.getElementById('noResults');
 
-    allCards.forEach(card => card.style.display = 'none');
+    // First, set display based on whether in filteredProperties
+    allCards.forEach(card => {
+        const id = card.dataset.id;
+        const isInFiltered = filteredProperties.some(p => p.id == id);
+        card.style.display = isInFiltered ? 'block' : 'none';
+    });
 
+    // Then, for pagination, hide the filtered ones not in the current page
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const propertiesToShow = filteredProperties.slice(startIndex, endIndex);
 
-    if (propertiesToShow.length === 0) {
-        noResults.style.display = 'block';
-        updatePagination();
-        return;
-    }
-
-    noResults.style.display = 'none';
-
-    propertiesToShow.forEach(property => {
-        const card = document.querySelector(`.property-card[data-id="${property.id}"]`);
-        if (card) {
-            card.style.display = 'block';
+    allCards.forEach(card => {
+        const id = card.dataset.id;
+        const isInFiltered = filteredProperties.some(p => p.id == id);
+        const isInPage = propertiesToShow.some(p => p.id == id);
+        if (isInFiltered && !isInPage) {
+            card.style.display = 'none';
         }
     });
+
+    if (filteredProperties.length === 0) {
+        noResults.style.display = 'block';
+    } else {
+        noResults.style.display = 'none';
+    }
 
     updatePagination();
 }
@@ -542,10 +578,54 @@ style.textContent = `
         padding: 60px 20px;
         color: var(--text-light);
     }
-    
+
     .no-results h3 {
         margin-bottom: 10px;
         color: var(--text-color);
     }
 `;
-document.head.appendChild(style); 
+document.head.appendChild(style);
+
+// Booking modal functionality
+function handleBook(id, bookingType) {
+    const modal = document.getElementById('bookingModal');
+    const message = document.getElementById('modalMessage');
+    const continueBtn = document.getElementById('continueBtn');
+
+    if (bookingType === 'individual') {
+        message.textContent = 'The property has been booked by an individual and is therefore closed.';
+        continueBtn.style.display = 'none';
+    } else if (bookingType === 'group') {
+        message.textContent = 'The property is booked as group. Proceed if you want to join the group.';
+        continueBtn.style.display = 'block';
+        continueBtn.onclick = () => {
+            window.location.href = `/booking/${id}`;
+            modal.style.display = 'none';
+        };
+    } else if (bookingType === 'group full') {
+        message.textContent = 'The property is group booked and the group is full.';
+        continueBtn.style.display = 'none';
+    } else {
+        // Default, allow booking
+        window.location.href = `/booking/${id}`;
+        return;
+    }
+
+    modal.style.display = 'block';
+}
+
+// Modal close functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('bookingModal');
+    const closeBtn = document.querySelector('.close');
+
+    if (closeBtn) {
+        closeBtn.onclick = () => modal.style.display = 'none';
+    }
+
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+});

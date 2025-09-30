@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hustlerati | Blog</title>
+    <meta name="description"
+        content="Find, compare, and rent commercial spaces tailored to your business needs anytime, anywhere in the world.">
+    <meta name="keywords" content="commercial space rental, business space, retail space, warehouse rental, industrial space,
+        restaurant space, office space, commercial real estate, business solutions, Hustlerati">
+    <meta name="author" content="Hustlerati Team">
+    <link rel="icon" href="/images/logo.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/images/logo.png">
+    <link rel="stylesheet" href="/stylesheets/default.css">
+    <link rel="stylesheet" href="/stylesheets/blog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main style="margin-top: 120px;">
+        <!-- Blog Hero Section -->
+        <section class="blog-hero">
+            <div class="container">
+                <h1>Latest Blog Posts</h1>
+                <p>Stay informed with our latest insights and updates</p>
+            </div>
+        </section>
+
+        <!-- Blog Posts Grid -->
+        <section class="blog-posts">
+            <div class="container">
+                <div class="blog-container">
+                    <% blogs.forEach(blog => { %>
+                        <article class="blog-card">
+                            <!-- Media Section with Fallback -->
+                            <div class="media-container">
+                                <% if (blog.media && blog.media.id) { %>
+                                    <% const mediaUrl = blog.media.url || `/assets/${blog.media.id}`; %>
+                                    <% const filename = blog.media.filename_download || blog.media.filename_disk || ''; %>
+                                    <% if (filename.endsWith('.mp4') || filename.endsWith('.webm') || filename.endsWith('.ogg') || filename.endsWith('.mov')) { %>
+                                        <video class="blog-media" controls preload="metadata">
+                                            <source src="<%= mediaUrl %>" type="video/mp4">
+                                            <source src="<%= mediaUrl %>" type="video/webm">
+                                            <source src="<%= mediaUrl %>" type="video/ogg">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    <% } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif') || filename.endsWith('.webp')) { %>
+                                        <img class="blog-media" 
+                                             src="<%= mediaUrl %>" 
+                                             alt="Featured Image"
+                                             loading="lazy"
+                                             onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                                        <!-- Fallback content if image fails to load -->
+                                        <div class="media-fallback" style="display:none;">
+                                            <i class="fas fa-image"></i>
+                                            <span>Image Preview Unavailable</span>
+                                        </div>
+                                    <% } else { %>
+                                        <!-- Default media fallback -->
+                                        <div class="media-fallback">
+                                            <i class="fas fa-file-alt"></i>
+                                            <span>Media Preview</span>
+                                        </div>
+                                    <% } %>
+                                <% } else { %>
+                                    <!-- No media fallback -->
+                                    <div class="media-fallback">
+                                        <i class="fas fa-newspaper"></i>
+                                        <span>Blog Article</span>
+                                    </div>
+                                <% } %>
+                            </div>
+
+                            <!-- Blog Content Section -->
+                            <div class="blog-content">
+                                <!-- Title goes below media (as requested) -->
+                                <h2 class="blog-title"><%= blog.title %></h2>
+                                
+                                <div class="blog-body">
+                                    <div class="blog-excerpt">
+                                        <% if (blog.body && blog.body.length > 100) { %>
+                                            <%- blog.body.substring(0, 100) %>...
+                                        <% } else { %>
+                                            <%- blog.body || 'No content preview available' %>
+                                        <% } %>
+                                    </div>
+                                </div>
+
+                                <footer class="blog-footer">
+                                    <a href="/blog/<%= blog.id %>" class="read-more-btn">
+                                        <span>Read More</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </footer>
+                            </div>
+                        </article>
+                    <% }); %>
+
+                    <!-- No blogs message -->
+                    <% if (blogs.length === 0) { %>
+                        <div class="no-blogs">
+                            <i class="fas fa-newspaper"></i>
+                            <h3>No blog posts available</h3>
+                            <p>Check back later for new content.</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+    </main>
+    <%- include('partials/footer') %>
+
+    <script src="/javascript/accessibility.js"></script>
+    <script src="/javascript/index.js"></script>
+</body>
+</html>

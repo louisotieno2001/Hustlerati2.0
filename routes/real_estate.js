@@ -45,18 +45,37 @@ function normalizeToArray(value) {
 }
 
 function normalizeProperty(item) {
-    const priceNum = Number(item.price);
-    const sizeNum = Number(item.size);
-    const title = item.title || 'Untitled';
-    const imageHtml = item.images
-        ? `<img src="/assets/${item.images}" alt="${title.replace(/"/g, '"')}"/>`
-        : '🏢';
-    return {
+    const normalized = {
         id: item.id,
-        title: title,
+        price: Number(item.price) || 0,
+        size: Number(item.size) || 0,
+        title: item.title || 'Untitled',
+        media: null
+    };
+
+    // Handle media normalization separately
+    if (item.media) {
+        if (typeof item.media === 'object' && item.media !== null) {
+            if (item.media.full_url || item.media.id) {
+                normalized.media = {
+                    id: item.media.id,
+                    url: item.media.full_url ? `${url}${item.media.full_url}` : null,
+                    filename_disk: item.media.filename_disk,
+                    filename_download: item.media.filename_download,
+                    type: item.media.type,
+                    width: item.media.width,
+                    height: item.media.height
+                };
+            }
+        } else if (typeof item.media === 'string' && item.media.length > 0) {
+            normalized.media = { id: item.media };
+        }
+    }
+
+    // Combine normalized data with additional fields
+    return {
+        ...normalized,
         type: (item.property_type || item.type || '').toString().toLowerCase(),
-        price: Number.isFinite(priceNum) ? priceNum : 0,
-        size: Number.isFinite(sizeNum) ? sizeNum : 0,
         location: item.location || '',
         city: toSlug(item.city || item.location || ''),
         spaceType: (item.space_type || item.spaceType || '').toString().toLowerCase(),
@@ -65,8 +84,8 @@ function normalizeProperty(item) {
         availability: (item.availability || '').toString().toLowerCase(),
         businessSize: normalizeToArray(item.business_size || item.businessSize),
         description: item.description || '',
-        image: imageHtml,
         badge: item.badge || '',
+        booking_type: item.booking_type || '',
         // Keep original fields for details page
         property_type: item.property_type,
         space_type: item.space_type,
@@ -77,7 +96,7 @@ function normalizeProperty(item) {
 
 async function getRealEstate() {
     try {
-        const response = await query(`/items/real_estates`, {
+        const response = await query(`/items/real_estates?filter[feature_this_estate][_eq]=true&fields=*,media.*`, {
             method: 'GET'
         });
 
@@ -105,10 +124,14 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const propertyId = req.params.id;
-        const realEstates = await getRealEstate();
+        const response = await query(`/items/real_estates/${propertyId}?fields=*,media.*`);
 
-        // Find the property by UUID
-        const propertyRaw = realEstates.find(p => p.id === propertyId);
+        if (!response.ok) {
+            throw new Error('Failed to fetch property');
+        }
+
+        const propertyData = await response.json();
+        const propertyRaw = propertyData.data;
 
         if (!propertyRaw) {
             return res.status(404).render('real_estate_details', {
@@ -118,7 +141,13 @@ router.get('/:id', async (req, res) => {
         }
 
         const property = normalizeProperty(propertyRaw);
-        res.render('real_estate_details', { property, error: null });
+        // Pass the property data to the client for JavaScript usage
+        const propertyDataJson = JSON.stringify(property);
+        res.render('real_estate_details', {
+            property,
+            propertyData: propertyDataJson,
+            error: null
+        });
     } catch (error) {
         console.error('Error fetching property details:', error);
         res.status(500).render('real_estate_details', {
