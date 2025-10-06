@@ -29,13 +29,38 @@
                                 <% total += subtotal; %>
                                 <div class="cart-item" data-order-id="<%= order.id %>">
                                     <div class="item-image">
-                                        <% if (order.product.image) { %>
-                                            <img src="<%= order.product.image %>" alt="<%= order.product.title %>" loading="lazy">
+                                        <div class="image-scroll-container">
+                                        <% if (order.product && order.product.media && order.product.media.length > 0) { %>
+                                            <% order.product.media.forEach(function(media) { %>
+                                                <% const mediaUrl = media.url || `/assets/${media.id}`; %>
+                                                <% const filename = media.filename_download || media.filename_disk || ''; %>
+                                                <% if (filename.endsWith('.mp4') || filename.endsWith('.webm') || filename.endsWith('.ogg') || filename.endsWith('.mov')) { %>
+                                                    <video class="item-media" controls preload="metadata">
+                                                        <source src="<%= mediaUrl %>" type="video/mp4">
+                                                        <source src="<%= mediaUrl %>" type="video/webm">
+                                                        <source src="<%= mediaUrl %>" type="video/ogg">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                <% } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif') || filename.endsWith('.webp')) { %>
+                                                    <img class="item-media" src="<%= mediaUrl %>" alt="<%= order.product.name %>" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                                                    <div class="media-fallback" style="display:none;">
+                                                        <i class="fas fa-image"></i>
+                                                        <span>Image Preview Unavailable</span>
+                                                    </div>
+                                                <% } else { %>
+                                                    <div class="media-fallback">
+                                                        <i class="fas fa-file-alt"></i>
+                                                        <span>Media Preview</span>
+                                                    </div>
+                                                <% } %>
+                                            <% }); %>
                                         <% } else { %>
-                                            <div class="image-placeholder">
-                                                <i class="fas fa-box"></i>
+                                            <div class="media-fallback">
+                                                <i class="fas fa-shopping-bag"></i>
+                                                <span>Product Item</span>
                                             </div>
                                         <% } %>
+                                        </div>
                                     </div>
                                     <div class="item-details">
                                         <h3 class="item-title"><%= order.product.title %></h3>

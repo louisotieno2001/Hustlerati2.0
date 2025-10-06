@@ -114,22 +114,36 @@
         <div class="container">
             <div class="product-details">
                 <div class="product-gallery">
-                    <div class="main-image">
-                        <% if (product.images && product.images.length > 0) { %>
-                            <img id="mainImage" src="<%= product.images[0] %>" alt="<%= product.name %>">
-                        <% } else if (product.image) { %>
-                            <img id="mainImage" src="<%= product.image %>" alt="<%= product.name %>">
-                        <% } else { %>
-                            <div class="image-placeholder">
-                                <i class="fas fa-box"></i>
-                            </div>
-                        <% } %>
-                    </div>
-                    <div class="thumbnail-gallery">
-                        <% if (product.images && product.images.length > 1) { %>
-                            <% product.images.forEach(function(image, index) { %>
-                                <img src="<%= image %>" alt="<%= product.title %> <%= index + 1 %>" class="thumbnail <%= index === 0 ? 'active' : '' %>" data-index="<%= index %>">
+                    <div class="image-scroll-container">
+                        <% if (product.media && product.media.length > 0) { %>
+                            <% product.media.forEach(function(media) { %>
+                                <% const mediaUrl = media.url || `/assets/${media.id}`; %>
+                                <% const filename = media.filename_download || media.filename_disk || ''; %>
+                                <% if (filename.endsWith('.mp4') || filename.endsWith('.webm') || filename.endsWith('.ogg') || filename.endsWith('.mov')) { %>
+                                    <video class="product-media" controls preload="metadata">
+                                        <source src="<%= mediaUrl %>" type="video/mp4">
+                                        <source src="<%= mediaUrl %>" type="video/webm">
+                                        <source src="<%= mediaUrl %>" type="video/ogg">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                <% } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif') || filename.endsWith('.webp')) { %>
+                                    <img class="product-media" src="<%= mediaUrl %>" alt="<%= product.name %>" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                                    <div class="media-fallback" style="display:none;">
+                                        <i class="fas fa-image"></i>
+                                        <span>Image Preview Unavailable</span>
+                                    </div>
+                                <% } else { %>
+                                    <div class="media-fallback">
+                                        <i class="fas fa-file-alt"></i>
+                                        <span>Media Preview</span>
+                                    </div>
+                                <% } %>
                             <% }); %>
+                        <% } else { %>
+                            <div class="media-fallback">
+                                <i class="fas fa-shopping-bag"></i>
+                                <span>Product Item</span>
+                            </div>
                         <% } %>
                     </div>
                 </div>
