@@ -129,13 +129,13 @@
                                 <% } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif') || filename.endsWith('.webp')) { %>
                                     <img class="product-media" src="<%= mediaUrl %>" alt="<%= product.name %>" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
                                     <div class="media-fallback" style="display:none;">
-                                        <i class="fas fa-image"></i>
-                                        <span>Image Preview Unavailable</span>
+                                        <i class="fas fa-shopping-cart"></i>
+                                        <span>Product Preview Unavailable</span>
                                     </div>
                                 <% } else { %>
                                     <div class="media-fallback">
-                                        <i class="fas fa-file-alt"></i>
-                                        <span>Media Preview</span>
+                                        <i class="fas fa-shopping-cart"></i>
+                                        <span>Product Preview</span>
                                     </div>
                                 <% } %>
                             <% }); %>
@@ -181,10 +181,6 @@
 
     <!-- Footer -->
     <%- include('partials/footer') %>
-
-    <script>
-        window.user = <%- typeof user !== 'undefined' ? JSON.stringify(user) : 'null' %>;
-    </script>
     <script src="/javascript/accessibility.js"></script>
     <script src="/javascript/index.js"></script>
     <script src="/javascript/cart.js"></script>

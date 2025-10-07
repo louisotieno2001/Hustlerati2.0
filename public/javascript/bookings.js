@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Copy WhatsApp link
     document.getElementById('copy-link').addEventListener('click', function() {
-        const link = document.getElementById('whatsapp-link').value;
+        const link = document.getElementById('whatsapp-link').href;
         navigator.clipboard.writeText(link).then(function() {
             alert('Link copied to clipboard!');
         }).catch(function(err) {

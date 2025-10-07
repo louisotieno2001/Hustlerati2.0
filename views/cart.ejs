@@ -44,13 +44,13 @@
                                                 <% } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif') || filename.endsWith('.webp')) { %>
                                                     <img class="item-media" src="<%= mediaUrl %>" alt="<%= order.product.name %>" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
                                                     <div class="media-fallback" style="display:none;">
-                                                        <i class="fas fa-image"></i>
+                                                        <i class="fas fa-shopping-cart"></i>
                                                         <span>Image Preview Unavailable</span>
                                                     </div>
                                                 <% } else { %>
                                                     <div class="media-fallback">
-                                                        <i class="fas fa-file-alt"></i>
-                                                        <span>Media Preview</span>
+                                                        <i class="fas fa-shopping-cart"></i>
+                                                        <span>Product Preview</span>
                                                     </div>
                                                 <% } %>
                                             <% }); %>

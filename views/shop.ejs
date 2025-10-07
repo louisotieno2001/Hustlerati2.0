@@ -403,8 +403,8 @@
                                                             </div>
                                                         <% } else { %>
                                                             <div class="media-fallback">
-                                                                <i class="fas fa-file-alt"></i>
-                                                                <span>Media Preview</span>
+                                                                <i class="fas fa-shopping-bag"></i>
+                                                                <span>Product Preview</span>
                                                             </div>
                                                         <% } %>
                                                     <% }); %>
@@ -425,13 +425,13 @@
                                                     <%= (product.units <= 20 && product.units > 5) || product.units <= 5 ? '!' : '' %> Units: <%= product.units %> left
                                                 </div>
                                                 <% } %>
-<% if (user && user.id) { %>
-    <button class="btn btn-primary add-to-cart" data-id="<%= product.id %>">
-        <i class="fas fa-cart-plus"></i> Add to Cart
-    </button>
-<% } else { %>
-    <button class="btn btn-primary" onclick="window.location.href='/login'">
-        <i class="fas fa-cart-plus"></i> Add to Cart
+                                                <button class="btn btn-primary add-to-cart" data-id="<%= product.id %>">
+                                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                                    <% if (user && user.id) { %>
+                                                        <% } else { %>
+                                                        </button>
+                                                        <i class="fas fa-cart-plus"></i> Add to Cart
+                                                        <button class="btn btn-primary" onclick="window.location.href='/login'">
                                                     </button>
                                                 <% } %>
                                             </div>
