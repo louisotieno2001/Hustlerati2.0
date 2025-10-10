@@ -12,7 +12,7 @@ services:
       - ./docker/pgdata:/var/lib/postgresql/data
     networks:
       hustlerati:
-        ipv4_address: 102.68.86.163
+        ipv4_address: 
 
   directus:
     restart: always
@@ -35,7 +35,7 @@ services:
       EXTENSIONS_AUTO_RELOAD: true
     networks:
       hustlerati:
-        ipv4_address: 102.68.86.163
+        ipv4_address: 
     volumes:
       - ./docker/directus/uploads:/directus/uploads
       - ./docker/directus/extensions:/directus/extensions
@@ -65,4 +65,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 102.68.86.0/24
+        - subnet: 74.50.84.0/24
