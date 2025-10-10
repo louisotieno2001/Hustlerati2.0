@@ -12,7 +12,7 @@ services:
       - ./docker/pgdata:/var/lib/postgresql/data
     networks:
       hustlerati:
-      
+
   directus:
     restart: always
     image: directus/directus:11.3.2
@@ -62,4 +62,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 74.50.84.0/24
+        - subnet: 192.168.100.0/24 
