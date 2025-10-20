@@ -50,7 +50,7 @@ services:
     environment:
       PORT: ${EXPRESS_PORT}
       SALT_ROUNDS: 10
-      DIRECTUS_URL: "http://directus:8055"
+      DIRECTUS_URL: "http://directus:8056"
       DIRECTUS_TOKEN: ${DIRECTUS_TOKEN}
     networks:
       hustlerati:

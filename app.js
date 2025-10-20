@@ -20,7 +20,7 @@ const accessToken = process.env.DIRECTUS_TOKEN;
 // Initialize multer for multiple files
 // Proxy configuration
 const apiProxy = createProxyMiddleware({
-    target: 'http://0.0.0.0:8055/assets', // Target server where requests should be proxied
+    target: 'http://0.0.0.0:8056/assets', // Target server where requests should be proxied
     changeOrigin: true, // Adjust the origin of the request to the target
     headers: {
         "Authorization": "Bearer " + accessToken
