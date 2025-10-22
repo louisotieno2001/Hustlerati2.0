@@ -17,6 +17,11 @@ const PORT = process.env.EXPRESS_PORT || 3000;
 // Directus API configuration
 const url = process.env.DIRECTUS_URL;
 const accessToken = process.env.DIRECTUS_TOKEN;
+
+// Exchange rates cache
+let exchangeRates = {};
+let lastRatesUpdate = null;
+const RATES_UPDATE_INTERVAL = 60 * 60 * 1000; // 1 hour in milliseconds
 // Initialize multer for multiple files
 // Proxy configuration
 const apiProxy = createProxyMiddleware({
@@ -152,6 +157,13 @@ const cartRoute = require('./routes/cart');
 app.use('/cart', checkSession ,cartRoute)
 const ordersRoute = require('./routes/orders');
 app.use('/orders', ordersRoute);
+const groupBookRoute = require('./routes/group_booking');
+app.use('/group-booking', checkSession,groupBookRoute)
+const individualBookRoute = require('./routes/individual_booking');
+app.use('/individual-booking', checkSession,individualBookRoute)
+const settingsRoute = require('./routes/settings');
+app.use('/settings', settingsRoute);
+
 
 async function registerUser(userData) {
     let res = await query(`/items/users/`, {
@@ -501,6 +513,47 @@ app.get('/logout', async (req, res) => {
     });
 });
 
+// Function to fetch exchange rates
+async function fetchExchangeRates() {
+    try {
+        const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+        const data = await response.json();
+        exchangeRates = data.rates;
+        lastRatesUpdate = Date.now();
+        console.log('Exchange rates updated:', new Date().toISOString());
+        return exchangeRates;
+    } catch (error) {
+        console.error('Error fetching exchange rates:', error);
+        return null;
+    }
+}
+
+// Function to get cached or fresh exchange rates
+async function getExchangeRates() {
+    const now = Date.now();
+    if (!lastRatesUpdate || (now - lastRatesUpdate) > RATES_UPDATE_INTERVAL) {
+        await fetchExchangeRates();
+    }
+    return exchangeRates;
+}
+
+// API endpoint for exchange rates
+app.get('/api/exchange-rates', async (req, res) => {
+    try {
+        const rates = await getExchangeRates();
+        if (rates) {
+            res.json({ success: true, rates, lastUpdate: lastRatesUpdate });
+        } else {
+            res.status(500).json({ success: false, error: 'Failed to fetch exchange rates' });
+        }
+    } catch (error) {
+        console.error('Error in /api/exchange-rates:', error);
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+    // Fetch initial exchange rates on startup
+    fetchExchangeRates();
 });

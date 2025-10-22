@@ -16,7 +16,7 @@
 </head>
 
 <body>
-     <!-- Header -->
+    <!-- Header -->
     <%- include('partials/header') %>
 
     <main class="submit-estate-main">
@@ -59,10 +59,17 @@
                                     placeholder="e.g., 5000">
                             </div>
                             <div class="form-group">
-                                <label for="monthlyPrice">Monthly Price ($) *</label>
+                                <label for="monthlyPrice">Monthly Price (Your currency) *</label>
                                 <input type="number" id="monthlyPrice" name="monthlyPrice" required
                                     placeholder="e.g., 5000">
                             </div>
+
+                            <div class="form-group">
+                                <label for="currency">Currency *</label>
+                                <input type="text" id="currency" name="currency" list="currencies" required placeholder="Search and select currency">
+                                <datalist id="currencies">
+                                    <!-- Options populated dynamically by JavaScript -->
+                                </datalist>
                         </div>
 
                         <div class="form-group">
@@ -271,6 +278,7 @@
     <script src="/javascript/accessibility.js"></script>
     <script src="/javascript/index.js"></script>
     <script src="/javascript/submit_estate.js"></script>
+    <script src="/javascript/localization.js"></script>
 </body>
 
 </html>

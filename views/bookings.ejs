@@ -46,7 +46,7 @@
                                         <span>Dedicated support</span>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary btn-large" id="book-individual" data-id="<%= property.id %>" data-price="<%= property.price %>" data-location="<%= property.city %>" data-name="<%= property.title %>" data-description="<%= property.description %>">
+                                <button class="btn btn-primary btn-large" id="book-individual" data-id="<%= property.id %>" data-price="<%= property.price %>" data-location="<%= property.city %>" data-name="<%= property.title %>" data-description="<%= property.description %>" <%= canBookIndividual ? '' : 'disabled' %>>
                                     <i class="fas fa-calendar-plus"></i> Book Now
                                 </button>
                             </div>
@@ -76,99 +76,9 @@
                                     </div>
                                 </div>
 
-                                <!-- Contribution Amount -->
-                                <div class="contribution-section">
-                                    <h3>Your Monthly Contribution</h3>
-                                    <div class="contribution-input">
-                                        <span class="currency">$</span>
-                                        <input type="number" id="contribution-amount" placeholder="Enter amount" min="0"
-                                            step="10">
-                                        <span class="period">/month</span>
-                                    </div>
-                                    <p class="contribution-note">This is your share of the total rent. The remaining
-                                        amount will be covered by other participants.</p>
-                                </div>
-
-                                <!-- WhatsApp Group Section -->
-                                <div class="whatsapp-section">
-                                    <h3><i class="fab fa-whatsapp"></i> Join Our Community</h3>
-                                    <p>Connect with other entrepreneurs sharing this space and stay updated on
-                                        everything.</p>
-
-                                    <div class="whatsapp-group">
-                                        <div class="group-link">
-                                            <label for="whatsapp-link">Group Link:</label>
-                                            <a href="<%= property.whatsapp_link %>" id="whatsapp-link" target="_blank">
-                                               <%= property.whatsapp_link %>
-                                            </a>
-                                            <button class="btn btn-outline btn-small" id="copy-link">
-                                                <i class="fas fa-copy"></i> Copy
-                                            </button>
-                                        </div>
-
-                                        <div class="invite-option">
-                                            <p>Can't access the link? (Expired or other reason) Get a direct invite:</p>
-                                            <button class="btn btn-secondary get-invite" id="get-invite">
-                                                <i class="fas fa-envelope"></i>
-                                                <p>Get another link</p> 
-                                                <input type="checkbox" name="link_status" id="link_status">
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <button class="btn btn-primary btn-large" id="join-shared" data-id="<%= property.id %>"  data-price="<%= property.price %>" data-location="<%= property.city %>" data-name="<%= property.title %>" data-description="<%= property.description %>">
                                     <i class="fas fa-user-plus"></i> Join Shared Booking
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Property Summary -->
-                    <div class="property-summary">
-                        <h3>Property Details</h3>
-                        <div class="summary-content" id="property-summary">
-                            <!-- Property details will be loaded here -->
-                            <div class="loading">
-                                <p>
-                                    Name: <%= property.title %>
-                                </p>
-                                <p>
-                                    Type: <%= property.type %>
-                                </p>
-                                <p>
-                                    Price: <%= property.price %> USD
-                                </p>
-                                <p>
-                                    Size: <%= property.size %> m²
-                                </p>
-                                <p>
-                                    Location: <%= property.location %>, <%= property.city %>
-                                </p>
-                                <p>
-                                    Space Type: <%= property.spaceType %>
-                                </p>
-                                <p>
-                                    Amenities: <%= property.amenities.join(', ') %>
-                                 </p>
-                                <p>
-                                    Lease Terms: <%= property.leaseTerms %>
-                                </p>
-                                <p>
-                                    Availability: <%= property.availability %>
-                                </p>
-                                <p>
-                                    Business Size: <%= property.businessSize.join(' , ') %>
-                                </p>
-                                <p>
-                                    Description: <%= property.description %>
-                                </p>
-                                <p>
-                                    Image: <%= property.image %>
-                                </p>
-                                <p>
-                                    Badge: <%= property.badge %>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -180,6 +90,7 @@
     <script src="/javascript/bookings.js"></script>
     <script src="/javascript/index.js"></script>
     <script src="/javascript/accessibility.js"></script>
+    <script src="/javascript/localization.js"></script>
 </body>
 
 </html>

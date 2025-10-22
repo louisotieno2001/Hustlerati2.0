@@ -3,6 +3,155 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('submitEstateForm');
     const saveDraftBtn = document.getElementById('saveDraftBtn');
 
+    // Currency data with flags
+    const currencies = [
+        { code: 'USD', name: 'US Dollar', flag: '🇺🇸' },
+        { code: 'EUR', name: 'Euro', flag: '🇪🇺' },
+        { code: 'GBP', name: 'British Pound', flag: '🇬🇧' },
+        { code: 'JPY', name: 'Japanese Yen', flag: '🇯🇵' },
+        { code: 'CAD', name: 'Canadian Dollar', flag: '🇨🇦' },
+        { code: 'AUD', name: 'Australian Dollar', flag: '🇦🇺' },
+        { code: 'CHF', name: 'Swiss Franc', flag: '🇨🇭' },
+        { code: 'CNY', name: 'Chinese Yuan', flag: '🇨🇳' },
+        { code: 'SEK', name: 'Swedish Krona', flag: '🇸🇪' },
+        { code: 'NZD', name: 'New Zealand Dollar', flag: '🇳🇿' },
+        { code: 'MXN', name: 'Mexican Peso', flag: '🇲🇽' },
+        { code: 'SGD', name: 'Singapore Dollar', flag: '🇸🇬' },
+        { code: 'HKD', name: 'Hong Kong Dollar', flag: '🇭🇰' },
+        { code: 'NOK', name: 'Norwegian Krone', flag: '🇳🇴' },
+        { code: 'KRW', name: 'South Korean Won', flag: '🇰🇷' },
+        { code: 'TRY', name: 'Turkish Lira', flag: '🇹🇷' },
+        { code: 'RUB', name: 'Russian Ruble', flag: '🇷🇺' },
+        { code: 'INR', name: 'Indian Rupee', flag: '🇮🇳' },
+        { code: 'BRL', name: 'Brazilian Real', flag: '🇧🇷' },
+        { code: 'ZAR', name: 'South African Rand', flag: '🇿🇦' },
+        { code: 'AED', name: 'UAE Dirham', flag: '🇦🇪' },
+        { code: 'SAR', name: 'Saudi Riyal', flag: '🇸🇦' },
+        { code: 'EGP', name: 'Egyptian Pound', flag: '🇪🇬' },
+        { code: 'NGN', name: 'Nigerian Naira', flag: '🇳🇬' },
+        { code: 'KES', name: 'Kenyan Shilling', flag: '🇰🇪' },
+        { code: 'GHS', name: 'Ghanaian Cedi', flag: '🇬🇭' },
+        { code: 'UGX', name: 'Ugandan Shilling', flag: '🇺🇬' },
+        { code: 'TZS', name: 'Tanzanian Shilling', flag: '🇹🇿' },
+        { code: 'RWF', name: 'Rwandan Franc', flag: '🇷🇼' },
+        { code: 'ETB', name: 'Ethiopian Birr', flag: '🇪🇹' },
+        { code: 'MAD', name: 'Moroccan Dirham', flag: '🇲🇦' },
+        { code: 'DZD', name: 'Algerian Dinar', flag: '🇩🇿' },
+        { code: 'TND', name: 'Tunisian Dinar', flag: '🇹🇳' },
+        { code: 'LYD', name: 'Libyan Dinar', flag: '🇱🇾' },
+        { code: 'SDG', name: 'Sudanese Pound', flag: '🇸🇩' },
+        { code: 'SSP', name: 'South Sudanese Pound', flag: '🇸🇸' },
+        { code: 'SYP', name: 'Syrian Pound', flag: '🇸🇾' },
+        { code: 'YER', name: 'Yemeni Rial', flag: '🇾🇪' },
+        { code: 'IQD', name: 'Iraqi Dinar', flag: '🇮🇶' },
+        { code: 'JOD', name: 'Jordanian Dinar', flag: '🇯🇴' },
+        { code: 'LBP', name: 'Lebanese Pound', flag: '🇱🇧' },
+        { code: 'ILS', name: 'Israeli Shekel', flag: '🇮🇱' },
+        { code: 'BHD', name: 'Bahraini Dinar', flag: '🇧🇭' },
+        { code: 'KWD', name: 'Kuwaiti Dinar', flag: '🇰🇼' },
+        { code: 'OMR', name: 'Omani Rial', flag: '🇴🇲' },
+        { code: 'QAR', name: 'Qatari Riyal', flag: '🇶🇦' },
+        { code: 'BDT', name: 'Bangladeshi Taka', flag: '🇧🇩' },
+        { code: 'LKR', name: 'Sri Lankan Rupee', flag: '🇱🇰' },
+        { code: 'NPR', name: 'Nepalese Rupee', flag: '🇳🇵' },
+        { code: 'PKR', name: 'Pakistani Rupee', flag: '🇵🇰' },
+        { code: 'AFN', name: 'Afghan Afghani', flag: '🇦🇫' },
+        { code: 'TJS', name: 'Tajikistani Somoni', flag: '🇹🇯' },
+        { code: 'TMT', name: 'Turkmenistani Manat', flag: '🇹🇲' },
+        { code: 'UZS', name: 'Uzbekistani Som', flag: '🇺🇿' },
+        { code: 'KZT', name: 'Kazakhstani Tenge', flag: '🇰🇿' },
+        { code: 'KGS', name: 'Kyrgyzstani Som', flag: '🇰🇬' },
+        { code: 'MNT', name: 'Mongolian Tugrik', flag: '🇲🇳' },
+        { code: 'VND', name: 'Vietnamese Dong', flag: '🇻🇳' },
+        { code: 'THB', name: 'Thai Baht', flag: '🇹🇭' },
+        { code: 'MYR', name: 'Malaysian Ringgit', flag: '🇲🇾' },
+        { code: 'IDR', name: 'Indonesian Rupiah', flag: '🇮🇩' },
+        { code: 'PHP', name: 'Philippine Peso', flag: '🇵🇭' },
+        { code: 'BND', name: 'Brunei Dollar', flag: '🇧🇳' },
+        { code: 'KHR', name: 'Cambodian Riel', flag: '🇰🇭' },
+        { code: 'LAK', name: 'Laotian Kip', flag: '🇱🇦' },
+        { code: 'MMK', name: 'Myanmar Kyat', flag: '🇲🇲' },
+        { code: 'KPW', name: 'North Korean Won', flag: '🇰🇵' },
+        { code: 'TWD', name: 'New Taiwan Dollar', flag: '🇹🇼' },
+        { code: 'MOP', name: 'Macanese Pataca', flag: '🇲🇴' },
+        { code: 'FJD', name: 'Fijian Dollar', flag: '🇫🇯' },
+        { code: 'PGK', name: 'Papua New Guinean Kina', flag: '🇵🇬' },
+        { code: 'SBD', name: 'Solomon Islands Dollar', flag: '🇸🇧' },
+        { code: 'TOP', name: 'Tongan Paʻanga', flag: '🇹🇴' },
+        { code: 'VUV', name: 'Vanuatu Vatu', flag: '🇻🇺' },
+        { code: 'WST', name: 'Samoan Tala', flag: '🇼🇸' },
+        { code: 'XPF', name: 'CFP Franc', flag: '🇵🇫' },
+        { code: 'ANG', name: 'Netherlands Antillean Guilder', flag: '🇳🇱' },
+        { code: 'AWG', name: 'Aruban Florin', flag: '🇦🇼' },
+        { code: 'BBD', name: 'Barbadian Dollar', flag: '🇧🇧' },
+        { code: 'BMD', name: 'Bermudian Dollar', flag: '🇧🇲' },
+        { code: 'BSD', name: 'Bahamian Dollar', flag: '🇧🇸' },
+        { code: 'BZD', name: 'Belize Dollar', flag: '🇧🇿' },
+        { code: 'CUC', name: 'Cuban Convertible Peso', flag: '🇨🇺' },
+        { code: 'CUP', name: 'Cuban Peso', flag: '🇨🇺' },
+        { code: 'DOP', name: 'Dominican Peso', flag: '🇩🇴' },
+        { code: 'GMD', name: 'Gambian Dalasi', flag: '🇬🇲' },
+        { code: 'GYD', name: 'Guyanese Dollar', flag: '🇬🇾' },
+        { code: 'HTG', name: 'Haitian Gourde', flag: '🇭🇹' },
+        { code: 'JMD', name: 'Jamaican Dollar', flag: '🇯🇲' },
+        { code: 'LRD', name: 'Liberian Dollar', flag: '🇱🇷' },
+        { code: 'LSL', name: 'Lesotho Loti', flag: '🇱🇸' },
+        { code: 'MZN', name: 'Mozambican Metical', flag: '🇲🇿' },
+        { code: 'NAD', name: 'Namibian Dollar', flag: '🇳🇦' },
+        { code: 'SRD', name: 'Surinamese Dollar', flag: '🇸🇷' },
+        { code: 'SZL', name: 'Swazi Lilangeni', flag: '🇸🇿' },
+        { code: 'TTD', name: 'Trinidad and Tobago Dollar', flag: '🇹🇹' },
+        { code: 'UYU', name: 'Uruguayan Peso', flag: '🇺🇾' },
+        { code: 'VES', name: 'Venezuelan Bolívar', flag: '🇻🇪' },
+        { code: 'XCD', name: 'East Caribbean Dollar', flag: '🇦🇬' },
+        { code: 'XOF', name: 'West African CFA Franc', flag: '🇧🇯' },
+        { code: 'XAF', name: 'Central African CFA Franc', flag: '🇨🇲' },
+        { code: 'XDR', name: 'Special Drawing Rights', flag: '🌍' },
+        { code: 'ZMW', name: 'Zambian Kwacha', flag: '🇿🇲' },
+        { code: 'ZWL', name: 'Zimbabwean Dollar', flag: '🇿🇼' },
+        { code: 'BTN', name: 'Bhutanese Ngultrum', flag: '🇧🇹' },
+        { code: 'MVR', name: 'Maldivian Rufiyaa', flag: '🇲🇻' },
+        { code: 'MRO', name: 'Mauritanian Ouguiya', flag: '🇲🇷' },
+        { code: 'STN', name: 'São Tomé and Príncipe Dobra', flag: '🇸🇹' },
+        { code: 'SCR', name: 'Seychellois Rupee', flag: '🇸🇨' },
+        { code: 'MWK', name: 'Malawian Kwacha', flag: '🇲🇼' },
+        { code: 'BWP', name: 'Botswana Pula', flag: '🇧🇼' },
+        { code: 'BIF', name: 'Burundian Franc', flag: '🇧🇮' },
+        { code: 'CDF', name: 'Congolese Franc', flag: '🇨🇩' },
+        { code: 'DJF', name: 'Djiboutian Franc', flag: '🇩🇯' },
+        { code: 'ERN', name: 'Eritrean Nakfa', flag: '🇪🇷' },
+        { code: 'FKP', name: 'Falkland Islands Pound', flag: '🇫🇰' },
+        { code: 'GIP', name: 'Gibraltar Pound', flag: '🇬🇮' },
+        { code: 'GNF', name: 'Guinean Franc', flag: '🇬🇳' },
+        { code: 'ISK', name: 'Icelandic Króna', flag: '🇮🇸' },
+        { code: 'SHP', name: 'Saint Helena Pound', flag: '🇸🇭' },
+        { code: 'SLL', name: 'Sierra Leonean Leone', flag: '🇸🇱' },
+        { code: 'SOS', name: 'Somali Shilling', flag: '🇸🇴' },
+        { code: 'STD', name: 'São Tomé and Príncipe Dobra (old)', flag: '🇸🇹' },
+        { code: 'SVC', name: 'Salvadoran Colón', flag: '🇸🇻' },
+        { code: 'WST', name: 'Samoan Tala', flag: '🇼🇸' },
+        { code: 'XAF', name: 'Central African CFA Franc', flag: '🇨🇲' },
+        { code: 'XCD', name: 'East Caribbean Dollar', flag: '🇦🇬' },
+        { code: 'XOF', name: 'West African CFA Franc', flag: '🇧🇯' },
+        { code: 'XPF', name: 'CFP Franc', flag: '🇵🇫' },
+        { code: 'ZMW', name: 'Zambian Kwacha', flag: '🇿🇲' },
+        { code: 'ZWL', name: 'Zimbabwean Dollar', flag: '🇿🇼' }
+    ];
+
+    // Populate currency datalist
+    function populateCurrencies() {
+        const datalist = document.getElementById('currencies');
+        currencies.forEach(currency => {
+            const option = document.createElement('option');
+            option.value = `${currency.flag} ${currency.code} - ${currency.name}`;
+            option.setAttribute('data-code', currency.code);
+            datalist.appendChild(option);
+        });
+    }
+
+    // Initialize currency population
+    populateCurrencies();
+
     // Form Validation
     function validateForm() {
         const errors = [];
@@ -74,7 +223,9 @@ document.addEventListener('DOMContentLoaded', function () {
             font-size: 0.95rem;
         `;
 
-        form.insertBefore(errorDiv, form.firstChild);
+        // form.insertAfter(errorDiv, form.lastChild);
+        // Append the error message at the end of the form
+        form.appendChild(errorDiv);
 
         // Auto-remove error after 5 seconds
         setTimeout(() => {
@@ -105,7 +256,9 @@ document.addEventListener('DOMContentLoaded', function () {
             font-size: 0.95rem;
         `;
 
-        form.insertBefore(successDiv, form.firstChild);
+        // form.insertAfter(successDiv, form.lastChild);
+        // Append the success message at the end of the form
+        form.appendChild(successDiv);
 
         // Auto-remove success after 5 seconds
         setTimeout(() => {
@@ -136,11 +289,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             // Create FormData object
+            // Extract currency code from the selected value
+            const currencyInput = document.getElementById('currency').value;
+            let currencyCode = '';
+            if (currencyInput) {
+                const selectedCurrency = currencies.find(c => `${c.flag} ${c.code} - ${c.name}` === currencyInput);
+                currencyCode = selectedCurrency ? selectedCurrency.code : currencyInput.split(' ')[1]; // Fallback
+            }
+
             const userData = {
                 propertyTitle: document.getElementById('propertyTitle').value,
                 propertyType: document.getElementById('propertyType').value,
                 propertySize: document.getElementById('propertySize').value,
                 monthlyPrice: document.getElementById('monthlyPrice').value,
+                currency: currencyCode,
                 propertyDescription: document.getElementById('propertyDescription').value,
                 propertyCity: document.getElementById('propertyCity').value,
                 propertyAddress: document.getElementById('propertyAddress').value,

@@ -1,2 +1,13 @@
-- [x] Edit views/shop.ejs to use EJS conditional rendering for the add-to-cart button: if user && user.id, render with add-to-cart class and data-id; else, render with onclick to redirect to /login
-- [ ] Test the conditional add-to-cart button behavior
+# TODO: Make Settings Page Local
+
+## Tasks
+- [x] Update settings.ejs to load and save settings from/to localStorage
+- [x] Add automatic detection of region, currency, and language using geolocation and OpenStreetMap Nominatim
+- [x] Remove server-side saving logic (fetch to /api/user/settings)
+- [ ] Test the functionality
+
+## Details
+- On page load, check localStorage for 'userSettings' (object with region, currency, language). If exists, set selects accordingly.
+- If no localStorage, attempt geolocation to detect location, reverse geocode with Nominatim to get country, set region to country code, currency based on country, language to navigator.language.
+- On save button click, save to localStorage and alert success.
+- Remove EJS server-side selected attributes since it's now client-side.

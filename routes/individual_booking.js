@@ -1,4 +1,3 @@
-// Use node-fetch version 3.x which is ESM only, so import dynamically
 const express = require('express');
 const router = express.Router();
 
@@ -104,12 +103,7 @@ const checkAuth = (req, res, next) => {
     }
 };
 
-// Fallback route (redirect to real_estate if no property specified)
-router.get('/', checkAuth, (req, res) => {
-    res.redirect('/real_estate');
-});
-
-// Booking route for specific property
+// Individual Booking Form
 router.get('/:id', checkAuth, async (req, res) => {
     try {
         const propertyId = req.params.id;
@@ -123,16 +117,11 @@ router.get('/:id', checkAuth, async (req, res) => {
         }
 
         const property = normalizeProperty(propertyRaw);
-        const userId = req.session.user.id; // Assuming user ID is stored in session
+        const userId = req.session.user.id;
 
-        // Check if property is already group booked, preventing individual booking
-        const canBookIndividual = property.booking_type !== 'group';
-
-        // console.log(property)
-
-        res.render('bookings', { property, userId, canBookIndividual });
+        res.render('individual_booking', { property, userId });
     } catch (error) {
-        console.error('Error fetching property for booking:', error);
+        console.error('Error fetching property for individual booking:', error);
         res.redirect('/real_estate');
     }
 });

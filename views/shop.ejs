@@ -419,7 +419,7 @@
                                             <div class="product-content">
                                                 <h3 class="product-title"><%= product.name %></h3>
                                                 <p class="product-description"><%- product.description %></p>
-                                                <div class="product-price">$<%= product.price %></div>
+                                                <div class="product-price"><%= product.price %></div>
                                                 <% if (product.units !== undefined) { %>
                                                 <div class="unit-alert <%= product.units >= 21 ? 'green' : (product.units > 5 ? 'yellow' : 'red') %>">
                                                     <%= (product.units <= 20 && product.units > 5) || product.units <= 5 ? '!' : '' %> Units: <%= product.units %> left
@@ -458,6 +458,7 @@
     <script src="/javascript/index.js"></script>
     <script src="/javascript/shop.js"></script>
     <script src="/javascript/cart.js"></script>
+    <script src="/javascript/localization.js"></script>
 </body>
 
 </html>

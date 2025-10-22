@@ -103,7 +103,7 @@
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-dollar-sign"></i>
-                        <h3>$<%= monthlyRevenue %>
+                        <h3><%= monthlyRevenue %> /=
                         </h3>
                         <p>Monthly Revenue</p>
                     </div>
@@ -187,7 +187,7 @@
                                             <%= order.product ? order.product.name : 'Product' %>
                                         </strong>
                                         <p style="color: var(--text-light); margin: 5px 0;">Quantity: <%= order.quantity
-                                                || 1 %> | $<%= order.product ? ((order.product.price || 0) *
+                                                || 1 %> | <%= order.product ? ((order.product.price || 0) *
                                                     (order.quantity || 1)).toFixed(2) : 'N/A' %>
                                         </p>
                                     </div>
@@ -231,7 +231,7 @@
                                         <%= space.description %>
                                     </p>
                                     <div class="space-meta">
-                                        <span class="space-price">$<%= space.price %>/month</span>
+                                        <span class="space-price"><%= space.price %> /= /month</span>
                                         <span class="space-status status-<%= space.status.toLowerCase() %>">
                                             <%= space.status %>
                                         </span>
@@ -290,9 +290,9 @@
                                                         <%= booking.description || 'No description available' %>
                                                     </p>
                                                     <div class="booking-meta">
-                                                        <span class="booking-price">$<%= booking.price %>/month</span>
-                                                        <span class="booking-contribution">Your contribution: $<%=
-                                                                booking.price %></span>
+                                                        <span class="booking-price"><%= booking.price %> /= /month</span>
+                                                        <span class="booking-contribution">Your contribution: <%=
+                                                                booking.price %> /= </span>
                                                     </div>
                                                     <a href="/real_estate/<%= booking.property_id %>"
                                                         class="btn btn-primary view-details">View Details</a>
@@ -346,9 +346,8 @@
                                                         <%= booking.description || 'No description available' %>
                                                     </p>
                                                     <div class="booking-meta">
-                                                        <span class="booking-price">$<%= booking.price %>/month</span>
-                                                        <span class="booking-contribution">Your contribution: $<%=
-                                                                booking.contribution %></span>
+                                                        <span class="booking-price"><%= booking.price %> /= /month</span>
+                                                        <span class="booking-contribution">Your contribution: <%= booking.contribution %> /=</span>
                                                     </div>
                                                     <a href="/real_estate/<%= booking.property_id %>"
                                                         class="btn btn-primary view-details">View Details</a>
@@ -548,15 +547,15 @@
                                                     <p><%- order.product && order.product.description ?
                                                             order.product.description.substring(0, 150) + '...'
                                                             : 'No description available' %></p>
-                                                    <p><strong>Price:</strong> $<%= order.product ? order.product.price
-                                                            : 'N/A' %>
+                                                    <p><strong>Price:</strong> <%= order.product ? order.product.price
+                                                            : 'N/A' %> /=
                                                     </p>
                                                     <p><strong>Quantity:</strong>
                                                         <%= order.quantity || 1 %>
                                                     </p>
-                                                    <p><strong>Total:</strong> $<%= order.product ?
+                                                    <p><strong>Total:</strong> <%= order.product ?
                                                             ((order.product.price || 0) * (order.quantity ||
-                                                            1)).toFixed(2) : 'N/A' %>
+                                                            1)).toFixed(2) : 'N/A' %> /=
                                                     </p>
                                                     <% if (order.shop) { %>
                                                         <p><strong>Location:</strong>
@@ -719,15 +718,15 @@
                                                     <p><%- order.product && order.product.description ?
                                                             order.product.description.substring(0, 150) + '...'
                                                             : 'No description available' %></p>
-                                                    <p><strong>Price:</strong> $<%= order.product ? order.product.price
-                                                            : 'N/A' %>
+                                                    <p><strong>Price:</strong> <%= order.product ? order.product.price
+                                                            : 'N/A' %> /=
                                                     </p>
                                                     <p><strong>Quantity:</strong>
                                                         <%= order.quantity || 1 %>
                                                     </p>
-                                                    <p><strong>Total:</strong> $<%= order.product ?
+                                                    <p><strong>Total:</strong> <%= order.product ?
                                                             ((order.product.price || 0) * (order.quantity ||
-                                                            1)).toFixed(2) : 'N/A' %>
+                                                            1)).toFixed(2) : 'N/A' %> /=
                                                     </p>
                                                     <% if (order.shop) { %>
                                                         <p><strong>Location:</strong>
@@ -805,7 +804,7 @@
                                         </td>
                                         <td
                                             style="padding: 10px; border: 1px solid var(--border-color); color: var(--text-color);">
-                                            $<%= space.price %>
+                                            <%= space.price %> /=
                                         </td>
                                         <td
                                             style="padding: 10px; border: 1px solid var(--border-color); color: var(--text-color);">
@@ -842,7 +841,7 @@
                                         </td>
                                         <td
                                             style="padding: 10px; border: 1px solid var(--border-color); color: var(--text-color);">
-                                            $<%= booking.price %>
+                                            <%= booking.price %> /=
                                         </td>
                                         <td
                                             style="padding: 10px; border: 1px solid var(--border-color); color: var(--text-color);">
@@ -886,8 +885,8 @@
                                         </td>
                                         <td
                                             style="padding: 10px; border: 1px solid var(--border-color); color: var(--text-color);">
-                                            $<%= order.product ? ((order.product.price || 0) * (order.quantity ||
-                                                1)).toFixed(2) : 'N/A' %>
+                                            <%= order.product ? ((order.product.price || 0) * (order.quantity ||
+                                                1)).toFixed(2) : 'N/A' %> /=
                                         </td>
                                         <td
                                             style="padding: 10px; border: 1px solid var(--border-color); color: var(--text-color);">
@@ -1008,6 +1007,7 @@
     </div>
     <script src="/javascript/accessibility.js"></script>
     <script src="/javascript/dashboard.js"></script>
+    <script src="/javascript/localization.js"></script>
 </body>
 
 </html>

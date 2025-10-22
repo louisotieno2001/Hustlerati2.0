@@ -65,13 +65,13 @@
                                     <div class="item-details">
                                         <h3 class="item-title"><%= order.product.title %></h3>
                                         <p class="item-description"><%- order.product.description ? order.product.description.substring(0, 100) + '...' : '' %></p>
-                                        <div class="item-price">$<%= order.product.price %></div>
+                                        <div class="item-price"><%= order.product.price %></div>
                                         <div class="quantity-controls">
                                             <button class="quantity-btn" data-action="decrease" data-order-id="<%= order.id %>">-</button>
                                             <input type="number" class="quantity-input" value="<%= order.quantity || 1 %>" min="1" data-order-id="<%= order.id %>">
                                             <button class="quantity-btn" data-action="increase" data-order-id="<%= order.id %>">+</button>
                                         </div>
-                                        <div class="item-subtotal">Subtotal: $<%= subtotal.toFixed(2) %></div>
+                                        <div class="item-subtotal">Subtotal: <%= subtotal.toFixed(2) %></div>
                                         <button class="btn btn-outline remove-item" data-id="<%= order.id %>">
                                             <i class="fas fa-trash"></i> Remove
                                         </button>
@@ -87,7 +87,7 @@
                             <span>Total Items: <%= totalQuantity %></span>
                         </div>
                         <div class="summary-row total">
-                            <span>Total: $<%= total.toFixed(2) %></span>
+                            <span>Total: <%= total.toFixed(2) %></span>
                         </div>
                         <button class="btn btn-primary checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
                     </div>
@@ -193,5 +193,6 @@
     <script src="/javascript/accessibility.js"></script>
     <script src="/javascript/cart.js"></script>
     <script src="/javascript/index.js"></script>
+    <script src="/javascript/localization.js"></script>
 </body>
 </html>
