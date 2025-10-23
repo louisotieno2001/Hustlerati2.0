@@ -64,6 +64,7 @@ function normalizeProperty(item) {
         lease_terms: item.lease_terms,
         business_size: item.business_size,
         whatsapp_link: item.whatsapp_link,
+        booking_type: item.booking_type,
     };
 }
 
@@ -113,14 +114,11 @@ router.get('/:id', checkAuth, async (req, res) => {
         }
 
         const property = normalizeProperty(propertyRaw);
-        const userId = req.session.user.id; // Assuming user ID is stored in session
+        const userId = req.session.user.id; // Get user ID is stored in session
 
         // Check if property is already group booked, preventing individual booking
         // Allow individual booking if booking_type is empty or not 'group' and not 'group full'
-        const canBookIndividual = !property.booking_type;
-
-        console.log(property)
-        console.log('Can book individual:', canBookIndividual, booking_type);
+        const canBookIndividual = !property.booking_type || (property.booking_type.toLowerCase() !== 'group' && property.booking_type.toLowerCase() !== 'group full');
 
         res.render('bookings', { property, userId, canBookIndividual });
     } catch (error) {
