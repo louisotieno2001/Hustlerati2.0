@@ -165,6 +165,8 @@ const settingsRoute = require('./routes/settings');
 app.use('/settings', settingsRoute);
 const bookSuccessRoute = require('./routes/book_success');
 app.use('/book', checkSession,bookSuccessRoute);
+const paymentGatewayRoutes = require('./routes/payment_gateway');
+app.use('/payment_gateway', paymentGatewayRoutes);
 
 async function registerUser(userData) {
     let res = await query(`/items/users/`, {

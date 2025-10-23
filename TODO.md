@@ -1,13 +1,5 @@
-# TODO: Make Settings Page Local
-
-## Tasks
-- [x] Update settings.ejs to load and save settings from/to localStorage
-- [x] Add automatic detection of region, currency, and language using geolocation and OpenStreetMap Nominatim
-- [x] Remove server-side saving logic (fetch to /api/user/settings)
-- [ ] Test the functionality
-
-## Details
-- On page load, check localStorage for 'userSettings' (object with region, currency, language). If exists, set selects accordingly.
-- If no localStorage, attempt geolocation to detect location, reverse geocode with Nominatim to get country, set region to country code, currency based on country, language to navigator.language.
-- On save button click, save to localStorage and alert success.
-- Remove EJS server-side selected attributes since it's now client-side.
+- [x] Integrate M-Pesa functions from public/javascript/payment_gateway.js into routes/payment_gateway.js
+- [x] Add POST /initiate-mpesa route in routes/payment_gateway.js to handle STK Push initiation
+- [x] Update cart.js to call /initiate-mpesa on form submission when payment method is 'mpesa'
+- [x] Enhance callback handler in routes/payment_gateway.js to complete orders after successful payment
+- [ ] Test the M-Pesa payment flow

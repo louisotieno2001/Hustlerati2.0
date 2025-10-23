@@ -402,23 +402,95 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             try {
-                const response = await fetch('/cart/checkout', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
+                if (paymentMethod === 'mpesa') {
+                    // Initiate M-Pesa payment first
+                    const mpesaPhone = formData.get('mpesaPhone');
+                    const mpesaPayload = {
+                        phoneNumber: mpesaPhone,
+                        amount: total,
+                        accountReference: `Order-${Date.now()}`, // Generate unique reference
+                        transactionDesc: `Payment for order totaling $${total}`
+                    };
 
-                const data = await response.json();
+                    console.log('Initiating M-Pesa payment with payload:', mpesaPayload);
 
-                if (response.ok) {
-                    showNotification('Order placed successfully!', 'success');
-                    setTimeout(() => {
-                        window.location.href = '/dashboard'; // Redirect to dashboard
-                    }, 2000);
+                    const mpesaResponse = await fetch('/payment_gateway/initiate-mpesa', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(mpesaPayload)
+                    });
+
+                    const mpesaData = await mpesaResponse.json();
+
+                    if (!mpesaResponse.ok) {
+                        showNotification(`Failed to initiate M-Pesa payment: ${mpesaData.error || 'Unknown error'}`, 'error');
+                        return;
+                    }
+
+                    // Show waiting message for M-Pesa payment
+                    showNotification('M-Pesa payment initiated. Please check your phone and authorize the payment.', 'info');
+
+                    // Poll for payment completion (in production, use websockets or server-sent events)
+                    const pollForPayment = async () => {
+                        try {
+                            const statusResponse = await fetch('/payment_gateway/payment-status');
+                            const statusData = await statusResponse.json();
+
+                            if (statusData.completed) {
+                                // Payment completed, proceed with order placement
+                                const orderResponse = await fetch('/cart/checkout', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(payload)
+                                });
+
+                                const orderData = await orderResponse.json();
+
+                                if (orderResponse.ok) {
+                                    showNotification('Order placed successfully!', 'success');
+                                    setTimeout(() => {
+                                        window.location.href = '/shop';
+                                    }, 2000);
+                                } else {
+                                    showNotification(`Failed to place order: ${orderData.error || 'Unknown error'}`, 'error');
+                                }
+                            } else if (statusData.failed) {
+                                showNotification('Payment failed. Please try again.', 'error');
+                            } else {
+                                // Continue polling
+                                setTimeout(pollForPayment, 3000); // Poll every 3 seconds
+                            }
+                        } catch (error) {
+                            showNotification('Error checking payment status: ' + error.message, 'error');
+                        }
+                    };
+
+                    // Start polling after a short delay
+                    setTimeout(pollForPayment, 5000);
                 } else {
-                    showNotification(`Failed to place order: ${data.error || 'Unknown error'}`, 'error');
+                    // For other payment methods, proceed directly to checkout
+                    const response = await fetch('/cart/checkout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        showNotification('Order placed successfully!', 'success');
+                        setTimeout(() => {
+                            window.location.href = '/shop'; // Redirect to shop
+                        }, 2000);
+                    } else {
+                        showNotification(`Failed to place order: ${data.error || 'Unknown error'}`, 'error');
+                    }
                 }
             } catch (error) {
                 showNotification('Error placing order: ' + error.message, 'error');
