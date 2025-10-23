@@ -1,3 +1,4 @@
+const bodyParser = require('body-parser');
 const express = require('express');
 const router = express.Router();
 
@@ -115,10 +116,11 @@ router.get('/:id', checkAuth, async (req, res) => {
         const userId = req.session.user.id; // Assuming user ID is stored in session
 
         // Check if property is already group booked, preventing individual booking
-        // Allow individual booking if booking_type is empty or not 'group'
-        const canBookIndividual = !property.booking_type || property.booking_type !== 'group';
+        // Allow individual booking if booking_type is empty or not 'group' and not 'group full'
+        const canBookIndividual = !property.booking_type;
 
-        // console.log(property)
+        console.log(property)
+        console.log('Can book individual:', canBookIndividual, booking_type);
 
         res.render('bookings', { property, userId, canBookIndividual });
     } catch (error) {

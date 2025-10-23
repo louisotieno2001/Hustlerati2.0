@@ -46,9 +46,20 @@
                                         <span>Dedicated support</span>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary btn-large" id="book-individual" data-id="<%= property.id %>" data-price="<%= property.price %>" data-location="<%= property.city %>" data-name="<%= property.title %>" data-description="<%= property.description %>" <%= canBookIndividual ? '' : 'disabled' %>>
-                                        <i class="fas fa-calendar-plus"></i> Book Now
+                                <% if (canBookIndividual) { %>
+                                    <button class="btn btn-primary btn-large" id="book-individual"
+                                        data-id="<%= property.id %>" data-price="<%= property.price %>"
+                                        data-location="<%= property.city %>" data-name="<%= property.title %>"
+                                        data-description="<%= property.description %>" <% if (!canBookIndividual) { %>
+                                        disabled <% } %>>
+                                            <i class="fas fa-calendar-plus"></i> Book Now
                                     </button>
+                                    <% } else { %>
+                                        <button class="btn btn-secondary btn-large" disabled>
+                                            <i class="fas fa-calendar-plus"></i> Individual Booking Unavailable (Group
+                                            Booked)
+                                        </button>
+                                    <% } %>
                             </div>
                         </div>
 
@@ -76,7 +87,9 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-primary btn-large" id="join-shared" data-id="<%= property.id %>"  data-price="<%= property.price %>" data-location="<%= property.city %>" data-name="<%= property.title %>" data-description="<%= property.description %>">
+                                <button class="btn btn-primary btn-large" id="join-shared" data-id="<%= property.id %>"
+                                    data-price="<%= property.price %>" data-location="<%= property.city %>"
+                                    data-name="<%= property.title %>" data-description="<%= property.description %>">
                                     <i class="fas fa-user-plus"></i> Join Shared Booking
                                 </button>
                             </div>
@@ -84,13 +97,13 @@
                     </div>
                 </div>
             </div>
-    </main>
+        </main>
 
-    <%- include('partials/footer') %>
-    <script src="/javascript/bookings.js"></script>
-    <script src="/javascript/index.js"></script>
-    <script src="/javascript/accessibility.js"></script>
-    <script src="/javascript/localization.js"></script>
+        <%- include('partials/footer') %>
+            <script src="/javascript/bookings.js"></script>
+            <script src="/javascript/index.js"></script>
+            <script src="/javascript/accessibility.js"></script>
+            <script src="/javascript/localization.js"></script>
 </body>
 
 </html>
