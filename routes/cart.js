@@ -87,6 +87,7 @@ router.get('/', async (req, res) => {
         const userId = req.session.user ? req.session.user.id : null;
         const pendingOrders = await getPendingOrders(userId);
         const realEstates = await getRealEstates();
+        console.log("Real Estates:", realEstates);
 
         // Fetch product details for each order
         const ordersWithProducts = await Promise.all(

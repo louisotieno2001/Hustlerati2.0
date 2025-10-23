@@ -191,10 +191,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Check for saved theme preference
+    // Set default theme to 'industrial' if not set
     const savedTheme = localStorage.getItem('hustlerati-theme');
     if (savedTheme) {
         document.body.className = savedTheme + '-theme';
+    } else {
+        document.body.className = 'industrial-theme';
+        localStorage.setItem('hustlerati-theme', 'industrial');
     }
 
     // Tab functionality for business solutions

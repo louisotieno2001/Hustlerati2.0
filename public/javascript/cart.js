@@ -405,9 +405,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (paymentMethod === 'mpesa') {
                     // Initiate M-Pesa payment first
                     const mpesaPhone = formData.get('mpesaPhone');
+                    // Format phone number - ensure it starts with 254 and remove any special characters
+                    let formattedPhone = mpesaPhone.replace(/[\s\-\(\)\+]/g, '');
+                    if (formattedPhone.startsWith('0')) {
+                        formattedPhone = '254' + formattedPhone.substring(1);
+                    } else if (!formattedPhone.startsWith('254')) {
+                        formattedPhone = '254' + formattedPhone;
+                    }
+                    
+                    // Convert amount to integer (M-Pesa requires amount in cents/smallest currency unit)
+                    const amountInCents = Math.round(total * 100);
+                    
                     const mpesaPayload = {
-                        phoneNumber: mpesaPhone,
-                        amount: total,
+                        phoneNumber: formattedPhone,
+                        amount: amountInCents,
                         accountReference: `Order-${Date.now()}`, // Generate unique reference
                         transactionDesc: `Payment for order totaling $${total}`
                     };

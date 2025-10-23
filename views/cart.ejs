@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,189 +11,239 @@
     <link rel="stylesheet" href="/stylesheets/cart.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <%- include('partials/header') %>
-    <main class="cart-main">
-        <div class="container">
-            <div class="cart-header">
-                <h1><i class="fas fa-shopping-cart"></i> Your Cart</h1>
-                <a href="/shop" class="btn btn-outline">Continue Shopping</a>
-            </div>
+        <main class="cart-main">
+            <div class="container">
+                <div class="cart-header">
+                    <h1><i class="fas fa-shopping-cart"></i> Your Cart</h1>
+                    <a href="/shop" class="btn btn-outline">Continue Shopping</a>
+                </div>
 
-            <% if (orders && orders.length > 0) { %>
-                <div class="cart-content">
-                    <div class="cart-items">
-                        <% let total = 0; %>
-                        <% orders.forEach(function(order) { %>
-                            <% if (order.product) { %>
-                                <% const subtotal = (order.product.price || 0) * (order.quantity || 1); %>
-                                <% total += subtotal; %>
-                                <div class="cart-item" data-order-id="<%= order.id %>">
-                                    <div class="item-image">
-                                        <div class="image-scroll-container">
-                                        <% if (order.product && order.product.media && order.product.media.length > 0) { %>
-                                            <% order.product.media.forEach(function(media) { %>
-                                                <% const mediaUrl = media.url || `/assets/${media.id}`; %>
-                                                <% const filename = media.filename_download || media.filename_disk || ''; %>
-                                                <% if (filename.endsWith('.mp4') || filename.endsWith('.webm') || filename.endsWith('.ogg') || filename.endsWith('.mov')) { %>
-                                                    <video class="item-media" controls preload="metadata">
-                                                        <source src="<%= mediaUrl %>" type="video/mp4">
-                                                        <source src="<%= mediaUrl %>" type="video/webm">
-                                                        <source src="<%= mediaUrl %>" type="video/ogg">
-                                                        Your browser does not support the video tag.
-                                                    </video>
-                                                <% } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png') || filename.endsWith('.gif') || filename.endsWith('.webp')) { %>
-                                                    <img class="item-media" src="<%= mediaUrl %>" alt="<%= order.product.name %>" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-                                                    <div class="media-fallback" style="display:none;">
-                                                        <i class="fas fa-shopping-cart"></i>
-                                                        <span>Image Preview Unavailable</span>
+                <% if (orders && orders.length> 0) { %>
+                    <div class="cart-content">
+                        <div class="cart-items">
+                            <% let total=0; %>
+                                <% orders.forEach(function(order) { %>
+                                    <% if (order.product) { %>
+                                        <% const subtotal=(order.product.price || 0) * (order.quantity || 1); %>
+                                            <% total +=subtotal; %>
+                                                <div class="cart-item" data-order-id="<%= order.id %>">
+                                                    <div class="item-image">
+                                                        <div class="image-scroll-container">
+                                                            <% if (order.product && order.product.media &&
+                                                                order.product.media.length> 0) { %>
+                                                                <% order.product.media.forEach(function(media) { %>
+                                                                    <% const mediaUrl=media.url ||
+                                                                        `/assets/${media.id}`; %>
+                                                                        <% const filename=media.filename_download ||
+                                                                            media.filename_disk || '' ; %>
+                                                                            <% if (filename.endsWith('.mp4') ||
+                                                                                filename.endsWith('.webm') ||
+                                                                                filename.endsWith('.ogg') ||
+                                                                                filename.endsWith('.mov')) { %>
+                                                                                <video class="item-media" controls
+                                                                                    preload="metadata">
+                                                                                    <source src="<%= mediaUrl %>"
+                                                                                        type="video/mp4">
+                                                                                    <source src="<%= mediaUrl %>"
+                                                                                        type="video/webm">
+                                                                                    <source src="<%= mediaUrl %>"
+                                                                                        type="video/ogg">
+                                                                                    Your browser does not support the
+                                                                                    video tag.
+                                                                                </video>
+                                                                                <% } else if (filename.endsWith('.jpg')
+                                                                                    || filename.endsWith('.jpeg') ||
+                                                                                    filename.endsWith('.png') ||
+                                                                                    filename.endsWith('.gif') ||
+                                                                                    filename.endsWith('.webp')) { %>
+                                                                                    <img class="item-media"
+                                                                                        src="<%= mediaUrl %>"
+                                                                                        alt="<%= order.product.name %>"
+                                                                                        loading="lazy"
+                                                                                        onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                                                                                    <div class="media-fallback"
+                                                                                        style="display:none;">
+                                                                                        <i
+                                                                                            class="fas fa-shopping-cart"></i>
+                                                                                        <span>Image Preview
+                                                                                            Unavailable</span>
+                                                                                    </div>
+                                                                                    <% } else { %>
+                                                                                        <div class="media-fallback">
+                                                                                            <i
+                                                                                                class="fas fa-shopping-cart"></i>
+                                                                                            <span>Product Preview</span>
+                                                                                        </div>
+                                                                                        <% } %>
+                                                                                            <% }); %>
+                                                                                                <% } else { %>
+                                                                                                    <div
+                                                                                                        class="media-fallback">
+                                                                                                        <i
+                                                                                                            class="fas fa-shopping-bag"></i>
+                                                                                                        <span>Product
+                                                                                                            Item</span>
+                                                                                                    </div>
+                                                                                                    <% } %>
+                                                        </div>
                                                     </div>
-                                                <% } else { %>
-                                                    <div class="media-fallback">
-                                                        <i class="fas fa-shopping-cart"></i>
-                                                        <span>Product Preview</span>
+                                                    <div class="item-details">
+                                                        <h3 class="item-title">
+                                                            <%= order.product.title %>
+                                                        </h3>
+                                                        <p class="item-description"><%- order.product.description ?
+                                                                order.product.description.substring(0, 100) + '...' : ''
+                                                                %></p>
+                                                        <div class="item-price">
+                                                            <%= order.product.price %>
+                                                        </div>
+                                                        <div class="quantity-controls">
+                                                            <button class="quantity-btn" data-action="decrease"
+                                                                data-order-id="<%= order.id %>">-</button>
+                                                            <input type="number" class="quantity-input"
+                                                                value="<%= order.quantity || 1 %>" min="1"
+                                                                data-order-id="<%= order.id %>">
+                                                            <button class="quantity-btn" data-action="increase"
+                                                                data-order-id="<%= order.id %>">+</button>
+                                                        </div>
+                                                        <div class="item-subtotal">Subtotal: <%= subtotal.toFixed(2) %>
+                                                        </div>
+                                                        <button class="btn btn-outline remove-item"
+                                                            data-id="<%= order.id %>">
+                                                            <i class="fas fa-trash"></i> Remove
+                                                        </button>
                                                     </div>
+                                                </div>
                                                 <% } %>
-                                            <% }); %>
-                                        <% } else { %>
-                                            <div class="media-fallback">
-                                                <i class="fas fa-shopping-bag"></i>
-                                                <span>Product Item</span>
-                                            </div>
-                                        <% } %>
+                                                    <% }); %>
+                        </div>
+
+                        <div class="cart-summary">
+                            <h3>Order Summary</h3>
+                            <div class="summary-row">
+                                <span>Total Items: <%= totalQuantity %></span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total: <%= total.toFixed(2) %></span>
+                            </div>
+                            <button class="btn btn-primary checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+                        </div>
+
+                        <div class="checkout-section" id="checkoutSection" style="display: none;">
+                            <h3>Checkout Details</h3>
+                            <form class="checkout-form" id="checkoutForm">
+                                <div class="form-group">
+                                    <label for="deliveryLocation">Delivery Location</label>
+                                    <select id="deliveryLocation" name="deliveryLocation" required>
+                                        <option value="">Select delivery location</option>
+                                        <% if (realEstates && realEstates.length> 0) { %>
+                                            <% realEstates.forEach(function(estate) { %>
+                                                <option value="<%= estate.id %>"
+                                                    data-map-location="<%= estate.map_location || '' %>">
+                                                    <%= estate.title %>
+                                                </option>
+                                                <% }); %>
+                                                    <% } %>
+                                    </select>
+
+                                    <div id="mapLinkContainer" style="display: none; margin-top: 8px;">
+                                        <a id="viewInMapLink" href="#" target="_blank" class="btn btn-outline btn-sm">
+                                            <i class="fas fa-map-marker-alt"></i> View in Map
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="paymentMethod">Payment Method</label>
+                                    <select id="paymentMethod" name="paymentMethod" required>
+                                        <option value="">Select payment method</option>
+                                        <option value="card">Card</option>
+                                        <option value="paypal">PayPal</option>
+                                        <option value="bitcoin">Bitcoin</option>
+                                        <option value="mpesa">M-Pesa</option>
+                                    </select>
+                                </div>
+
+                                <!-- Card Payment Fields -->
+                                <div id="cardFields" class="payment-fields" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="cardNumber">Card Number</label>
+                                        <input type="text" id="cardNumber" name="cardNumber"
+                                            placeholder="1234 5678 9012 3456" maxlength="19">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group half">
+                                            <label for="expiryDate">Expiry Date</label>
+                                            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY"
+                                                maxlength="5">
+                                        </div>
+                                        <div class="form-group half">
+                                            <label for="cvv">CVV</label>
+                                            <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4">
                                         </div>
                                     </div>
-                                    <div class="item-details">
-                                        <h3 class="item-title"><%= order.product.title %></h3>
-                                        <p class="item-description"><%- order.product.description ? order.product.description.substring(0, 100) + '...' : '' %></p>
-                                        <div class="item-price"><%= order.product.price %></div>
-                                        <div class="quantity-controls">
-                                            <button class="quantity-btn" data-action="decrease" data-order-id="<%= order.id %>">-</button>
-                                            <input type="number" class="quantity-input" value="<%= order.quantity || 1 %>" min="1" data-order-id="<%= order.id %>">
-                                            <button class="quantity-btn" data-action="increase" data-order-id="<%= order.id %>">+</button>
-                                        </div>
-                                        <div class="item-subtotal">Subtotal: <%= subtotal.toFixed(2) %></div>
-                                        <button class="btn btn-outline remove-item" data-id="<%= order.id %>">
-                                            <i class="fas fa-trash"></i> Remove
-                                        </button>
+                                    <div class="form-group">
+                                        <label for="cardName">Name on Card</label>
+                                        <input type="text" id="cardName" name="cardName" placeholder="John Doe">
                                     </div>
                                 </div>
-                            <% } %>
-                        <% }); %>
-                    </div>
 
-                    <div class="cart-summary">
-                        <h3>Order Summary</h3>
-                        <div class="summary-row">
-                            <span>Total Items: <%= totalQuantity %></span>
+                                <!-- PayPal Fields -->
+                                <div id="paypalFields" class="payment-fields" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="paypalEmail">PayPal Email</label>
+                                        <input type="email" id="paypalEmail" name="paypalEmail"
+                                            placeholder="your@email.com">
+                                    </div>
+                                </div>
+
+                                <!-- Bitcoin Fields -->
+                                <div id="bitcoinFields" class="payment-fields" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="bitcoinAddress">Bitcoin Wallet Address</label>
+                                        <input type="text" id="bitcoinAddress" name="bitcoinAddress"
+                                            placeholder="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">
+                                    </div>
+                                </div>
+
+                                <!-- M-Pesa Fields -->
+                                <div id="mpesaFields" class="payment-fields" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="mpesaPhone">M-Pesa Phone Number</label>
+                                        <input type="tel" id="mpesaPhone" name="mpesaPhone"
+                                            placeholder="+254 712 345 678" pattern="\+?[0-9\s\-\(\)]+">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="deliveryAddress">Delivery Address</label>
+                                    <input type="text" id="deliveryAddress" name="deliveryAddress"
+                                        placeholder="Enter your delivery address" required>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-outline" id="backToCart">Back to Cart</button>
+                                    <button type="submit" class="btn btn-primary">Place Order</button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="summary-row total">
-                            <span>Total: <%= total.toFixed(2) %></span>
+                    </div>
+                    <% } else { %>
+                        <div class="empty-cart">
+                            <i class="fas fa-shopping-cart" style="font-size: 4rem; color: #ccc;"></i>
+                            <h2>Your cart is empty</h2>
+                            <p>Add some products to get started.</p>
+                            <a href="/shop" class="btn btn-primary">Shop Now</a>
                         </div>
-                        <button class="btn btn-primary checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
-                    </div>
-
-                    <div class="checkout-section" id="checkoutSection" style="display: none;">
-                        <h3>Checkout Details</h3>
-                        <form class="checkout-form" id="checkoutForm">
-                            <div class="form-group">
-                                <label for="deliveryLocation">Delivery Location</label>
-                                <select id="deliveryLocation" name="deliveryLocation" required>
-                                    <option value="">Select delivery location</option>
-                                    <% if (realEstates && realEstates.length > 0) { %>
-                                        <% realEstates.forEach(function(estate) { %>
-                                            <option value="<%= estate.id %>" data-map-location="<%= estate.map_location || '' %>"><%= estate.title %></option>
-                                        <% }); %>
-                                    <% } %>
-                                </select>
-                                <div id="mapLinkContainer" style="display: none; margin-top: 8px;">
-                                    <a id="viewInMapLink" href="#" target="_blank" class="btn btn-outline btn-sm">
-                                        <i class="fas fa-map-marker-alt"></i> View in Map
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="paymentMethod">Payment Method</label>
-                                <select id="paymentMethod" name="paymentMethod" required>
-                                    <option value="">Select payment method</option>
-                                    <option value="card">Card</option>
-                                    <option value="paypal">PayPal</option>
-                                    <option value="bitcoin">Bitcoin</option>
-                                    <option value="mpesa">M-Pesa</option>
-                                </select>
-                            </div>
-
-                            <!-- Card Payment Fields -->
-                            <div id="cardFields" class="payment-fields" style="display: none;">
-                                <div class="form-group">
-                                    <label for="cardNumber">Card Number</label>
-                                    <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group half">
-                                        <label for="expiryDate">Expiry Date</label>
-                                        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" maxlength="5">
-                                    </div>
-                                    <div class="form-group half">
-                                        <label for="cvv">CVV</label>
-                                        <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="cardName">Name on Card</label>
-                                    <input type="text" id="cardName" name="cardName" placeholder="John Doe">
-                                </div>
-                            </div>
-
-                            <!-- PayPal Fields -->
-                            <div id="paypalFields" class="payment-fields" style="display: none;">
-                                <div class="form-group">
-                                    <label for="paypalEmail">PayPal Email</label>
-                                    <input type="email" id="paypalEmail" name="paypalEmail" placeholder="your@email.com">
-                                </div>
-                            </div>
-
-                            <!-- Bitcoin Fields -->
-                            <div id="bitcoinFields" class="payment-fields" style="display: none;">
-                                <div class="form-group">
-                                    <label for="bitcoinAddress">Bitcoin Wallet Address</label>
-                                    <input type="text" id="bitcoinAddress" name="bitcoinAddress" placeholder="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">
-                                </div>
-                            </div>
-
-                            <!-- M-Pesa Fields -->
-                            <div id="mpesaFields" class="payment-fields" style="display: none;">
-                                <div class="form-group">
-                                    <label for="mpesaPhone">M-Pesa Phone Number</label>
-                                    <input type="tel" id="mpesaPhone" name="mpesaPhone" placeholder="+254 712 345 678" pattern="\+?[0-9\s\-\(\)]+">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="deliveryAddress">Delivery Address</label>
-                                <input type="text" id="deliveryAddress" name="deliveryAddress" placeholder="Enter your delivery address" required>
-                            </div>
-                            <div class="form-actions">
-                                <button type="button" class="btn btn-outline" id="backToCart">Back to Cart</button>
-                                <button type="submit" class="btn btn-primary">Place Order</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            <% } else { %>
-                <div class="empty-cart">
-                    <i class="fas fa-shopping-cart" style="font-size: 4rem; color: #ccc;"></i>
-                    <h2>Your cart is empty</h2>
-                    <p>Add some products to get started.</p>
-                    <a href="/shop" class="btn btn-primary">Shop Now</a>
-                </div>
-            <% } %>
-        </div>
-    </main>
-    <%- include('partials/footer') %>
-    <script src="/javascript/accessibility.js"></script>
-    <script src="/javascript/cart.js"></script>
-    <script src="/javascript/index.js"></script>
-    <script src="/javascript/localization.js"></script>
+                        <% } %>
+            </div>
+        </main>
+        <%- include('partials/footer') %>
+            <script src="/javascript/accessibility.js"></script>
+            <script src="/javascript/cart.js"></script>
+            <script src="/javascript/index.js"></script>
+            <script src="/javascript/localization.js"></script>
 </body>
+
 </html>
