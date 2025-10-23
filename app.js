@@ -163,7 +163,8 @@ const individualBookRoute = require('./routes/individual_booking');
 app.use('/individual-booking', checkSession,individualBookRoute)
 const settingsRoute = require('./routes/settings');
 app.use('/settings', settingsRoute);
-
+const bookSuccessRoute = require('./routes/book_success');
+app.use('/book', checkSession,bookSuccessRoute);
 
 async function registerUser(userData) {
     let res = await query(`/items/users/`, {
@@ -282,7 +283,7 @@ app.post('/submit-estate', async (req, res) => {
         const requiredFields = [
             'propertyTitle', 'propertyType', 'propertySize', 'monthlyPrice',
             'propertyDescription', 'propertyCity', 'propertyAddress', 'propertyZipCode',
-            'spaceType', 'leaseTerms', 'availability', 'contactName', 'contactPhone', 'contactEmail'
+            'spaceType', 'leaseTerms', 'availability', 'contactName', 'contactPhone', 'contactEmail', 'currency'
         ];
 
         const missingFields = requiredFields.filter(field => !data[field]);
@@ -293,7 +294,7 @@ app.post('/submit-estate', async (req, res) => {
             });
         }
 
-        // Prepare property data for Directus without images
+        // Prepare property data for Directus 
         const propertyData = {
             title: data.propertyTitle,
             property_type: data.propertyType,
@@ -314,7 +315,8 @@ app.post('/submit-estate', async (req, res) => {
             date_updated: new Date().toISOString(),
             contact_name: data.contactName,
             contact_phone: data.contactPhone,
-            contact_email: data.contactEmail
+            contact_email: data.contactEmail,
+            currency: data.currency
         };
 
         const response = await uploadRealEstate(propertyData);
@@ -411,7 +413,7 @@ app.post('/book', checkSession, async (req, res) => {
         const bookStatus = await updateBookStatus(userData)
 
         // console.log(newBooking)
-        return res.status(200).json({ message: 'Success' });
+        return res.redirect('/book');
     } catch (error) {
         console.error('Error processing booking:', error);
         res.status(500).json({ error: 'Internal server error' });

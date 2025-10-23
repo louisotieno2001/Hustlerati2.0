@@ -1,4 +1,3 @@
-// Use node-fetch version 3.x which is ESM only, so import dynamically
 const express = require('express');
 const router = express.Router();
 
@@ -24,15 +23,6 @@ async function query(path, config) {
 }
 
 // Utility functions for normalization
-function toSlug(value) {
-    return (value || '')
-        .toString()
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-}
-
 function normalizeToArray(value) {
     if (Array.isArray(value)) return value;
     if (typeof value === 'string') {
@@ -59,7 +49,6 @@ function normalizeProperty(item) {
         price: Number.isFinite(priceNum) ? priceNum : 0,
         size: Number.isFinite(sizeNum) ? sizeNum : 0,
         location: item.location || '',
-        city: toSlug(item.city || item.location || ''),
         spaceType: (item.space_type || item.spaceType || '').toString().toLowerCase(),
         amenities: normalizeToArray(item.amenities),
         leaseTerms: (item.lease_terms || item.leaseTerms || '').toString().toLowerCase(),
@@ -126,7 +115,8 @@ router.get('/:id', checkAuth, async (req, res) => {
         const userId = req.session.user.id; // Assuming user ID is stored in session
 
         // Check if property is already group booked, preventing individual booking
-        const canBookIndividual = property.booking_type !== 'group';
+        // Allow individual booking if booking_type is empty or not 'group'
+        const canBookIndividual = !property.booking_type || property.booking_type !== 'group';
 
         // console.log(property)
 

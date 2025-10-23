@@ -320,6 +320,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 amenities: Array.from(document.querySelectorAll('input[name="amenities"]:checked')).map(cb => cb.value)
             };
 
+            console.log('Submitting data:', userData);
+
             const response = await fetch('/submit-estate', {
                 method: 'POST',
                 headers: {

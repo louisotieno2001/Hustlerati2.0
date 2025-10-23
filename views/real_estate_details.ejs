@@ -35,8 +35,8 @@
                                     <span><%= property.location || 'Location not specified' %></span>
                                 </div>
                                 <div class="property-price">
-                                    <span class="price-amount">$<%= Number(property.price || 0).toLocaleString() %></span>
-                                    <span class="price-period">/month</span>
+                                    <span class="price-amount"><%= Number(property.price || 0).toLocaleString() %> <%= property.currency %></span>
+                                    <span class="price-period">/<%= property.lease_terms %></span>
                                 </div>
                             </div>
                         </div>

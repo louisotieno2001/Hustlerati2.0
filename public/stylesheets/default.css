@@ -5213,6 +5213,20 @@ kbd {
     transition-duration: 0.01ms !important;
 }
 
+.individual-booking-main {
+    margin-top: 100px;
+    min-height: calc(100vh - 80px);
+    background-color: var(--background-color);
+    padding: 40px 0;
+}
+
+.group-booking-main {
+    margin-top: 100px;
+    min-height: calc(100vh - 80px);
+    background-color: var(--background-color);
+    padding: 40px 0;
+}
+
 /* Responsive Styles for Accessibility Page */
 @media (max-width: 768px) {
     .accessibility-hero h1 {

@@ -409,8 +409,11 @@
                                         <span>property Article</span>
                                     </div>
                                 <% } %> 
-                                        <div class="property-badge"><%= property.badge %></div>
-                                        <div class="property-badge booking-type-badge"><%= property.booking_type %></div>
+                                <div class="badges">
+                                    <div class="property-badge"><%= property.badge %></div>
+                                    <div class="booking-type-badge"><%= property.booking_type %></div>
+                                </div>
+
                                     </div>
                                     <div class="property-content">
                                         <div class="property-header">
@@ -421,7 +424,7 @@
                                                     <%= property.location %>
                                                 </div>
                                             </div>
-                                            <div class="property-price">$<%= property.price.toLocaleString() %>/mo</div>
+                                            <div class="property-price"><%= property.price.toLocaleString() %> <%= property.currency %> /<%= property.lease_terms %></div>
                                         </div>
                                         <div class="property-details">
                                             <div class="property-detail">
@@ -456,22 +459,6 @@
                                 <p>Try adjusting your filters or search criteria</p>
                             </div>
                         <% } %>
-                    </div>
-
-                    <div class="pagination">
-                        <button class="pagination-btn" id="prevPage">
-                            <i class="fas fa-chevron-left"></i> Previous
-                        </button>
-                        <div class="page-numbers">
-                            <span class="page-number active">1</span>
-                            <span class="page-number">2</span>
-                            <span class="page-number">3</span>
-                            <span class="page-dots">...</span>
-                            <span class="page-number">10</span>
-                        </div>
-                        <button class="pagination-btn" id="nextPage">
-                            Next <i class="fas fa-chevron-right"></i>
-                        </button>
                     </div>
                 </section>
             </div>

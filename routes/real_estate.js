@@ -90,7 +90,8 @@ function normalizeProperty(item) {
         property_type: item.property_type,
         space_type: item.space_type,
         lease_terms: item.lease_terms,
-        business_size: item.business_size
+        business_size: item.business_size,
+        currency: item.currency 
     };
 }
 
