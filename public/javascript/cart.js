@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Get total from DOM
             const totalElement = document.querySelector('.summary-row.total span');
-            const totalText = totalElement ? totalElement.textContent.replace('Total: $', '') : '0';
+            const totalText = totalElement ? totalElement.textContent.replace('Total: ', '') : '0';
             const total = parseFloat(totalText) || 0;
 
             // Get map location from selected delivery location
@@ -420,7 +420,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         phoneNumber: formattedPhone,
                         amount: amountInCents,
                         accountReference: `Order-${Date.now()}`, // Generate unique reference
-                        transactionDesc: `Payment for order totaling $${total}`
+                        transactionDesc: `Payment for order totaling ${total}`
                     };
 
                     console.log('Initiating M-Pesa payment with payload:', mpesaPayload);
@@ -528,7 +528,7 @@ function updateCartTotals(orderId, newQuantity) {
 
     // Calculate new subtotal
     const newSubtotal = price * newQuantity;
-    subtotalElement.textContent = `Subtotal: $${newSubtotal.toFixed(2)}`;
+    subtotalElement.textContent = `Subtotal: ${newSubtotal.toFixed(2)}`;
 
     // Update total items and total price
     updateOverallTotals();
@@ -563,7 +563,7 @@ function updateOverallTotals() {
     // Update total price display
     const totalPriceElement = document.querySelector('.summary-row.total span');
     if (totalPriceElement) {
-        totalPriceElement.textContent = `Total: $${totalPrice.toFixed(2)}`;
+        totalPriceElement.textContent = `Total: ${totalPrice.toFixed(2)}`;
     }
 
     // Check if cart is empty and show empty cart message

@@ -94,10 +94,10 @@ router.get('/', async (req, res) => {
                 const url = media.directus_files_id && media.directus_files_id.data && media.directus_files_id.data.url
                     ? (media.directus_files_id.data.url.startsWith('http') ? media.directus_files_id.data.url : directusUrl + media.directus_files_id.data.url)
                     : `/assets/${id || media.id}`;
-                console.log(`Product ${product.name} media URL: ${url}`);
+                // console.log(`Product ${product.name} media URL: ${url}`);
             });
         } else {
-            console.log(`Product ${product.name} has no media`);
+            // console.log(`Product ${product.name} has no media`);
         }
     });
 

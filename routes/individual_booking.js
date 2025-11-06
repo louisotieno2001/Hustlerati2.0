@@ -67,12 +67,12 @@ function normalizeProperty(item) {
         description: item.description || '',
         image: imageHtml,
         badge: item.badge || '',
-        // Keep original fields for details page
         property_type: item.property_type,
         space_type: item.space_type,
         lease_terms: item.lease_terms,
         business_size: item.business_size,
         whatsapp_link: item.whatsapp_link,
+        currency: item.currency,
     };
 }
 

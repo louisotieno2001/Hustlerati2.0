@@ -73,6 +73,7 @@ function normalizeProperty(item) {
         lease_terms: item.lease_terms,
         business_size: item.business_size,
         whatsapp_link: item.whatsapp_link,
+        currency: item.currency,
     };
 }
 
