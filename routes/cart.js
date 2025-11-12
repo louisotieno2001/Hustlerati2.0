@@ -47,16 +47,51 @@ async function getPendingOrders(userId = null) {
 
 async function getProductDetails(productId) {
     try {
-        const response = await query(`/items/shop/${productId}`, {
+        // Fetch the product
+        const productResponse = await query(`/items/shop/${productId}`, {
             method: 'GET'
         });
 
-        if (response.ok) {
-            const productData = await response.json();
-            return productData.data;
-        } else {
+        if (!productResponse.ok) {
             return null;
         }
+
+        const productData = await productResponse.json();
+        const product = productData.data;
+
+        // Fetch media files from shop_files
+        const mediaResponse = await query(`/items/shop_files?filter[shop_id][_eq]=${productId}&fields=directus_files_id`, {
+            method: 'GET'
+        });
+
+        if (mediaResponse.ok) {
+            const mediaData = await mediaResponse.json();
+            const fileIds = mediaData.data.map(junction => junction.directus_files_id).filter(Boolean);
+
+            if (fileIds.length > 0) {
+                const mediaPromises = fileIds.map(async (fileId) => {
+                    const fileResponse = await query(`/files/${fileId}`, {
+                        method: 'GET'
+                    });
+                    if (fileResponse.ok) {
+                        const fileData = await fileResponse.json();
+                        const file = fileData.data;
+                        file.url = `/shop/proxy/assets/${fileId}`;
+                        return file;
+                    } else {
+                        return null;
+                    }
+                });
+                const mediaResults = await Promise.all(mediaPromises);
+                product.media = mediaResults.filter(Boolean);
+            } else {
+                product.media = [];
+            }
+        } else {
+            product.media = [];
+        }
+
+        return product;
     } catch (error) {
         console.error('Error fetching product:', error);
         return null;

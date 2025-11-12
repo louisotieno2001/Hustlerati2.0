@@ -36,7 +36,7 @@
                                                                 order.product.media.length> 0) { %>
                                                                 <% order.product.media.forEach(function(media) { %>
                                                                     <% const mediaUrl=media.url ||
-                                                                        `/assets/${media.id}`; %>
+                                                                        `/shop/proxy/assets/${media.id}`; %>
                                                                         <% const filename=media.filename_download ||
                                                                             media.filename_disk || '' ; %>
                                                                             <% if (filename.endsWith('.mp4') ||

@@ -386,7 +386,7 @@
                                                 <div class="image-scroll-container">
                                                 <% if (product.media && product.media.length > 0) { %>
                                                     <% product.media.forEach(function(media) { %>
-                                                        <% const mediaUrl = media.url || `/assets/${media.id}`; %>
+                                                        <% const mediaUrl = media.url || `/shop/proxy/assets/${media.id}`; %>
                                                         <% const filename = media.filename_download || media.filename_disk || ''; %>
                                                         <% if (filename.endsWith('.mp4') || filename.endsWith('.webm') || filename.endsWith('.ogg') || filename.endsWith('.mov')) { %>
                                                             <video class="product-media" controls preload="metadata">

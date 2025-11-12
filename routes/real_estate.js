@@ -56,10 +56,10 @@ function normalizeProperty(item) {
     // Handle media normalization separately
     if (item.media) {
         if (typeof item.media === 'object' && item.media !== null) {
-            if (item.media.full_url || item.media.id) {
+            if (item.media.id) {
                 normalized.media = {
                     id: item.media.id,
-                    url: item.media.full_url ? `${url}${item.media.full_url}` : null,
+                    url: item.media.full_url ? `${url}${item.media.full_url}` : `/real_estate/proxy/assets/${item.media.id}`,
                     filename_disk: item.media.filename_disk,
                     filename_download: item.media.filename_download,
                     type: item.media.type,
@@ -68,7 +68,7 @@ function normalizeProperty(item) {
                 };
             }
         } else if (typeof item.media === 'string' && item.media.length > 0) {
-            normalized.media = { id: item.media };
+            normalized.media = { id: item.media, url: `/real_estate/proxy/assets/${item.media}` };
         }
     }
 
@@ -155,6 +155,26 @@ router.get('/:id', async (req, res) => {
             property: null,
             error: 'Failed to load property details'
         });
+    }
+});
+
+// Proxy route for assets to handle authentication
+router.get('/proxy/assets/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const response = await query(`/assets/${id}`, { method: 'GET' });
+
+        if (response.ok) {
+            const buffer = await response.arrayBuffer();
+            const contentType = response.headers.get('content-type') || 'application/octet-stream';
+            res.set('Content-Type', contentType);
+            res.send(Buffer.from(buffer));
+        } else {
+            res.status(response.status).send('Asset not found');
+        }
+    } catch (error) {
+        console.error('Error proxying asset:', error);
+        res.status(500).send('Internal server error');
     }
 });
 
