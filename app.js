@@ -381,6 +381,7 @@ async function updateBookStatus(userData) {
 // POST route to handle booking
 app.post('/book', checkSession, async (req, res) => {
     try {
+        console.log('Booking submission data:', req.body);
         const { type, propertyId, propertyDescription, propertyPrice, price, propertyName, propertyLocation } = req.body;
         const userId = req.session.user.id;
 

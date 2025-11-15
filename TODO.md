@@ -1,5 +1,2 @@
-- [x] Integrate M-Pesa functions from public/javascript/payment_gateway.js into routes/payment_gateway.js
-- [x] Add POST /initiate-mpesa route in routes/payment_gateway.js to handle STK Push initiation
-- [x] Update cart.js to call /initiate-mpesa on form submission when payment method is 'mpesa'
-- [x] Enhance callback handler in routes/payment_gateway.js to complete orders after successful payment
-- [ ] Test the M-Pesa payment flow
+- [x] Update views/individual_booking.ejs: Change contribution input to type="text", add currency select, add hidden propertyCurrency, update hints and error messages, add converted amount display.
+- [x] Update public/javascript/individual_booking.js: Add exchange rate fetching, conversion to property.currency, validation, concatenation on submit.
