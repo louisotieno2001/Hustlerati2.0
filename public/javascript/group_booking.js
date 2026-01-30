@@ -62,19 +62,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateConvertedAmount();
     });
 
-    form.addEventListener('submit', function(event) {
-        if (!validateContribution()) {
-            event.preventDefault();
-            contributionInput.focus();
-            return;
-        }
-        // Concatenate amount and currency
-        const amount = parseFloat(contributionInput.value) || 0;
-        const currency = currencySelect.value;
-        const concatenatedPrice = `${amount} ${currency}`;
-        contributionInput.value = concatenatedPrice; // Set the concatenated value to the input
-    });
-
     contributionInput.addEventListener('input', function() {
         validateContribution();
     });
@@ -193,20 +180,31 @@ document.addEventListener('DOMContentLoaded', function() {
         if (paymentMethodValue === 'mpesa') {
             event.preventDefault(); // Prevent default form submission
             initiateMpesaPayment();
+        } else {
+            // Set the converted USD amount to the hidden price field for non-M-Pesa payments
+            const amount = parseFloat(contributionInput.value) || 0;
+            const currency = currencySelect.value;
+            const usdAmount = convertToUSD(amount, currency);
+            document.getElementById('price').value = usdAmount.toFixed(2);
         }
     });
 
     // Function to initiate M-Pesa payment
     async function initiateMpesaPayment() {
         const mpesaPhone = document.getElementById('mpesaPhone').value;
+        // Use the original contribution amount for M-Pesa payment prompt
         const amount = parseFloat(contributionInput.value) || 0;
         const currency = currencySelect.value;
 
-        // Convert amount to USD for M-Pesa (assuming M-Pesa is in KES)
+        // Convert amount to KES for M-Pesa (since M-Pesa operates in KES)
         let paymentAmount = amount;
-        if (currency !== 'USD') {
+        if (currency !== 'KES') {
             if (exchangeRates[currency]) {
-                paymentAmount = amount / exchangeRates[currency];
+                // Convert to USD first, then to KES
+                const usdAmount = amount / exchangeRates[currency];
+                if (exchangeRates['KES']) {
+                    paymentAmount = usdAmount * exchangeRates['KES'];
+                }
             }
         }
 

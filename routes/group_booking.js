@@ -138,6 +138,7 @@ router.post('/', checkAuth, async (req, res) => {
             propertyLocation,
             propertyPrice,
             propertyDescription,
+            contribution,
             price,
             currency,
             paymentMethod,
@@ -151,8 +152,14 @@ router.post('/', checkAuth, async (req, res) => {
         } = req.body;
 
         // Validate required fields
-        if (!propertyId || !price || !currency || !paymentMethod) {
+        if (!propertyId || !contribution || !price || !currency || !paymentMethod) {
             return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        // Validate that the price is in USD and at least $20
+        const priceNum = parseFloat(price);
+        if (isNaN(priceNum) || priceNum < 20) {
+            return res.status(400).json({ error: 'Minimum contribution is USD $20' });
         }
 
         // Validate payment method specific fields
@@ -187,8 +194,10 @@ router.post('/', checkAuth, async (req, res) => {
             user_id: userId,
             property_id: propertyId,
             type: type || 'group',
-            contribution_amount: price,
-            currency: currency,
+            original_contribution: contribution,
+            original_currency: currency,
+            contribution_amount: priceNum, // This is the converted USD amount
+            currency: 'USD', // Always store the converted amount in USD
             payment_method: paymentMethod,
             status: 'confirmed', // Assuming payment is successful for non-Mpesa or already verified for Mpesa
             created_at: new Date().toISOString(),

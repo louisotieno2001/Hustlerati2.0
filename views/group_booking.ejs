@@ -39,7 +39,8 @@
 
                     <div class="form-group">
                         <label for="contribution">Your Contribution Amount</label>
-                        <input type="text" id="contribution" name="price" step="0.01" required>
+                        <input type="number" id="contribution" name="contribution" step="0.01" required>
+                        <input type="hidden" id="price" name="price" value="">
                         <label for="currency">Currency</label>
                         <select id="currency" name="currency" required>
                             <option value="USD">USD - US Dollar</option>

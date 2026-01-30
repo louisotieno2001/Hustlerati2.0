@@ -42,6 +42,20 @@ This document tracks the implementation of a general error page that handles all
   - Error rendering with appropriate HTTP status codes
   - Development mode stack traces (hidden in production)
 
+### ✅ 4. Fix Group Booking Currency Conversion
+- **Files:** 
+  - `views/group_booking.ejs`
+  - `public/javascript/group_booking.js`
+  - `routes/group_booking.js`
+- **Status:** Completed
+- **Issue Fixed:**
+  - Previously, the contribution amount entered by users was concatenated with currency and sent as-is for payment
+  - Now, the contribution is properly converted to USD using exchange rates before being sent for payment
+  - Added hidden `price` field to store the converted USD amount
+  - The original contribution and currency are saved as `original_contribution` and `original_currency`
+  - The converted USD amount is stored as `contribution_amount` with currency `'USD'`
+  - Backend validation ensures the converted USD amount is at least $20
+
 ## How to Test
 
 1. **Test 404 Error:**
@@ -53,14 +67,13 @@ This document tracks the implementation of a general error page that handles all
 3. **Test 503/502 Error:**
    This typically occurs when the backend/Directus is not available.
 
+4. **Test Group Booking Currency Conversion:**
+   - Go to a property and start a group booking
+   - Enter a contribution amount in a currency other than USD
+   - Verify that the USD equivalent is calculated and shown
+   - Submit the form and verify the payment uses the USD amount
+
 ## Configuration
 
 The error page shows detailed error information only when `NODE_ENV` is not set to 'production'. In production, only the user-friendly message is displayed.
-
-## Future Improvements
-
-- Add email notification for critical errors
-- Implement error rate limiting
-- Add error tracking integration (Sentry, etc.)
-- Create custom error pages for specific business logic errors
 
