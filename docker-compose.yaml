@@ -24,7 +24,7 @@ services:
       - .env
     extra_hosts:
       - "hustlerati.com:host-gateway"
-    environment:
+    environment:                                                                                                                                                                
       DB_TYPE: postgres  # Specify the database type
       DB_DATABASE: ${DB_DATABASE}
       DB_USER: ${DB_USER}
@@ -58,7 +58,7 @@ services:
       - "127.0.0.1:3005:3005"
 
 networks:
-  hustlerati:
+  hustlerati:                                                                                
     driver: bridge
     ipam:
       config:

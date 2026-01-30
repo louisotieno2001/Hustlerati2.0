@@ -413,12 +413,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         formattedPhone = '254' + formattedPhone;
                     }
                     
-                    // Convert amount to integer (M-Pesa requires amount in cents/smallest currency unit)
-                    const amountInCents = Math.round(total * 100);
                     
                     const mpesaPayload = {
                         phoneNumber: formattedPhone,
-                        amount: amountInCents,
+                        amount: total,
                         accountReference: `Order-${Date.now()}`, // Generate unique reference
                         transactionDesc: `Payment for order totaling ${total}`
                     };

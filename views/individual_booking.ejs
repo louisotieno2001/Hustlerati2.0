@@ -29,7 +29,7 @@
                     <p><strong>Description:</strong> <%= property.description %></p>
                 </div>
 
-                <form id="individual-booking-form" action="/book" method="POST">
+                <form id="individual-booking-form" action="/individual_booking" method="POST">
                     <input type="hidden" name="type" value="individual">
                     <input type="hidden" name="propertyId" value="<%= property.id %>">
                     <input type="hidden" name="propertyName" value="<%= property.title %>">
@@ -134,6 +134,69 @@
                         <small class="form-hint">Minimum contribution: <%= property.price %> <%= property.currency %> (converted amount will be displayed below)</small>
                         <div id="converted-amount" class="form-hint" style="display: none;">Equivalent in <%= property.currency %>: <%= property.currency %> <span id="equivalent-amount">0.00</span></div>
                         <div id="contribution-error" class="error-message" style="display: none;">Converted contribution must be at least <%= property.price %> <%= property.currency %>.</div>
+                    </div>
+
+                    <!-- Choose payment method -->
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method</label>
+                        <select id="paymentMethod" name="paymentMethod" required>
+                            <option value="">Select payment method</option>
+                            <option value="card">Card</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="bitcoin">Bitcoin</option>
+                            <option value="mpesa">M-Pesa</option>
+                        </select>
+                    </div>
+
+                    <!-- Card Payment Fields -->
+                    <div id="cardFields" class="payment-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" name="cardNumber"
+                                placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="expiryDate">Expiry Date</label>
+                                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY"
+                                    maxlength="5">
+                            </div>
+                            <div class="form-group half">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardName">Name on Card</label>
+                            <input type="text" id="cardName" name="cardName" placeholder="John Doe">
+                        </div>
+                    </div>
+
+                    <!-- PayPal Fields -->
+                    <div id="paypalFields" class="payment-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="paypalEmail">PayPal Email</label>
+                            <input type="email" id="paypalEmail" name="paypalEmail"
+                                placeholder="your@email.com">
+                        </div>
+                    </div>
+
+                    <!-- Bitcoin Fields -->
+                    <div id="bitcoinFields" class="payment-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="bitcoinAddress">Bitcoin Wallet Address</label>
+                            <input type="text" id="bitcoinAddress" name="bitcoinAddress"
+                                placeholder="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">
+                        </div>
+                    </div>
+
+                    <!-- M-Pesa Fields -->
+                    <div id="mpesaFields" class="payment-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="mpesaPhone">M-Pesa Phone Number</label>
+                            <input type="tel" id="mpesaPhone" name="mpesaPhone"
+                                placeholder="+254 712 345 678" pattern="\+?[0-9\s\-\(\)]+">
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-large">

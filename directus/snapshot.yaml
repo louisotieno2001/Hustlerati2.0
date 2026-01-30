@@ -1,5 +1,5 @@
 version: 1
-directus: 11.11.0
+directus: 11.3.2
 vendor: postgres
 collections:
   - collection: blogs
@@ -14,7 +14,7 @@ collections:
       display_template: null
       group: null
       hidden: false
-      icon: null
+      icon: newspaper
       item_duplication_fields: null
       note: null
       preview_url: null
@@ -38,7 +38,7 @@ collections:
       display_template: null
       group: null
       hidden: false
-      icon: null
+      icon: bookmark_manager
       item_duplication_fields: null
       note: null
       preview_url: null
@@ -62,7 +62,7 @@ collections:
       display_template: null
       group: null
       hidden: false
-      icon: null
+      icon: chat_bubble
       item_duplication_fields: null
       note: null
       preview_url: null
@@ -86,7 +86,7 @@ collections:
       display_template: null
       group: null
       hidden: false
-      icon: null
+      icon: order_approve
       item_duplication_fields: null
       note: null
       preview_url: null
@@ -110,7 +110,7 @@ collections:
       display_template: null
       group: null
       hidden: false
-      icon: null
+      icon: warehouse
       item_duplication_fields: null
       note: null
       preview_url: null
@@ -134,7 +134,7 @@ collections:
       display_template: null
       group: null
       hidden: false
-      icon: null
+      icon: shopping_cart_checkout
       item_duplication_fields: null
       note: null
       preview_url: null
@@ -182,7 +182,7 @@ collections:
       display_template: null
       group: null
       hidden: false
-      icon: null
+      icon: privacy_tip
       item_duplication_fields: null
       note: null
       preview_url: null
@@ -206,7 +206,7 @@ collections:
       display_template: null
       group: null
       hidden: false
-      icon: null
+      icon: supervised_user_circle
       item_duplication_fields: null
       note: null
       preview_url: null
@@ -2037,7 +2037,7 @@ fields:
     schema:
       name: amenities
       table: real_estates
-      data_type: jsonb
+      data_type: json
       default_value: null
       max_length: null
       numeric_precision: null
@@ -2326,45 +2326,6 @@ fields:
       foreign_key_table: null
       foreign_key_column: null
   - collection: real_estates
-    field: user_id
-    type: string
-    meta:
-      collection: real_estates
-      conditions: null
-      display: null
-      display_options: null
-      field: user_id
-      group: null
-      hidden: false
-      interface: input
-      note: null
-      options: null
-      readonly: false
-      required: true
-      sort: 22
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      name: user_id
-      table: real_estates
-      data_type: character varying
-      default_value: null
-      max_length: 255
-      numeric_precision: null
-      numeric_scale: null
-      is_nullable: true
-      is_unique: false
-      is_indexed: false
-      is_primary_key: false
-      is_generated: false
-      generation_expression: null
-      has_auto_increment: false
-      foreign_key_table: null
-      foreign_key_column: null
-  - collection: real_estates
     field: whatsapp_link
     type: string
     meta:
@@ -2444,45 +2405,6 @@ fields:
       foreign_key_table: directus_files
       foreign_key_column: id
   - collection: real_estates
-    field: booking_type
-    type: string
-    meta:
-      collection: real_estates
-      conditions: null
-      display: null
-      display_options: null
-      field: booking_type
-      group: null
-      hidden: false
-      interface: input
-      note: null
-      options: null
-      readonly: false
-      required: true
-      sort: 25
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      name: booking_type
-      table: real_estates
-      data_type: character varying
-      default_value: null
-      max_length: 255
-      numeric_precision: null
-      numeric_scale: null
-      is_nullable: true
-      is_unique: false
-      is_indexed: false
-      is_primary_key: false
-      is_generated: false
-      generation_expression: null
-      has_auto_increment: false
-      foreign_key_table: null
-      foreign_key_column: null
-  - collection: real_estates
     field: map_location
     type: string
     meta:
@@ -2506,6 +2428,123 @@ fields:
       width: full
     schema:
       name: map_location
+      table: real_estates
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: real_estates
+    field: user_id
+    type: string
+    meta:
+      collection: real_estates
+      conditions: null
+      display: null
+      display_options: null
+      field: user_id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: 27
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: user_id
+      table: real_estates
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: real_estates
+    field: booking_type
+    type: string
+    meta:
+      collection: real_estates
+      conditions: null
+      display: null
+      display_options: null
+      field: booking_type
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: 28
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: booking_type
+      table: real_estates
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: real_estates
+    field: currency
+    type: string
+    meta:
+      collection: real_estates
+      conditions: null
+      display: null
+      display_options: null
+      field: currency
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: true
+      sort: 29
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: currency
       table: real_estates
       data_type: character varying
       default_value: null
