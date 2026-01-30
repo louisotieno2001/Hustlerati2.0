@@ -77,3 +77,83 @@ This document tracks the implementation of a general error page that handles all
 
 The error page shows detailed error information only when `NODE_ENV` is not set to 'production'. In production, only the user-friendly message is displayed.
 
+---
+
+# Localization Implementation
+
+## Overview
+This document tracks the implementation of automatic user location detection and currency/language settings.
+
+## Features Implemented
+
+### ✅ 1. Enhanced Localization Script
+- **File:** `public/javascript/localization.js`
+- **Status:** Completed
+- **Features:**
+  - Multi-method location detection:
+    - GPS/geolocation API (most accurate)
+    - IP-based detection via ipapi.co (backup)
+    - IP-API.com (secondary backup)
+  - Comprehensive country-to-currency mapping (180+ countries)
+  - Country-to-language mapping
+  - Global `window.UserLocalization` object for cross-page access
+  - Settings stored in localStorage for persistence
+  - Custom events for other scripts to listen to settings changes
+  - Notification system for detected location
+
+### ✅ 2. Settings Page Integration
+- **File:** `views/settings.ejs`
+- **Status:** Completed
+- **Features:**
+  - Loads saved settings on page load
+  - Save button updates global localization
+  - Settings persist across pages
+
+### ✅ 3. Automatic Location Detection
+- On first visit (no saved settings), the script automatically:
+  1. Tries GPS geolocation
+  2. Falls back to IP detection
+  3. Falls back to browser language detection
+  4. Sets region, currency, and language automatically
+  5. Shows notification with detected country
+
+## How It Works
+
+1. **User visits for the first time:**
+   - Script tries to detect location via GPS or IP
+   - Automatically sets region, currency, and language
+   - Shows notification: "Location detected: [Country]"
+
+2. **User changes settings:**
+   - Changes are saved to localStorage
+   - Applied globally across all pages
+   - Settings persist between sessions
+
+3. **User returns later:**
+   - Saved settings are loaded automatically
+   - No detection needed
+
+## Usage in Other Pages
+
+To make localization available on other pages, simply include the script:
+
+```html
+<script src="/javascript/localization.js"></script>
+<script>
+    // Access the global object
+    window.UserLocalization.update({ currency: 'EUR' });
+    
+    // Listen for changes
+    window.addEventListener('localizationUpdated', (e) => {
+        console.log('New settings:', e.detail);
+    });
+</script>
+```
+
+## Supported Currencies
+All major world currencies are supported, including:
+- USD, EUR, GBP, JPY, CAD, AUD, CHF, CNY
+- African: NGN, KES, ZAR, GHS, UGX, TZS, etc.
+- Asian: INR, KRW, THB, MYR, IDR, PHP, VND, etc.
+- Latin American: BRL, ARS, MXN, COP, CLP, etc.
+

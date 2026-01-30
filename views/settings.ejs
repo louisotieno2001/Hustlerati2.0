@@ -261,9 +261,65 @@
                 </div>
             </main>
     </div>
+    
+    <!-- Load localization first -->
     <script src="/javascript/localization.js"></script>
     <script src="/javascript/index.js"></script>
+    
+    <script>
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const regionSelect = document.getElementById('region');
+            const currencySelect = document.getElementById('currency');
+            const languageSelect = document.getElementById('language');
+            const saveBtn = document.getElementById('saveSettingsBtn');
+            
+            // Load saved settings from localStorage
+            const savedSettings = localStorage.getItem('userLocalization');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                if (regionSelect) regionSelect.value = settings.region || 'US';
+                if (currencySelect) currencySelect.value = settings.currency || 'USD';
+                if (languageSelect) languageSelect.value = settings.language || 'en';
+            }
+            
+            // Update global localization object with loaded values
+            if (window.UserLocalization && regionSelect && currencySelect && languageSelect) {
+                window.UserLocalization.update({
+                    region: regionSelect.value,
+                    currency: currencySelect.value,
+                    language: languageSelect.value
+                });
+            }
+            
+            // Save button click handler
+            if (saveBtn) {
+                saveBtn.addEventListener('click', function() {
+                    const region = regionSelect.value;
+                    const currency = currencySelect.value;
+                    const language = languageSelect.value;
+                    
+                    // Update using the global localization object
+                    if (window.UserLocalization) {
+                        window.UserLocalization.update({
+                            region: region,
+                            currency: currency,
+                            language: language
+                        });
+                    } else {
+                        // Fallback if localization not loaded
+                        const settings = { region, currency, language };
+                        localStorage.setItem('userLocalization', JSON.stringify(settings));
+                    }
+                    
+                    alert('Settings saved successfully!');
+                });
+            }
+        });
+    </script>
+    
     <%- include('partials/footer') %>
 </body>
 
 </html>
+
