@@ -557,6 +557,35 @@ app.get('/api/exchange-rates', async (req, res) => {
     }
 });
 
+// 404 handler for undefined routes
+app.use((req, res, next) => {
+    const error = new Error('Page Not Found');
+    error.status = 404;
+    next(error);
+});
+
+// Global error handler middleware
+app.use((err, req, res, next) => {
+    // Set default error status and message
+    const status = err.status || 500;
+    const message = err.message || 'Internal Server Error';
+    
+    // Log error for debugging
+    console.error(`Error ${status}:`, err.message);
+    if (err.stack) {
+        console.error(err.stack);
+    }
+    
+    // Render error page with appropriate status
+    res.status(status).render('error', {
+        error: {
+            status: status,
+            message: message,
+            stack: process.env.NODE_ENV !== 'production' ? err.stack : undefined
+        }
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     // Fetch initial exchange rates on startup

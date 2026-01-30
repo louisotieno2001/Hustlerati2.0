@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - <%= error.status || 500 %> | Hustlerati</title>
+    <link rel="stylesheet" href="/stylesheets/default.css">
+    <link rel="stylesheet" href="/stylesheets/error.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <main class="error-main">
+        <div class="error-container">
+            <div class="error-icon">
+                <% if (error.status === 404) { %>
+                    <i class="fa-solid fa-map-location-dot"></i>
+                <% } else if (error.status === 503 || error.status === 502 || error.status === 500) { %>
+                    <i class="fa-solid fa-server"></i>
+                <% } else if (error.status === 403) { %>
+                    <i class="fa-solid fa-lock"></i>
+                <% } else if (error.status === 401) { %>
+                    <i class="fa-solid fa-user-lock"></i>
+                <% } else { %>
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                <% } %>
+            </div>
+            
+            <h1 class="error-title">
+                <% if (error.status === 404) { %>
+                    Page Not Found
+                <% } else if (error.status === 503 || error.status === 502) { %>
+                    Service Temporarily Unavailable
+                <% } else if (error.status === 500) { %>
+                    Something Went Wrong
+                <% } else if (error.status === 403) { %>
+                    Access Denied
+                <% } else if (error.status === 401) { %>
+                    Unauthorized Access
+                <% } else { %>
+                    Oops! An Error Occurred
+                <% } %>
+            </h1>
+            
+            <p class="error-message">
+                <% if (error.status === 404) { %>
+                    The page you're looking for doesn't exist or has been moved.
+                <% } else if (error.status === 503 || error.status === 502) { %>
+                    We're having trouble connecting to our servers. This could be due to maintenance or high traffic. Please try again in a few moments.
+                <% } else if (error.status === 500) { %>
+                    Something unexpected happened on our end. Our team has been notified and we're working to fix it.
+                <% } else if (error.status === 403) { %>
+                    You don't have permission to access this resource.
+                <% } else if (error.status === 401) { %>
+                    Please log in to access this page.
+                <% } else { %>
+                    <%= error.message || 'An unexpected error occurred. Please try again.' %>
+                <% } %>
+            </p>
+            
+            <% if (process.env.NODE_ENV !== 'production') { %>
+                <div class="error-details">
+                    <p><strong>Error Code:</strong> <%= error.status || 500 %></p>
+                    <% if (error.message) { %>
+                        <p><strong>Details:</strong> <%= error.message %></p>
+                    <% } %>
+                    <% if (error.stack) { %>
+                        <details class="error-stack">
+                            <summary>Stack Trace</summary>
+                            <pre><%= error.stack %></pre>
+                        </details>
+                    <% } %>
+                </div>
+            <% } %>
+            
+            <div class="error-actions">
+                <a href="/" class="btn btn-primary">
+                    <i class="fa-solid fa-house"></i>
+                    Back to Home
+                </a>
+                <button onclick="window.location.reload()" class="btn btn-outline">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    Refresh Page
+                </button>
+            </div>
+            
+            <div class="error-help">
+                <p>Need help? <a href="/help-center">Contact Support</a></p>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>
+

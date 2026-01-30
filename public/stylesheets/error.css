@@ -1,0 +1,254 @@
+/* Error Page Styles */
+
+.error-main {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background-color: var(--background-color);
+    margin-top: 80px;
+}
+
+.error-container {
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    background-color: var(--card-bg);
+    border-radius: 20px;
+    padding: 60px 40px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.error-icon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+    box-shadow: 0 10px 30px rgba(74, 107, 255, 0.3);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.error-icon i {
+    font-size: 3rem;
+    color: white;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 10px 30px rgba(74, 107, 255, 0.3);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 15px 40px rgba(74, 107, 255, 0.4);
+    }
+}
+
+.error-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.error-message {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.error-details {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.error-details p {
+    margin-bottom: 10px;
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.error-details strong {
+    color: var(--primary-color);
+}
+
+.error-stack {
+    margin-top: 15px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 15px;
+}
+
+.error-stack summary {
+    cursor: pointer;
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.error-stack pre {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    color: var(--text-color);
+    max-height: 200px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.error-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.error-actions .btn {
+    min-width: 160px;
+    padding: 14px 25px;
+}
+
+.error-actions .btn i {
+    margin-right: 8px;
+}
+
+.error-help {
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.error-help p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.error-help a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.error-help a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .error-main {
+        padding: 40px 15px;
+        margin-top: 70px;
+    }
+
+    .error-container {
+        padding: 40px 25px;
+    }
+
+    .error-icon {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 25px;
+    }
+
+    .error-icon i {
+        font-size: 2.5rem;
+    }
+
+    .error-title {
+        font-size: 1.8rem;
+    }
+
+    .error-message {
+        font-size: 1rem;
+    }
+
+    .error-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .error-actions .btn {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .error-main {
+        padding: 30px 10px;
+        margin-top: 60px;
+    }
+
+    .error-container {
+        padding: 30px 20px;
+        border-radius: 15px;
+    }
+
+    .error-icon {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 20px;
+    }
+
+    .error-icon i {
+        font-size: 2rem;
+    }
+
+    .error-title {
+        font-size: 1.5rem;
+    }
+
+    .error-message {
+        font-size: 0.95rem;
+        margin-bottom: 25px;
+    }
+
+    .error-details {
+        padding: 15px;
+    }
+
+    .error-details p {
+        font-size: 0.85rem;
+    }
+
+    .error-stack pre {
+        font-size: 0.7rem;
+        padding: 10px;
+    }
+
+    .error-actions .btn {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+
+    .error-help p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Dark theme adjustments */
+.dark-theme .error-stack pre {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Elegant theme adjustments */
+.elegant-theme .error-icon {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+}
+
